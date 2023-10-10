@@ -13,17 +13,18 @@ public class Main_GUI extends JFrame {
     }
 
     private void init() {
-        this.setTitle(user.getName() + ", welcome!");
+        this.setTitle("Welcome, " + user.getName() + "!");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setResizable(false);
         this.getContentPane().setLayout(null);
-        this.setSize(500,500);
+        this.setSize(700,500);
         this.setLocationRelativeTo(null);
 
         addComponents();
     }
 
     private void addComponents() {
+
     }
 }
