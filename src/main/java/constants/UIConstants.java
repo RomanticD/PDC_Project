@@ -1,7 +1,7 @@
 package constants;
 
 public class UIConstants {
-    public final static String APP_NAME = "PDC project Registration System";
+    public final static String APP_NAME = "PDC TEAM18 project Registration System";
 
     public final static int[] FRAME_SIZE = {400, 300};
 
