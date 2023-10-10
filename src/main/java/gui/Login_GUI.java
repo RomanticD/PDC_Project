@@ -26,7 +26,7 @@ public class Login_GUI extends JFrame {
     public Login_GUI(){
         super(UIConstants.APP_NAME);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(UIConstants.FRAME_SIZE[0], UIConstants.FRAME_SIZE[1]);
+        setSize(UIConstants.LOGIN_FRAME_SIZE[0], UIConstants.LOGIN_FRAME_SIZE[1]);
         setLocationRelativeTo(null);
         frame = this;
 
@@ -103,7 +103,7 @@ public class Login_GUI extends JFrame {
                         currentUser.setUsername(rs.getString("username"));
                         currentUser.setEmail(rs.getString("email"));
                         currentUser.setPassword(rs.getString("password"));
-                        currentUser.setRole(rs.getString("role") == "ADMIN" ? Role.ADMIN : Role.USER);
+                        currentUser.setRole(Objects.equals(rs.getString("role"), "ADMIN") ? Role.ADMIN : Role.USER);
                         frame.removeNotify();
                         new Main_GUI(currentUser);
                         System.out.println("SUCCESSFULLY LOGIN!");
