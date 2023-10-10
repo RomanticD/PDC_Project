@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Tue Oct 10 19:30:33 CST 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-018b-195a-5a47-00000eff3570 
+on database directory /Users/romanticd/IdeaProjects/PDC_Project/pdc_project with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@311d617d 
+Loaded from file:/Users/romanticd/IdeaProjects/PDC_Project/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=11.0.19+9-LTS-224
+user.dir=/Users/romanticd/IdeaProjects/PDC_Project
+os.name=Mac OS X
+os.arch=aarch64
+os.version=14.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
