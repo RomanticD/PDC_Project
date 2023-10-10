@@ -4,6 +4,7 @@ import constants.UIConstants;
 import dao.UserDao;
 import domain.Role;
 import domain.User;
+import gui.sub.BackgroundPanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -44,22 +45,6 @@ public class Login_GUI extends JFrame {
             e.printStackTrace();
         }
         return null;
-    }
-
-    private static class BackgroundPanel extends JPanel {
-        private final BufferedImage backgroundImage;
-
-        public BackgroundPanel(BufferedImage backgroundImage) {
-            this.backgroundImage = backgroundImage;
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            if (backgroundImage != null) {
-                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-            }
-        }
     }
 
     private void addComponents(JPanel loginPanel){
