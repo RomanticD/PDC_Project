@@ -4,31 +4,36 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73707bdb-3c81-47b9-8921-af9362192568" name="Changes" comment="update main view">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/CourseDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/gui/Course_GUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/Test/DBTest.java" afterDir="false" />
+    <list default="true" id="73707bdb-3c81-47b9-8921-af9362192568" name="Changes" comment="Add Course Panel">
+      <change afterPath="$PROJECT_DIR$/src/main/java/gui/CourseDetailGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/course_detail_gui_background.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PDC_Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/PDC_Project.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/derby.log" beforeDir="false" afterPath="$PROJECT_DIR$/derby.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/domain/Course.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PDC_Project/domain/Course.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/gui/Login_GUI$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PDC_Project/gui/Login_GUI$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/gui/Login_GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PDC_Project/gui/Login_GUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/gui/Main_GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PDC_Project/gui/Main_GUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/PDC_App$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PDC_Project/PDC_App$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/constants/UIConstants.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PDC_Project/constants/UIConstants.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/gui/Login_GUI$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/gui/Login_GUI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/gui/Main_GUI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/gui/Register_GUI$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/gui/Register_GUI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/gui/Register_Success_GUI.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pdc_project/db.lck" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/db.lck" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pdc_project/log/log.ctrl" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/log/log.ctrl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pdc_project/log/log10.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/log/log10.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/log/log9.dat" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pdc_project/log/logmirror.ctrl" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/log/logmirror.ctrl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c10.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c10.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c230.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c230.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c241.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c241.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c251.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c251.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c4a0.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c4a0.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c4b1.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c4b1.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Course.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/Login_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/Login_GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/Main_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/Main_GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PDC_App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PDC_App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/constants/UIConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/constants/UIConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/Course_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/CourseGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/Login_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/LoginGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/Main_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/MainGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/Register_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/RegisterGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/Register_Success_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/RegisterSuccessGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/login_gui_background.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/login_gui_background.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/main_gui_background.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/main_gui_background.jpg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +53,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -70,16 +75,20 @@
   &quot;associatedIndex&quot;: 8
 }</component>
   <component name="ProjectId" id="2WZPJu71JXeCNnxVD9XpnLDPbqy" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "/Users/romanticd/IdeaProjects/PDC_Project/src/main/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -88,7 +97,7 @@
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.13967973",
     "project.structure.side.proportion": "0.29089028",
-    "settings.editor.selected.configurable": "reference.settings.ide.settings.notifications",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -102,6 +111,9 @@
       <recent name="gui" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
   </component>
@@ -130,6 +142,8 @@
       <workItem from="1696939567645" duration="197000" />
       <workItem from="1696941477443" duration="5218000" />
       <workItem from="1696982830770" duration="8834000" />
+      <workItem from="1696992612651" duration="23000" />
+      <workItem from="1696993034399" duration="5816000" />
     </task>
     <task id="LOCAL-00001" summary="add sub in gui">
       <option name="closed" value="true" />
@@ -153,7 +167,19 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="add sub in gui" />
     <MESSAGE value="update main view" />
     <option name="LAST_COMMIT_MESSAGE" value="update main view" />

@@ -1,7 +1,6 @@
 package gui;
 
 import constants.UIConstants;
-import dao.UserDao;
 import domain.Role;
 import domain.User;
 import gui.sub.BackgroundPanel;
@@ -14,18 +13,16 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Objects;
 
-public class Main_GUI extends JFrame {
+public class MainGUI extends JFrame {
     private User user;
     
     private JPanel panel;
 
     private JFrame frame;
 
-    public Main_GUI(User user) {
+    public MainGUI(User user) {
         this.user = user;
         this.setTitle("Welcome, " + user.getRole() + " " + user.getName() + " !");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -86,8 +83,8 @@ public class Main_GUI extends JFrame {
         coursesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Main_GUI.this.dispose();
-                new Course_GUI(user);
+                MainGUI.this.dispose();
+                new CourseGUI(user);
             }
         });
 

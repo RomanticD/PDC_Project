@@ -4,10 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class Register_Success_GUI {
+public class RegisterSuccessGUI {
     private JFrame frame;
 
-    public Register_Success_GUI() {
+    public RegisterSuccessGUI() {
         init();
     }
 
@@ -26,7 +26,7 @@ public class Register_Success_GUI {
         JButton returnButton = new JButton("Return to Login Page");
         returnButton.setFont(new Font("Dialog", Font.BOLD, 18));;
         returnButton.addActionListener((ActionEvent e) -> {
-            new Login_GUI().setVisible(true);
+            new LoginGUI().setVisible(true);
             frame.removeNotify();
         });
         returnButton.setPreferredSize(new Dimension(50, 50));

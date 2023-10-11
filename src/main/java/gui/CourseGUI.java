@@ -10,17 +10,17 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Course_GUI extends JFrame {
+public class CourseGUI extends JFrame {
     private User user;
     private CourseDao courseDao;
     private List<Course> courseList;
 
-    public Course_GUI(User user) {
+    public CourseGUI(User user) {
         this.setTitle("Courses");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setResizable(false);
-        this.setSize(450, 600);
+        this.setSize(500, 600);
         this.setLocationRelativeTo(null);
         this.user = user;
         this.courseDao = new CourseDao();
@@ -39,8 +39,8 @@ public class Course_GUI extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Course_GUI.this.dispose();
-                new Main_GUI(user);
+                CourseGUI.this.dispose();
+                new MainGUI(user);
             }
         });
         topPanel.add(backButton, BorderLayout.WEST);
@@ -69,12 +69,27 @@ public class Course_GUI extends JFrame {
 
     private JPanel addCourseItem(Course course) {
         JPanel coursePanel = new JPanel();
-
         coursePanel.setLayout(new BorderLayout());
 
         JLabel nameLabel = new JLabel(course.getCourseName());
-        coursePanel.add("West", nameLabel);
+        nameLabel.setFont(new Font("Dialog", Font.BOLD, 15));
+        nameLabel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 0)); // Add padding
 
+        JButton checkButton = new JButton("Check");
+        checkButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CourseGUI.this.dispose();
+                new CourseDetailGUI(course, user);
+            }
+        });
+
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BorderLayout());
+        contentPanel.add(nameLabel, BorderLayout.WEST);
+        contentPanel.add(checkButton, BorderLayout.EAST);
+
+        coursePanel.add(contentPanel, BorderLayout.CENTER);
 
         return coursePanel;
     }

@@ -18,12 +18,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class Login_GUI extends JFrame {
+public class LoginGUI extends JFrame {
     private JFrame frame;
     private String username;
     private String password;
 
-    public Login_GUI(){
+    public LoginGUI(){
         super(UIConstants.APP_NAME);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(UIConstants.LOGIN_FRAME_SIZE[0], UIConstants.LOGIN_FRAME_SIZE[1]);
@@ -105,7 +105,7 @@ public class Login_GUI extends JFrame {
                         currentUser.setPassword(rs.getString("password"));
                         currentUser.setRole(Objects.equals(rs.getString("role"), "ADMIN") ? Role.ADMIN : Role.USER);
                         frame.removeNotify();
-                        new Main_GUI(currentUser);
+                        new MainGUI(currentUser);
                         System.out.println("SUCCESSFULLY LOGIN!");
                     } else {
                         JOptionPane pane = new JOptionPane("username or password incorrect!");
@@ -128,7 +128,7 @@ public class Login_GUI extends JFrame {
         springLayout.putConstraint(SpringLayout.EAST, registerButton, -75, SpringLayout.EAST, loginPanel);
         springLayout.putConstraint(SpringLayout.NORTH, registerButton, 200, SpringLayout.NORTH, loginPanel);
         registerButton.addActionListener((ActionEvent e) -> {
-            new Register_GUI();
+            new RegisterGUI();
             frame.dispose();
         });
         loginPanel.add(registerButton);

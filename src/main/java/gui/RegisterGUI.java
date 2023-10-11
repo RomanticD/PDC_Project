@@ -11,11 +11,11 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import javax.swing.*;
 
-public class Register_GUI extends JFrame {
+public class RegisterGUI extends JFrame {
     private JFrame frame;
     private JOptionPane jOptionPane;
 
-    public Register_GUI() {
+    public RegisterGUI() {
         init();
     }
 
@@ -83,12 +83,12 @@ public class Register_GUI extends JFrame {
                     if (validateInput(username, password, repeatedPassword)) {
                         if (!userDao.isUserExists(username)) {
                             if (userDao.createUser(newUser)) {
-                                new Register_Success_GUI();
+                                new RegisterSuccessGUI();
                             }
                         } else {
                             JOptionPane.showMessageDialog(null, " The account has existed!",
                                     " The account has existed! ", JOptionPane.ERROR_MESSAGE);
-                            new Register_GUI();
+                            new RegisterGUI();
                         }
                     } else {
                     }
@@ -103,21 +103,21 @@ public class Register_GUI extends JFrame {
         if (username.equals("")) {
             JOptionPane.showMessageDialog(null, " username is empty! ",
                     "Account", JOptionPane.ERROR_MESSAGE);
-            new Register_GUI();
+            new RegisterGUI();
             return false;
         }
 
         if (password.equals("")) {
             JOptionPane.showMessageDialog(null, "Password is empty!",
                     "Password is empty", JOptionPane.ERROR_MESSAGE);
-            new Register_GUI();
+            new RegisterGUI();
             return false;
         }
 
         if (!password.equals(repeatedPassword)) {
             JOptionPane.showMessageDialog(null, " Passwords do not match！",
                     " The password is inconsistent ", JOptionPane.ERROR_MESSAGE);
-            new Register_GUI();
+            new RegisterGUI();
             return false;
         }
         return true;
