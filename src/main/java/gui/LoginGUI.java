@@ -128,7 +128,7 @@ public class LoginGUI extends JFrame {
         springLayout.putConstraint(SpringLayout.EAST, registerButton, -75, SpringLayout.EAST, loginPanel);
         springLayout.putConstraint(SpringLayout.NORTH, registerButton, 200, SpringLayout.NORTH, loginPanel);
         registerButton.addActionListener((ActionEvent e) -> {
-            new RegisterGUI();
+            new RegisterGUI().setVisible(true);
             frame.dispose();
         });
         loginPanel.add(registerButton);

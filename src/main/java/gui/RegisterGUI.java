@@ -4,57 +4,64 @@ import constants.UIConstants;
 import dao.UserDao;
 import domain.Role;
 import domain.User;
+import gui.sub.BackgroundPanel;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
-import javax.swing.*;
+import java.util.Objects;
 
 public class RegisterGUI extends JFrame {
-    private JFrame frame;
-    private JOptionPane jOptionPane;
+    private JPanel panel;
+    private SpringLayout springLayout;
 
-    public RegisterGUI() {
-        init();
+    public RegisterGUI(){
+        super(UIConstants.APP_NAME);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(500,450);
+        setLocationRelativeTo(null);
+        this.panel = Objects.requireNonNull(getBackgroundPanel());
+        this.springLayout = new SpringLayout();
+        panel.setLayout(springLayout);
+
+        addComponents(panel);
     }
 
-    private void init() {
-        frame = new JFrame();
-        frame.setTitle("Registry");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        frame.setResizable(false);
-        frame.getContentPane().setLayout(null);
-        frame.setSize(500,500);
-        frame.setLocationRelativeTo(null);
-        jOptionPane = new JOptionPane();
-
-        addComponents();
+    /**
+     * Get current view's panel
+     * @return Panel with background
+     */
+    private JPanel getBackgroundPanel() {
+        try {
+            BufferedImage backgroundImage = ImageIO.read(new File(UIConstants.LOGIN_BACKGROUND_IMAGE));
+            return new BackgroundPanel(backgroundImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    private void addComponents(){
-        createLabel("name:", 50);
-        createLabel("username:", 110);
-        createLabel("password:", 170);
-        createLabel("confirm password:", 230);
-        createLabel("email:", 290);
+    private void addComponents(JPanel panel){
 
-        JTextField nameTF = createTextField(50);
-        JTextField usernameTF = createTextField(110);
-        JPasswordField passwordTF = createPasswordField(170);
-        JPasswordField repeatedPasswordTF = createPasswordField(230);
-        JTextField emailTF = createTextField(290);
-
-        JButton registerButton = new JButton("register");
-        registerButton.setBounds(190, 400, 120, 20);
-        registerButton.setFont((new Font("Dialog", Font.BOLD, 15)));
-        frame.add(registerButton);
+        JTextField nameTF = addLabelAndField("name", 50, panel);
+        JTextField usernameTF = addLabelAndField("username", 110, panel);
+        JPasswordField passwordTF = addPasswordField("password", 170, panel);
+        JPasswordField repeatPasswordTF = addPasswordField("repeat password", 230, panel);
+        JTextField emailTF = addLabelAndField("email", 290, panel);
 
         JCheckBox checkBox = new JCheckBox("registered as an Admin");
-        checkBox.setBounds(150, 350, 200, 20);
-        frame.add(checkBox);
+        springLayout.putConstraint(SpringLayout.WEST, checkBox, 150, SpringLayout.WEST, panel);
+        springLayout.putConstraint(SpringLayout.EAST, checkBox, -150, SpringLayout.EAST, panel);
+        springLayout.putConstraint(SpringLayout.NORTH, checkBox, 330, SpringLayout.NORTH, panel);
+        panel.add(checkBox);
 
+        JButton registerButton = addButton("Register", 190, 190, 370, panel);
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,7 +70,7 @@ public class RegisterGUI extends JFrame {
                 String name = nameTF.getText();
                 String username = usernameTF.getText();
                 String password = String.valueOf(passwordTF.getPassword());
-                String repeatedPassword = String.valueOf(repeatedPasswordTF.getPassword());
+                String repeatedPassword = String.valueOf(repeatPasswordTF.getPassword());
                 String email = emailTF.getText();
                 Boolean isAdmin = checkBox.isSelected();
 
@@ -94,20 +101,29 @@ public class RegisterGUI extends JFrame {
                     }
                 } catch (SQLException | ClassNotFoundException ex) {
                 }
-                frame.removeNotify();
+                RegisterGUI.this.removeNotify();
             }
         });
+
+        JButton backButton = addButton("back", 5, 420, 5, panel);
+        backButton.addActionListener(e -> {
+            RegisterGUI.this.dispose();
+            new LoginGUI().setVisible(true);
+        });
+
+
+        this.getContentPane().add(panel);
     }
 
     private boolean validateInput(String username, String password, String repeatedPassword) throws SQLException, ClassNotFoundException {
-        if (username.equals("")) {
+        if (username.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, " username is empty! ",
                     "Account", JOptionPane.ERROR_MESSAGE);
             new RegisterGUI();
             return false;
         }
 
-        if (password.equals("")) {
+        if (password.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Password is empty!",
                     "Password is empty", JOptionPane.ERROR_MESSAGE);
             new RegisterGUI();
@@ -123,26 +139,53 @@ public class RegisterGUI extends JFrame {
         return true;
     }
 
-    private void createLabel(String text, int y) {
-        JLabel label = new JLabel(text);
-        label.setBounds(UIConstants.REGISTER_LABEL_X_AXIS, y, UIConstants.REGISTER_LABEL_WIDTH, UIConstants.REGISTER_LABEL_HEIGHT);
-        label.setFont(new Font("Dialog", Font.BOLD, 15));
-        frame.add(label);
+    public JButton addButton(String name, int leadPadding, int trailPadding, int topPadding, JPanel relativePanel){
+        JButton button = new JButton(name);
+        button.setFont(new Font("Dialog", Font.BOLD, 18));
+        springLayout.putConstraint(SpringLayout.WEST, button, leadPadding, SpringLayout.WEST, panel);
+        springLayout.putConstraint(SpringLayout.EAST, button, -trailPadding, SpringLayout.EAST, panel);
+        springLayout.putConstraint(SpringLayout.NORTH, button, topPadding, SpringLayout.NORTH, panel);
+        panel.add(button);
+
+        return button;
     }
 
-    private JTextField createTextField(int y) {
-        JTextField textField = new JTextField();
-        textField.setBounds(UIConstants.REGISTER_FIELD_X_AXIS, y, UIConstants.REGISTER_FIELD_WIDTH, UIConstants.REGISTER_FIELD_HEIGHT);
-        textField.setFont(new Font("Dialog", Font.BOLD, 15));
-        frame.add(textField);
-        return textField;
+    private JTextField addLabelAndField(String labelName, int topPadding, JPanel relativePanel){
+        JLabel label = new JLabel(labelName + ": ");
+        label.setFont(new Font("Dialog", Font.BOLD, 18));
+
+        JTextField field = new JTextField(UIConstants.LOGIN_TEXT_FIELD_SIZE);
+        field.setFont(new Font("Dialog", Font.BOLD, 18));
+
+        springLayout.putConstraint(SpringLayout.WEST, label, 35, SpringLayout.WEST, relativePanel);
+        springLayout.putConstraint(SpringLayout.NORTH, label, topPadding, SpringLayout.NORTH, relativePanel);
+        springLayout.putConstraint(SpringLayout.WEST, field, 235, SpringLayout.WEST, relativePanel);
+        springLayout.putConstraint(SpringLayout.EAST, field, -35, SpringLayout.EAST, relativePanel);
+        springLayout.putConstraint(SpringLayout.NORTH, field, topPadding, SpringLayout.NORTH, relativePanel);
+
+        panel.add(label);
+        panel.add(field);
+
+        return field;
     }
 
-    private JPasswordField createPasswordField(int y) {
-        JPasswordField passwordField = new JPasswordField();
-        passwordField.setBounds(UIConstants.REGISTER_FIELD_X_AXIS, y, UIConstants.REGISTER_FIELD_WIDTH, UIConstants.REGISTER_FIELD_HEIGHT);
-        passwordField.setFont(new Font("Dialog", Font.BOLD, 15));
-        frame.add(passwordField);
-        return passwordField;
+    private JPasswordField addPasswordField(String labelName, int topPadding, JPanel relativePanel){
+        JLabel label = new JLabel(labelName + ": ");
+        label.setFont(new Font("Dialog", Font.BOLD, 18));
+
+        JPasswordField field = new JPasswordField(UIConstants.LOGIN_TEXT_FIELD_SIZE);
+        field.setFont(new Font("Dialog", Font.BOLD, 18));
+
+        springLayout.putConstraint(SpringLayout.WEST, label, 35, SpringLayout.WEST, relativePanel);
+        springLayout.putConstraint(SpringLayout.NORTH, label, topPadding, SpringLayout.NORTH, relativePanel);
+        springLayout.putConstraint(SpringLayout.WEST, field, 235, SpringLayout.WEST, relativePanel);
+        springLayout.putConstraint(SpringLayout.EAST, field, -35, SpringLayout.EAST, relativePanel);
+        springLayout.putConstraint(SpringLayout.NORTH, field, topPadding, SpringLayout.NORTH, relativePanel);
+
+        panel.add(label);
+        panel.add(field);
+
+        return field;
     }
+
 }

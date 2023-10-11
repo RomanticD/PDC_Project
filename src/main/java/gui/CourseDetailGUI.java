@@ -16,7 +16,6 @@ import java.io.IOException;
 
 public class CourseDetailGUI extends JFrame {
     private Course course;
-
     private User user;
 
     public CourseDetailGUI(Course course, User user) {
@@ -24,7 +23,7 @@ public class CourseDetailGUI extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setResizable(false);
-        this.setSize(500, 450);
+        this.setSize(500, 400);
         this.setLocationRelativeTo(null);
         this.course = course;
         this.user = user;

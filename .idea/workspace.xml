@@ -4,7 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73707bdb-3c81-47b9-8921-af9362192568" name="Changes" comment="delete redundant file" />
+    <list default="true" id="73707bdb-3c81-47b9-8921-af9362192568" name="Changes" comment="delete redundant file">
+      <change afterPath="$PROJECT_DIR$/pdc_project/log/log12.dat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/gui/TestGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/derby.log" beforeDir="false" afterPath="$PROJECT_DIR$/derby.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/db.lck" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/db.lck" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/log/log.ctrl" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/log/log.ctrl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/log/log10.dat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/log/logmirror.ctrl" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/log/logmirror.ctrl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c10.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c10.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c150.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c150.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c161.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c161.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c171.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c171.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c230.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c230.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c241.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c241.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c251.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c251.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c490.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c490.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c90.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c90.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/ca1.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/ca1.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/cb1.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/cb1.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/CourseDetailGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/CourseDetailGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/LoginGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/LoginGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/RegisterGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/RegisterGUI.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,30 +75,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/romanticd/IdeaProjects/PDC_Project/src/main/resources",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.13967973",
-    "project.structure.side.proportion": "0.29089028",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/romanticd/IdeaProjects/PDC_Project/src/main/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.13967973&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.29089028&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "derby"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;derby&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="gui" />
@@ -114,6 +137,9 @@
       <workItem from="1696982830770" duration="8834000" />
       <workItem from="1696992612651" duration="23000" />
       <workItem from="1696993034399" duration="6094000" />
+      <workItem from="1696999852059" duration="122000" />
+      <workItem from="1696999990556" duration="7487000" />
+      <workItem from="1697026001024" duration="724000" />
     </task>
     <task id="LOCAL-00001" summary="add sub in gui">
       <option name="closed" value="true" />
@@ -147,7 +173,15 @@
       <option name="project" value="LOCAL" />
       <updated>1696999790992</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="delete redundant file">
+      <option name="closed" value="true" />
+      <created>1696999964930</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1696999964930</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
