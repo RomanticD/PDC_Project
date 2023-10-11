@@ -4,37 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73707bdb-3c81-47b9-8921-af9362192568" name="Changes" comment="Add Course Panel">
-      <change afterPath="$PROJECT_DIR$/src/main/java/gui/CourseDetailGUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/course_detail_gui_background.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/derby.log" beforeDir="false" afterPath="$PROJECT_DIR$/derby.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/PDC_App$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PDC_Project/PDC_App$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/constants/UIConstants.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PDC_Project/constants/UIConstants.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/gui/Login_GUI$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/gui/Login_GUI.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/gui/Main_GUI.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/gui/Register_GUI$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/gui/Register_GUI.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/gui/Register_Success_GUI.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/db.lck" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/db.lck" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/log/log.ctrl" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/log/log.ctrl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/log/log10.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/log/log10.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/log/logmirror.ctrl" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/log/logmirror.ctrl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c10.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c10.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c230.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c230.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c241.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c241.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c251.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c251.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PDC_App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PDC_App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/constants/UIConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/constants/UIConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/Course_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/CourseGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/Login_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/LoginGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/Main_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/MainGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/Register_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/RegisterGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/Register_Success_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/RegisterSuccessGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/login_gui_background.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/login_gui_background.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/main_gui_background.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/main_gui_background.jpg" afterDir="false" />
-    </list>
+    <list default="true" id="73707bdb-3c81-47b9-8921-af9362192568" name="Changes" comment="delete redundant file" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -143,7 +113,7 @@
       <workItem from="1696941477443" duration="5218000" />
       <workItem from="1696982830770" duration="8834000" />
       <workItem from="1696992612651" duration="23000" />
-      <workItem from="1696993034399" duration="5816000" />
+      <workItem from="1696993034399" duration="6094000" />
     </task>
     <task id="LOCAL-00001" summary="add sub in gui">
       <option name="closed" value="true" />
@@ -161,7 +131,23 @@
       <option name="project" value="LOCAL" />
       <updated>1696939581452</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="update course detail and background">
+      <option name="closed" value="true" />
+      <created>1696999601077</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1696999601077</updated>
+    </task>
+    <task id="LOCAL-00004" summary="delete redundant file">
+      <option name="closed" value="true" />
+      <created>1696999790992</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1696999790992</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -182,7 +168,9 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="add sub in gui" />
     <MESSAGE value="update main view" />
-    <option name="LAST_COMMIT_MESSAGE" value="update main view" />
+    <MESSAGE value="update course detail and background" />
+    <MESSAGE value="delete redundant file" />
+    <option name="LAST_COMMIT_MESSAGE" value="delete redundant file" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

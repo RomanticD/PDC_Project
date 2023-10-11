@@ -5,7 +5,7 @@ target/
 
 ### IntelliJ IDEA ###
 .idea/*
-out
+out/production
 *.iws
 *.ipr
 
