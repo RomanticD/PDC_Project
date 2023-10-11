@@ -23,6 +23,8 @@ public class Main_GUI extends JFrame {
     
     private JPanel panel;
 
+    private JFrame frame;
+
     public Main_GUI(User user) {
         this.user = user;
         this.setTitle("Welcome, " + user.getRole() + " " + user.getName() + " !");
@@ -81,6 +83,13 @@ public class Main_GUI extends JFrame {
         springLayout.putConstraint(SpringLayout.EAST, coursesButton, -75, SpringLayout.EAST, panel);
         springLayout.putConstraint(SpringLayout.NORTH, coursesButton, 315, SpringLayout.NORTH, panel);
         panel.add(coursesButton);
+        coursesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main_GUI.this.dispose();
+                new Course_GUI(user);
+            }
+        });
 
         this.getContentPane().add(panel);
     }

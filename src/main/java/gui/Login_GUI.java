@@ -110,6 +110,7 @@ public class Login_GUI extends JFrame {
                     } else {
                         JOptionPane pane = new JOptionPane("username or password incorrect!");
                         JDialog dialog = pane.createDialog("Warning");
+                        dialog.setFont(new Font("Dialog", Font.BOLD, 18));
                         System.out.println("LOGIN FAILED(check your password and username))");
                         dialog.setVisible(true);
                     }

@@ -4,32 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73707bdb-3c81-47b9-8921-af9362192568" name="Changes" comment="add sub in gui">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/main_gui_background.jpg" afterDir="false" />
+    <list default="true" id="73707bdb-3c81-47b9-8921-af9362192568" name="Changes" comment="update main view">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dao/CourseDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/gui/Course_GUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/Test/DBTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PDC_Project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/PDC_Project.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/derby.log" beforeDir="false" afterPath="$PROJECT_DIR$/derby.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/constants/UIConstants.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PDC_Project/constants/UIConstants.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/domain/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PDC_Project/domain/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/domain/Course.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PDC_Project/domain/Course.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/gui/Login_GUI$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PDC_Project/gui/Login_GUI$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/gui/Login_GUI$BackgroundPanel.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/gui/Login_GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PDC_Project/gui/Login_GUI.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/gui/Main_GUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PDC_Project/gui/Main_GUI.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pdc_project/db.lck" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/db.lck" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pdc_project/log/log.ctrl" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/log/log.ctrl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/log/log9.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/log/log9.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/log/log10.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/log/log10.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/log/log9.dat" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pdc_project/log/logmirror.ctrl" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/log/logmirror.ctrl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c10.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c10.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c150.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c150.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c161.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c161.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c171.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c171.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c230.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c230.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c241.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c241.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c251.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c251.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c90.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c90.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/ca1.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/ca1.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/cb1.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/cb1.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/constants/UIConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/constants/UIConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c4a0.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c4a0.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/seg0/c4b1.dat" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/seg0/c4b1.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/domain/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/domain/Course.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/Login_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/Login_GUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/Main_GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/Main_GUI.java" afterDir="false" />
     </list>
@@ -37,6 +34,16 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="dev" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -78,10 +85,10 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.13967973",
     "project.structure.side.proportion": "0.29089028",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "settings.editor.selected.configurable": "reference.settings.ide.settings.notifications",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -91,6 +98,9 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="gui" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
@@ -119,6 +129,7 @@
       <workItem from="1696938864663" duration="264000" />
       <workItem from="1696939567645" duration="197000" />
       <workItem from="1696941477443" duration="5218000" />
+      <workItem from="1696982830770" duration="8834000" />
     </task>
     <task id="LOCAL-00001" summary="add sub in gui">
       <option name="closed" value="true" />
@@ -144,6 +155,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add sub in gui" />
-    <option name="LAST_COMMIT_MESSAGE" value="add sub in gui" />
+    <MESSAGE value="update main view" />
+    <option name="LAST_COMMIT_MESSAGE" value="update main view" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
