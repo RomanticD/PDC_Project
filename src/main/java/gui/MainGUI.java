@@ -54,6 +54,13 @@ public class MainGUI extends JFrame {
         springLayout.putConstraint(SpringLayout.WEST, myProfileButton, 75, SpringLayout.WEST, panel);
         springLayout.putConstraint(SpringLayout.EAST, myProfileButton, -75, SpringLayout.EAST, panel);
         springLayout.putConstraint(SpringLayout.NORTH, myProfileButton, 105, SpringLayout.NORTH, panel);
+        myProfileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainGUI.this.dispose();
+                new ProfileGUI(user);
+            }
+        });
         panel.add(myProfileButton);
 
         

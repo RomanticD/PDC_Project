@@ -39,7 +39,7 @@ public class RegisterGUI extends JFrame {
      */
     private JPanel getBackgroundPanel() {
         try {
-            BufferedImage backgroundImage = ImageIO.read(new File(UIConstants.LOGIN_BACKGROUND_IMAGE));
+            BufferedImage backgroundImage = ImageIO.read(new File(UIConstants.REGISTER_BACKGROUND_IMAGE));
             return new BackgroundPanel(backgroundImage);
         } catch (IOException e) {
             e.printStackTrace();

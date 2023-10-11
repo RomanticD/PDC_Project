@@ -14,18 +14,16 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class CourseDetailGUI extends JFrame {
-    private Course course;
+public class ProfileGUI extends JFrame {
     private User user;
 
-    public CourseDetailGUI(Course course, User user) {
-        this.setTitle(course.getCourseName());
+    public ProfileGUI(User user) {
+        this.setTitle(user.getName() + "'s Profile");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setResizable(false);
-        this.setSize(500, 400);
+        this.setSize(500, 370);
         this.setLocationRelativeTo(null);
-        this.course = course;
         this.user = user;
 
         JPanel backgroundPanel = getBackgroundPanel();
@@ -36,7 +34,7 @@ public class CourseDetailGUI extends JFrame {
 
     private JPanel getBackgroundPanel() {
         try {
-            BufferedImage backgroundImage = ImageIO.read(new File(UIConstants.COURSE_DETAIL_BACKGROUND_IMAGE));
+            BufferedImage backgroundImage = ImageIO.read(new File(UIConstants.PROFILE_BACKGROUND_IMAGE));
             return new BackgroundPanel(backgroundImage);
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,33 +53,49 @@ public class CourseDetailGUI extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CourseDetailGUI.this.dispose();
-                new CourseGUI(user);
+                ProfileGUI.this.dispose();
+                new MainGUI(user);
             }
         });
         panel.add(backButton);
 
-        String[] labels = {"Course ID:", "Course Name:", "Course Instructor:", "Course Description:"};
+        String[] labels = {"Name:", "Username:", "E-mail:", "Role:"};
         JTextArea[] textAreas = {
-                createJTextArea(String.valueOf(course.getCourseID())),
-                createJTextArea(course.getCourseName()),
-                createJTextArea(course.getInstructor()),
-                createJTextArea(course.getCourseDescription())
+                createJTextArea(user.getName()),
+                createJTextArea(user.getUsername()),
+                createJTextArea(user.getEmail()),
+                createJTextArea(user.getRole().toString())
         };
 
         for (int i = 0; i < labels.length; i++) {
             JLabel label = createJLabel(labels[i]);
             JTextArea textArea = textAreas[i];
+            JButton changeButton = new JButton("Change");
 
-            springLayout.putConstraint(SpringLayout.WEST, label, 35, SpringLayout.WEST, panel);
+
+            springLayout.putConstraint(SpringLayout.WEST, label, 100, SpringLayout.WEST, panel);
             springLayout.putConstraint(SpringLayout.NORTH, label, 50 + 60 * i, SpringLayout.NORTH, panel);
             panel.add(label);
 
-            springLayout.putConstraint(SpringLayout.WEST, textArea, 230, SpringLayout.WEST, panel);
+            springLayout.putConstraint(SpringLayout.WEST, textArea, 220, SpringLayout.WEST, panel);
             springLayout.putConstraint(SpringLayout.EAST, textArea, -35, SpringLayout.EAST, panel);
             springLayout.putConstraint(SpringLayout.NORTH, textArea, 50 + 60 * i, SpringLayout.NORTH, panel);
             panel.add(textArea);
+
+            changeButton.setFont(new Font("Dialog", Font.PLAIN, 15));
+            springLayout.putConstraint(SpringLayout.WEST, changeButton, 370, SpringLayout.WEST, panel);
+            springLayout.putConstraint(SpringLayout.EAST, changeButton, -35, SpringLayout.EAST, panel);
+            springLayout.putConstraint(SpringLayout.NORTH, changeButton, 50 + 60 * i, SpringLayout.NORTH, panel);
+            panel.add(changeButton);
         }
+
+        JButton changePasswordButton = new JButton("Change Password");
+        changePasswordButton.setFont(new Font("Dialog", Font.BOLD, 15));
+        springLayout.putConstraint(SpringLayout.WEST, changePasswordButton, 160, SpringLayout.WEST, panel);
+        springLayout.putConstraint(SpringLayout.EAST, changePasswordButton, -160, SpringLayout.EAST, panel);
+        springLayout.putConstraint(SpringLayout.NORTH, changePasswordButton, 290, SpringLayout.NORTH, panel);
+        springLayout.putConstraint(SpringLayout.SOUTH, changePasswordButton, -10, SpringLayout.SOUTH, panel);
+        panel.add(changePasswordButton);
 
         getContentPane().add(panel);
     }
