@@ -100,7 +100,7 @@ public class ProfileGUI extends JFrame {
         createInfoChangeButton(springLayout, panel, "Name", 50);
         createInfoChangeButton(springLayout, panel, "Username", 110);
         createInfoChangeButton(springLayout, panel, "Email", 170);
-        createInfoChangeButton(springLayout, panel, "Role", 230);
+//        createInfoChangeButton(springLayout, panel, "Role", 230);
 
         JButton changePasswordButton = new JButton("Change Password");
         changePasswordButton.setFont(new Font("Dialog", Font.BOLD, 15));
