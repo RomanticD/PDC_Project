@@ -4,20 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73707bdb-3c81-47b9-8921-af9362192568" name="Changes" comment="enhance code">
-      <change afterPath="$PROJECT_DIR$/src/main/java/gui/sub/ChangeInfoGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/derby.log" beforeDir="false" afterPath="$PROJECT_DIR$/derby.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/constants/UIConstants.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PDC_Project/constants/UIConstants.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/db.lck" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/db.lck" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/constants/UIConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/constants/UIConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/UserDaoInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/UserDaoInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/impl/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/impl/UserDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/LoginGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/LoginGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/ProfileGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/ProfileGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/RegisterGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/RegisterGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/sub/BackgroundPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/sub/BackgroundPanel.java" afterDir="false" />
-    </list>
+    <list default="true" id="73707bdb-3c81-47b9-8921-af9362192568" name="Changes" comment="add new method to UserDao Interface" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -136,7 +123,7 @@
       <workItem from="1697026001024" duration="1719000" />
       <workItem from="1697031723270" duration="8000" />
       <workItem from="1697031745280" duration="2770000" />
-      <workItem from="1697069018594" duration="7756000" />
+      <workItem from="1697069018594" duration="7944000" />
     </task>
     <task id="LOCAL-00001" summary="add sub in gui">
       <option name="closed" value="true" />
@@ -202,7 +189,15 @@
       <option name="project" value="LOCAL" />
       <updated>1697070299119</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="add new method to UserDao Interface">
+      <option name="closed" value="true" />
+      <created>1697077085218</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1697077085218</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -228,7 +223,8 @@
     <MESSAGE value="improve UI" />
     <MESSAGE value="add ProfileGUI.java" />
     <MESSAGE value="enhance code" />
-    <option name="LAST_COMMIT_MESSAGE" value="enhance code" />
+    <MESSAGE value="add new method to UserDao Interface" />
+    <option name="LAST_COMMIT_MESSAGE" value="add new method to UserDao Interface" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
