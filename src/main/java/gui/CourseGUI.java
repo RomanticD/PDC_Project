@@ -1,6 +1,7 @@
 package gui;
 
-import dao.CourseDao;
+import dao.CourseDaoInterface;
+import dao.impl.CourseDao;
 import domain.Course;
 import domain.User;
 
@@ -11,8 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CourseGUI extends JFrame {
-    private User user;
-    private CourseDao courseDao;
+    private final User user;
+    private final CourseDaoInterface courseDao;
     private List<Course> courseList;
 
     public CourseGUI(User user) {

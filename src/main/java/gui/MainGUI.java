@@ -16,11 +16,8 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class MainGUI extends JFrame {
-    private User user;
-    
-    private JPanel panel;
+    private final User user;
 
-    private JFrame frame;
 
     public MainGUI(User user) {
         this.user = user;
@@ -30,9 +27,8 @@ public class MainGUI extends JFrame {
         this.setResizable(false);
         this.setSize(320,480);
         this.setLocationRelativeTo(null);
-        this.panel = getBackgroundPanel();
-
-        addComponents(Objects.requireNonNull(getBackgroundPanel()));
+        JPanel panel = getBackgroundPanel();
+        addComponents(Objects.requireNonNull(panel));
     }
     
     private JPanel getBackgroundPanel() {

@@ -1,5 +1,6 @@
-package dao;
+package dao.impl;
 
+import dao.CourseDaoInterface;
 import db.DatabaseConnectionManager;
 import domain.Course;
 
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseDao {
+public class CourseDao implements CourseDaoInterface {
     private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
 

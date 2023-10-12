@@ -1,7 +1,8 @@
 package gui;
 
 import constants.UIConstants;
-import dao.UserDao;
+import dao.UserDaoInterface;
+import dao.impl.UserDao;
 import domain.Role;
 import domain.User;
 import gui.sub.BackgroundPanel;
@@ -22,12 +23,14 @@ public class LoginGUI extends JFrame {
     private JFrame frame;
     private String username;
     private String password;
+    private final UserDaoInterface userDao;
 
     public LoginGUI(){
         super(UIConstants.APP_NAME);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(UIConstants.LOGIN_FRAME_SIZE[0], UIConstants.LOGIN_FRAME_SIZE[1]);
         setLocationRelativeTo(null);
+        this.userDao = new UserDao();
         frame = this;
 
         addComponents(Objects.requireNonNull(getBackgroundPanel()));
@@ -94,7 +97,6 @@ public class LoginGUI extends JFrame {
                 username = usernameField.getText();
                 password = passwordField.getText();
 
-                UserDao userDao = new UserDao();
                 ResultSet rs = userDao.validateUser(username, password);
                 try {
                     if (rs.next()) {

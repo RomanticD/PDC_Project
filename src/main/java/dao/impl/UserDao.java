@@ -1,5 +1,6 @@
-package dao;
+package dao.impl;
 
+import dao.UserDaoInterface;
 import db.DatabaseConnectionManager;
 import domain.Role;
 import domain.User;
@@ -9,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDao{
+public class UserDao implements UserDaoInterface {
     private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
 

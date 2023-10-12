@@ -1,7 +1,8 @@
 package gui;
 
 import constants.UIConstants;
-import dao.UserDao;
+import dao.UserDaoInterface;
+import dao.impl.UserDao;
 import domain.Role;
 import domain.User;
 import gui.sub.BackgroundPanel;
@@ -20,12 +21,14 @@ import java.util.Objects;
 public class RegisterGUI extends JFrame {
     private JPanel panel;
     private SpringLayout springLayout;
+    private UserDaoInterface userDao;
 
     public RegisterGUI(){
         super(UIConstants.APP_NAME);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(500,450);
         setLocationRelativeTo(null);
+        this.userDao = new UserDao();
         this.panel = Objects.requireNonNull(getBackgroundPanel());
         this.springLayout = new SpringLayout();
         panel.setLayout(springLayout);
@@ -65,8 +68,6 @@ public class RegisterGUI extends JFrame {
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                UserDao userDao = new UserDao();
-
                 String name = nameTF.getText();
                 String username = usernameTF.getText();
                 String password = String.valueOf(passwordTF.getPassword());

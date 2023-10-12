@@ -1,7 +1,6 @@
 package gui;
 
 import constants.UIConstants;
-import domain.Course;
 import domain.User;
 import gui.sub.BackgroundPanel;
 
