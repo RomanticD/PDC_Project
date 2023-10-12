@@ -10,8 +10,6 @@ import gui.sub.BackgroundPanel;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +19,7 @@ import java.util.Objects;
 public class RegisterGUI extends JFrame {
     private JPanel panel;
     private SpringLayout springLayout;
-    private UserDaoInterface userDao;
+    private final UserDaoInterface userDao;
 
     public RegisterGUI(){
         super(UIConstants.APP_NAME);
@@ -65,45 +63,42 @@ public class RegisterGUI extends JFrame {
         panel.add(checkBox);
 
         JButton registerButton = addButton("Register", 190, 190, 370, panel);
-        registerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String name = nameTF.getText();
-                String username = usernameTF.getText();
-                String password = String.valueOf(passwordTF.getPassword());
-                String repeatedPassword = String.valueOf(repeatPasswordTF.getPassword());
-                String email = emailTF.getText();
-                Boolean isAdmin = checkBox.isSelected();
+        registerButton.addActionListener(e -> {
+            String name = nameTF.getText();
+            String username = usernameTF.getText();
+            String password = String.valueOf(passwordTF.getPassword());
+            String repeatedPassword = String.valueOf(repeatPasswordTF.getPassword());
+            String email = emailTF.getText();
+            Boolean isAdmin = checkBox.isSelected();
 
-                User newUser = new User();
-                newUser.setName(name);
-                newUser.setUsername(username);
-                newUser.setPassword(password);
-                newUser.setEmail(email);
+            User newUser = new User();
+            newUser.setName(name);
+            newUser.setUsername(username);
+            newUser.setPassword(password);
+            newUser.setEmail(email);
 
-                if (isAdmin) {
-                    newUser.setRole(Role.ADMIN);
-                }else{
-                    newUser.setRole(Role.USER);
-                }
+            if (isAdmin) {
+                newUser.setRole(Role.ADMIN);
+            }else{
+                newUser.setRole(Role.USER);
+            }
 
-                try {
-                    if (validateInput(username, password, repeatedPassword)) {
-                        if (!userDao.isUserExists(username)) {
-                            if (userDao.createUser(newUser)) {
-                                new RegisterSuccessGUI();
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(null, " The account has existed!",
-                                    " The account has existed! ", JOptionPane.ERROR_MESSAGE);
-                            new RegisterGUI();
+            try {
+                if (validateInput(username, password, repeatedPassword)) {
+                    if (!userDao.isUserExists(username)) {
+                        if (userDao.createUser(newUser)) {
+                            new RegisterSuccessGUI();
                         }
                     } else {
+                        JOptionPane.showMessageDialog(null, " The account has existed!",
+                                " The account has existed! ", JOptionPane.ERROR_MESSAGE);
+                        new RegisterGUI();
                     }
-                } catch (SQLException | ClassNotFoundException ex) {
                 }
-                RegisterGUI.this.removeNotify();
+            } catch (SQLException | ClassNotFoundException ex) {
+                ex.printStackTrace();
             }
+            RegisterGUI.this.removeNotify();
         });
 
         JButton backButton = addButton("back", 5, 420, 5, panel);
@@ -143,50 +138,39 @@ public class RegisterGUI extends JFrame {
     public JButton addButton(String name, int leadPadding, int trailPadding, int topPadding, JPanel relativePanel){
         JButton button = new JButton(name);
         button.setFont(new Font("Dialog", Font.BOLD, 18));
-        springLayout.putConstraint(SpringLayout.WEST, button, leadPadding, SpringLayout.WEST, panel);
-        springLayout.putConstraint(SpringLayout.EAST, button, -trailPadding, SpringLayout.EAST, panel);
-        springLayout.putConstraint(SpringLayout.NORTH, button, topPadding, SpringLayout.NORTH, panel);
+        springLayout.putConstraint(SpringLayout.WEST, button, leadPadding, SpringLayout.WEST, relativePanel);
+        springLayout.putConstraint(SpringLayout.EAST, button, -trailPadding, SpringLayout.EAST, relativePanel);
+        springLayout.putConstraint(SpringLayout.NORTH, button, topPadding, SpringLayout.NORTH, relativePanel);
         panel.add(button);
 
         return button;
     }
 
-    private JTextField addLabelAndField(String labelName, int topPadding, JPanel relativePanel){
+    private void addLabelAndFieldConstraint(String labelName, int topPadding, JPanel relativePanel, JTextField textField) {
         JLabel label = new JLabel(labelName + ": ");
         label.setFont(new Font("Dialog", Font.BOLD, 18));
 
+        textField.setFont(new Font("Dialog", Font.BOLD, 18));
+
+        springLayout.putConstraint(SpringLayout.WEST, label, 35, SpringLayout.WEST, relativePanel);
+        springLayout.putConstraint(SpringLayout.NORTH, label, topPadding, SpringLayout.NORTH, relativePanel);
+        springLayout.putConstraint(SpringLayout.WEST, textField, 235, SpringLayout.WEST, relativePanel);
+        springLayout.putConstraint(SpringLayout.EAST, textField, -35, SpringLayout.EAST, relativePanel);
+        springLayout.putConstraint(SpringLayout.NORTH, textField, topPadding, SpringLayout.NORTH, relativePanel);
+
+        panel.add(label);
+        panel.add(textField);
+    }
+
+    private JTextField addLabelAndField(String labelName, int topPadding, JPanel relativePanel) {
         JTextField field = new JTextField(UIConstants.LOGIN_TEXT_FIELD_SIZE);
-        field.setFont(new Font("Dialog", Font.BOLD, 18));
-
-        springLayout.putConstraint(SpringLayout.WEST, label, 35, SpringLayout.WEST, relativePanel);
-        springLayout.putConstraint(SpringLayout.NORTH, label, topPadding, SpringLayout.NORTH, relativePanel);
-        springLayout.putConstraint(SpringLayout.WEST, field, 235, SpringLayout.WEST, relativePanel);
-        springLayout.putConstraint(SpringLayout.EAST, field, -35, SpringLayout.EAST, relativePanel);
-        springLayout.putConstraint(SpringLayout.NORTH, field, topPadding, SpringLayout.NORTH, relativePanel);
-
-        panel.add(label);
-        panel.add(field);
-
+        addLabelAndFieldConstraint(labelName, topPadding, relativePanel, field);
         return field;
     }
 
-    private JPasswordField addPasswordField(String labelName, int topPadding, JPanel relativePanel){
-        JLabel label = new JLabel(labelName + ": ");
-        label.setFont(new Font("Dialog", Font.BOLD, 18));
-
+    private JPasswordField addPasswordField(String labelName, int topPadding, JPanel relativePanel) {
         JPasswordField field = new JPasswordField(UIConstants.LOGIN_TEXT_FIELD_SIZE);
-        field.setFont(new Font("Dialog", Font.BOLD, 18));
-
-        springLayout.putConstraint(SpringLayout.WEST, label, 35, SpringLayout.WEST, relativePanel);
-        springLayout.putConstraint(SpringLayout.NORTH, label, topPadding, SpringLayout.NORTH, relativePanel);
-        springLayout.putConstraint(SpringLayout.WEST, field, 235, SpringLayout.WEST, relativePanel);
-        springLayout.putConstraint(SpringLayout.EAST, field, -35, SpringLayout.EAST, relativePanel);
-        springLayout.putConstraint(SpringLayout.NORTH, field, topPadding, SpringLayout.NORTH, relativePanel);
-
-        panel.add(label);
-        panel.add(field);
-
+        addLabelAndFieldConstraint(labelName, topPadding, relativePanel, field);
         return field;
     }
-
 }

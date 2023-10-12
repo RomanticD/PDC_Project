@@ -10,4 +10,5 @@ public class UIConstants {
     public static final String MAIN_BACKGROUND_IMAGE = "src/main/resources/main_gui_background.jpg";
     public static final String COURSE_DETAIL_BACKGROUND_IMAGE = "src/main/resources/course_detail_gui_background.jpg";
     public static final String PROFILE_BACKGROUND_IMAGE = "src/main/resources/course_detail_gui_background.jpg";
+    public static final String CHANGE_INFO_GUI_IMAGE = "src/main/resources/course_detail_gui_background.jpg";
 }

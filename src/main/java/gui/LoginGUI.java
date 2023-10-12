@@ -20,7 +20,6 @@ import java.sql.SQLException;
 import java.util.Objects;
 
 public class LoginGUI extends JFrame {
-    private JFrame frame;
     private String username;
     private String password;
     private final UserDaoInterface userDao;
@@ -31,7 +30,6 @@ public class LoginGUI extends JFrame {
         setSize(UIConstants.LOGIN_FRAME_SIZE[0], UIConstants.LOGIN_FRAME_SIZE[1]);
         setLocationRelativeTo(null);
         this.userDao = new UserDao();
-        frame = this;
 
         addComponents(Objects.requireNonNull(getBackgroundPanel()));
     }
@@ -106,7 +104,7 @@ public class LoginGUI extends JFrame {
                         currentUser.setEmail(rs.getString("email"));
                         currentUser.setPassword(rs.getString("password"));
                         currentUser.setRole(Objects.equals(rs.getString("role"), "ADMIN") ? Role.ADMIN : Role.USER);
-                        frame.removeNotify();
+                        LoginGUI.this.removeNotify();
                         new MainGUI(currentUser);
                         System.out.println("SUCCESSFULLY LOGIN!");
                     } else {
@@ -131,10 +129,10 @@ public class LoginGUI extends JFrame {
         springLayout.putConstraint(SpringLayout.NORTH, registerButton, 200, SpringLayout.NORTH, loginPanel);
         registerButton.addActionListener((ActionEvent e) -> {
             new RegisterGUI().setVisible(true);
-            frame.dispose();
+            LoginGUI.this.dispose();
         });
         loginPanel.add(registerButton);
 
-        frame.getContentPane().add(loginPanel);
+        this.getContentPane().add(loginPanel);
     }
 }

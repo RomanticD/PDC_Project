@@ -4,16 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73707bdb-3c81-47b9-8921-af9362192568" name="Changes" comment="add ProfileGUI.java">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/CourseDaoInterface.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dao/UserDaoInterface.java" afterDir="false" />
+    <list default="true" id="73707bdb-3c81-47b9-8921-af9362192568" name="Changes" comment="enhance code">
+      <change afterPath="$PROJECT_DIR$/src/main/java/gui/sub/ChangeInfoGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/CourseDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/impl/CourseDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/impl/UserDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/CourseGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/CourseGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/derby.log" beforeDir="false" afterPath="$PROJECT_DIR$/derby.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/constants/UIConstants.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PDC_Project/constants/UIConstants.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pdc_project/db.lck" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/db.lck" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/constants/UIConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/constants/UIConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/UserDaoInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/UserDaoInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/impl/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/impl/UserDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/LoginGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/LoginGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/ProfileGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/ProfileGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/RegisterGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/RegisterGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/sub/BackgroundPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/sub/BackgroundPanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,8 +26,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -50,6 +53,9 @@
         <option name="userSettingsFile" value="$USER_HOME$/Documents/jar文件/apache-maven-3.8.6/conf/settings.xml" />
       </MavenGeneralSettings>
     </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -130,7 +136,7 @@
       <workItem from="1697026001024" duration="1719000" />
       <workItem from="1697031723270" duration="8000" />
       <workItem from="1697031745280" duration="2770000" />
-      <workItem from="1697069018594" duration="867000" />
+      <workItem from="1697069018594" duration="7756000" />
     </task>
     <task id="LOCAL-00001" summary="add sub in gui">
       <option name="closed" value="true" />
@@ -188,7 +194,15 @@
       <option name="project" value="LOCAL" />
       <updated>1697034423236</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="enhance code">
+      <option name="closed" value="true" />
+      <created>1697070299119</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1697070299119</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -213,7 +227,8 @@
     <MESSAGE value="delete redundant file" />
     <MESSAGE value="improve UI" />
     <MESSAGE value="add ProfileGUI.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="add ProfileGUI.java" />
+    <MESSAGE value="enhance code" />
+    <option name="LAST_COMMIT_MESSAGE" value="enhance code" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

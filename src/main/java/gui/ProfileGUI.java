@@ -3,12 +3,11 @@ package gui;
 import constants.UIConstants;
 import domain.User;
 import gui.sub.BackgroundPanel;
+import gui.sub.ChangeInfoGUI;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -49,12 +48,9 @@ public class ProfileGUI extends JFrame {
         backButton.setFont(new Font("Dialog", Font.BOLD, 15));
         springLayout.putConstraint(SpringLayout.WEST, backButton, 5, SpringLayout.WEST, panel);
         springLayout.putConstraint(SpringLayout.NORTH, backButton, 5, SpringLayout.NORTH, panel);
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ProfileGUI.this.dispose();
-                new MainGUI(user);
-            }
+        backButton.addActionListener(e -> {
+            ProfileGUI.this.dispose();
+            new MainGUI(user);
         });
         panel.add(backButton);
 
@@ -66,27 +62,45 @@ public class ProfileGUI extends JFrame {
                 createJTextArea(user.getRole().toString())
         };
 
+        addChangeFieldButtons(springLayout, panel);
+
         for (int i = 0; i < labels.length; i++) {
             JLabel label = createJLabel(labels[i]);
             JTextArea textArea = textAreas[i];
-            JButton changeButton = new JButton("Change");
 
-
-            springLayout.putConstraint(SpringLayout.WEST, label, 100, SpringLayout.WEST, panel);
+            springLayout.putConstraint(SpringLayout.WEST, label, 35, SpringLayout.WEST, panel);
             springLayout.putConstraint(SpringLayout.NORTH, label, 50 + 60 * i, SpringLayout.NORTH, panel);
             panel.add(label);
 
-            springLayout.putConstraint(SpringLayout.WEST, textArea, 220, SpringLayout.WEST, panel);
+            springLayout.putConstraint(SpringLayout.WEST, textArea, 150, SpringLayout.WEST, panel);
             springLayout.putConstraint(SpringLayout.EAST, textArea, -35, SpringLayout.EAST, panel);
-            springLayout.putConstraint(SpringLayout.NORTH, textArea, 50 + 60 * i, SpringLayout.NORTH, panel);
+            springLayout.putConstraint(SpringLayout.NORTH, textArea, 53 + 60 * i, SpringLayout.NORTH, panel);
             panel.add(textArea);
-
-            changeButton.setFont(new Font("Dialog", Font.PLAIN, 15));
-            springLayout.putConstraint(SpringLayout.WEST, changeButton, 370, SpringLayout.WEST, panel);
-            springLayout.putConstraint(SpringLayout.EAST, changeButton, -35, SpringLayout.EAST, panel);
-            springLayout.putConstraint(SpringLayout.NORTH, changeButton, 50 + 60 * i, SpringLayout.NORTH, panel);
-            panel.add(changeButton);
         }
+
+        getContentPane().add(panel);
+    }
+
+    private JButton createInfoChangeButton(SpringLayout springLayout, JPanel panel, String labelText, int yOffset) {
+        JButton infoChangeButton = createJButton();
+        infoChangeButton.setFont(new Font("Dialog", Font.PLAIN, 15));
+        springLayout.putConstraint(SpringLayout.WEST, infoChangeButton, 370, SpringLayout.WEST, panel);
+        springLayout.putConstraint(SpringLayout.EAST, infoChangeButton, -35, SpringLayout.EAST, panel);
+        springLayout.putConstraint(SpringLayout.NORTH, infoChangeButton, yOffset, SpringLayout.NORTH, panel);
+        infoChangeButton.addActionListener(e -> {
+            System.out.println("Change " + labelText + " Button Clicked");
+            ProfileGUI.this.dispose();
+            new ChangeInfoGUI(labelText, user).setVisible(true);
+        });
+        panel.add(infoChangeButton);
+        return infoChangeButton;
+    }
+
+    private void addChangeFieldButtons(SpringLayout springLayout, JPanel panel) {
+        createInfoChangeButton(springLayout, panel, "Name", 50);
+        createInfoChangeButton(springLayout, panel, "Username", 110);
+        createInfoChangeButton(springLayout, panel, "Email", 170);
+        createInfoChangeButton(springLayout, panel, "Role", 230);
 
         JButton changePasswordButton = new JButton("Change Password");
         changePasswordButton.setFont(new Font("Dialog", Font.BOLD, 15));
@@ -94,19 +108,31 @@ public class ProfileGUI extends JFrame {
         springLayout.putConstraint(SpringLayout.EAST, changePasswordButton, -160, SpringLayout.EAST, panel);
         springLayout.putConstraint(SpringLayout.NORTH, changePasswordButton, 290, SpringLayout.NORTH, panel);
         springLayout.putConstraint(SpringLayout.SOUTH, changePasswordButton, -10, SpringLayout.SOUTH, panel);
+        changePasswordButton.addActionListener(e -> {
+            System.out.println("Change Password Button Clicked");
+            ProfileGUI.this.dispose();
+            new ChangeInfoGUI("Password", user).setVisible(true);
+        });
         panel.add(changePasswordButton);
-
-        getContentPane().add(panel);
     }
+
 
     private JTextArea createJTextArea(String text) {
         JTextArea textArea = new JTextArea(text);
-        textArea.setFont(new Font("Dialog", Font.PLAIN, 18));
+        textArea.setFont(new Font("Dialog", Font.PLAIN, 15));
         textArea.setWrapStyleWord(true);
+        textArea.setLineWrap(true);
         textArea.setLineWrap(true);
         textArea.setEditable(false);
         textArea.setOpaque(false);
         return textArea;
+    }
+
+    private JButton createJButton() {
+        JButton changeButton = new JButton("change");
+        changeButton.setFont(new Font("Dialog", Font.PLAIN, 18));
+        changeButton.setOpaque(false);
+        return changeButton;
     }
 
     private JLabel createJLabel(String text) {

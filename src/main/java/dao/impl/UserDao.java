@@ -20,7 +20,7 @@ public class UserDao implements UserDaoInterface {
     }
 
     public ResultSet validateUser(String username, String password) {
-        PreparedStatement ps = null;
+        PreparedStatement ps;
         ResultSet rs = null;
         try {
             ps = conn.prepareStatement("select * from user_profile where username=? and password=?");
@@ -66,5 +66,106 @@ public class UserDao implements UserDaoInterface {
             ex.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public User updateUserUsername(User user, String newUsername) {
+        String sql = "UPDATE user_profile SET username = ? WHERE username = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, newUsername);
+            ps.setString(2, user.getUsername());
+            int updatedRows = ps.executeUpdate();
+
+            if (updatedRows > 0) {
+                // 更新成功，返回更新后的用户对象
+                User updatedUser = new User(); // 你需要根据实际情况创建User对象
+                updatedUser.setUsername(newUsername);
+                return updatedUser;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null; // 更新失败，返回null
+    }
+
+    @Override
+    public User updateUserPassword(User user, String newPassword) {
+        String sql = "UPDATE user_profile SET password = ? WHERE username = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, newPassword);
+            ps.setString(2, user.getUsername());
+            int updatedRows = ps.executeUpdate();
+
+            if (updatedRows > 0) {
+                // 更新成功，返回更新后的用户对象
+                User updatedUser = new User(); // 你需要根据实际情况创建User对象
+                updatedUser.setPassword(newPassword);
+                return updatedUser;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null; // 更新失败，返回null
+    }
+
+    @Override
+    public User updateUserEmail(User user, String newEmail) {
+        String sql = "UPDATE user_profile SET email = ? WHERE username = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, newEmail);
+            ps.setString(2, user.getUsername());
+            int updatedRows = ps.executeUpdate();
+
+            if (updatedRows > 0) {
+                // 更新成功，返回更新后的用户对象
+                User updatedUser = new User(); // 你需要根据实际情况创建User对象
+                updatedUser.setEmail(newEmail);
+                return updatedUser;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null; // 更新失败，返回null
+    }
+
+    @Override
+    public User updateUserRole(User user, Role newRole) {
+        String roleString = (newRole == Role.ADMIN) ? "ADMIN" : "USER";
+        String sql = "UPDATE user_profile SET role = ? WHERE username = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, roleString);
+            ps.setString(2, user.getUsername());
+            int updatedRows = ps.executeUpdate();
+
+            if (updatedRows > 0) {
+                // 更新成功，返回更新后的用户对象
+                User updatedUser = new User(); // 你需要根据实际情况创建User对象
+                updatedUser.setRole(newRole);
+                return updatedUser;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null; // 更新失败，返回null
+    }
+
+    @Override
+    public User updateUserName(User user, String newName) {
+        String sql = "UPDATE user_profile SET name = ? WHERE username = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, newName);
+            ps.setString(2, user.getUsername());
+            int updatedRows = ps.executeUpdate();
+
+            if (updatedRows > 0) {
+                // 更新成功，返回更新后的用户对象
+                User updatedUser = new User(); // 你需要根据实际情况创建User对象
+                updatedUser.setName(newName);
+                return updatedUser;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null; // 更新失败，返回null
     }
 }
