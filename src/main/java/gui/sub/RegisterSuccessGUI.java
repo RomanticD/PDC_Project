@@ -1,14 +1,31 @@
-package gui;
+package gui.sub;
 
+import constants.UIConstants;
+import gui.LoginGUI;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class RegisterSuccessGUI {
     private JFrame frame;
 
     public RegisterSuccessGUI() {
         init();
+    }
+
+    private JPanel getBackgroundPanel() {
+        try {
+            BufferedImage backgroundImage = ImageIO.read(new File(UIConstants.LOGIN_BACKGROUND_IMAGE));
+            return new BackgroundPanel(backgroundImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void init() {
@@ -18,18 +35,25 @@ public class RegisterSuccessGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setLayout(new BorderLayout());
+
+        JPanel backgroundPanel = getBackgroundPanel();
+        backgroundPanel.setLayout(new BorderLayout());
+
         JLabel successMessage = new JLabel("Register Successfully!", SwingConstants.CENTER);
         successMessage.setFont(new Font("Dialog", Font.BOLD, 18));
 
-        frame.getContentPane().add("Center", successMessage);
+        backgroundPanel.add("Center", successMessage);
 
         JButton returnButton = new JButton("Return to Login Page");
-        returnButton.setFont(new Font("Dialog", Font.BOLD, 18));;
+        returnButton.setFont(new Font("Dialog", Font.BOLD, 15));;
         returnButton.addActionListener((ActionEvent e) -> {
             new LoginGUI().setVisible(true);
             frame.removeNotify();
         });
         returnButton.setPreferredSize(new Dimension(50, 50));
-        frame.getContentPane().add("South", returnButton);
+
+        backgroundPanel.add("South", returnButton);
+
+        frame.add(backgroundPanel);
     }
 }

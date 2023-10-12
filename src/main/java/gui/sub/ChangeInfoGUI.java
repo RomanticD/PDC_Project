@@ -17,7 +17,7 @@ import java.util.Objects;
 public class ChangeInfoGUI extends JFrame {
     private final String title;
     private final UserDaoInterface userDao;
-    private final User user;
+    private User user;
 
     public ChangeInfoGUI(String title, User user){
         super("Change " + title);
@@ -74,13 +74,50 @@ public class ChangeInfoGUI extends JFrame {
         panel.add(label);
         panel.add(newField);
 
-        JButton loginButton = new JButton("Confirm Modify");
-        loginButton.setFont(new Font("Dialog", Font.BOLD, 18));
-        springLayout.putConstraint(SpringLayout.WEST, loginButton, 100, SpringLayout.WEST, panel);
-        springLayout.putConstraint(SpringLayout.EAST, loginButton, -100, SpringLayout.EAST, panel);
-        springLayout.putConstraint(SpringLayout.NORTH, loginButton, 200, SpringLayout.NORTH, panel);
-        panel.add(loginButton);
+        JButton comfirmButton = new JButton("Confirm Modify");
+        comfirmButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        springLayout.putConstraint(SpringLayout.WEST, comfirmButton, 100, SpringLayout.WEST, panel);
+        springLayout.putConstraint(SpringLayout.EAST, comfirmButton, -100, SpringLayout.EAST, panel);
+        springLayout.putConstraint(SpringLayout.NORTH, comfirmButton, 200, SpringLayout.NORTH, panel);
+        comfirmButton.addActionListener(e -> {
+            switch (title){
+                case "Name": ModifyName(newField.getText());
+                case "Username": ModifyUsername(newField.getText());
+                case "Email": ModifyEmail(newField.getText());
+                case "Role": ModifyRole(newField.getText());
+            }
+        });
+        panel.add(comfirmButton);
 
         this.getContentPane().add(panel);
+    }
+
+    private void ModifyRole(String newRole) {
+
+    }
+
+    private void ModifyEmail(String newEmail) {
+
+    }
+
+    private void ModifyUsername(String newUsername) {
+
+    }
+
+    private void ModifyName(String newName) {
+        if (validateInput(newName)){
+            User updatedUser = userDao.updateUserName(user, newName);
+
+            new UpdateSuccessGUI(updatedUser);
+        }else{
+            JOptionPane pane = new JOptionPane("Invalid input!");
+            JDialog dialog = pane.createDialog("Warning");
+            dialog.setFont(new Font("Dialog", Font.BOLD, 18));
+            dialog.setVisible(true);
+        }
+    }
+
+    private Boolean validateInput(String text){
+        return !text.trim().isEmpty();
     }
 }

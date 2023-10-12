@@ -78,9 +78,8 @@ public class UserDao implements UserDaoInterface {
 
             if (updatedRows > 0) {
                 // 更新成功，返回更新后的用户对象
-                User updatedUser = new User(); // 你需要根据实际情况创建User对象
-                updatedUser.setUsername(newUsername);
-                return updatedUser;
+                user.setUsername(newUsername);
+                return user;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -98,9 +97,8 @@ public class UserDao implements UserDaoInterface {
 
             if (updatedRows > 0) {
                 // 更新成功，返回更新后的用户对象
-                User updatedUser = new User(); // 你需要根据实际情况创建User对象
-                updatedUser.setPassword(newPassword);
-                return updatedUser;
+                user.setPassword(newPassword);
+                return user;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -118,9 +116,8 @@ public class UserDao implements UserDaoInterface {
 
             if (updatedRows > 0) {
                 // 更新成功，返回更新后的用户对象
-                User updatedUser = new User(); // 你需要根据实际情况创建User对象
-                updatedUser.setEmail(newEmail);
-                return updatedUser;
+                user.setEmail(newEmail);
+                return user;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -139,9 +136,8 @@ public class UserDao implements UserDaoInterface {
 
             if (updatedRows > 0) {
                 // 更新成功，返回更新后的用户对象
-                User updatedUser = new User(); // 你需要根据实际情况创建User对象
-                updatedUser.setRole(newRole);
-                return updatedUser;
+                user.setRole(newRole);
+                return user;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -159,13 +155,40 @@ public class UserDao implements UserDaoInterface {
 
             if (updatedRows > 0) {
                 // 更新成功，返回更新后的用户对象
-                User updatedUser = new User(); // 你需要根据实际情况创建User对象
-                updatedUser.setName(newName);
-                return updatedUser;
+                user.setName(newName);
+                return user;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return null; // 更新失败，返回null
     }
+
+    @Override
+    public User getUserByName(String username) {
+        String sql = "SELECT * FROM user_profile WHERE username = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet resultSet = ps.executeQuery();
+
+            if (resultSet.next()) {
+                User user = new User();
+                user.setUsername(resultSet.getString("username"));
+                user.setName(resultSet.getString("name"));
+                user.setPassword(resultSet.getString("password"));
+                user.setEmail(resultSet.getString("email"));
+
+                // Convert the role string to a Role enum
+                String roleString = resultSet.getString("role");
+                Role role = roleString.equals("ADMIN") ? Role.ADMIN : Role.USER;
+                user.setRole(role);
+
+                return user;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null; // 如果未找到用户，返回null
+    }
+
 }

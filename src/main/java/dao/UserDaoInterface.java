@@ -20,4 +20,6 @@ public interface UserDaoInterface {
     User updateUserRole(User user, Role newRole);
 
     User updateUserName(User user, String newName);
+
+    User getUserByName(String username);
 }

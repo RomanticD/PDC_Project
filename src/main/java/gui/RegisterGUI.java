@@ -6,6 +6,7 @@ import dao.impl.UserDao;
 import domain.Role;
 import domain.User;
 import gui.sub.BackgroundPanel;
+import gui.sub.RegisterSuccessGUI;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
