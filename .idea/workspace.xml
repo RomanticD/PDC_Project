@@ -4,43 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73707bdb-3c81-47b9-8921-af9362192568" name="Changes" comment="enhance code">
-      <change afterPath="$PROJECT_DIR$/src/main/java/gui/sub/ChangeInfoGUI.java" afterDir="false" />
+    <list default="true" id="a4d42900-fcc5-47ca-9ca0-9c41682dfcf9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/derby.log" beforeDir="false" afterPath="$PROJECT_DIR$/derby.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/constants/UIConstants.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/PDC_Project/constants/UIConstants.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdc_project/db.lck" beforeDir="false" afterPath="$PROJECT_DIR$/pdc_project/db.lck" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/constants/UIConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/constants/UIConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/UserDaoInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/UserDaoInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dao/impl/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/impl/UserDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/LoginGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/LoginGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/ProfileGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/ProfileGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/RegisterGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/RegisterGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/sub/BackgroundPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/sub/BackgroundPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PDC_Project.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/PDC_App$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/PDC_App.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/constants/UIConstants.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/db/DatabaseConnectionManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/domain/Assignment.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/domain/Course.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/domain/Project.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/domain/Role.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/domain/Submission.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/PDC_Project/domain/User.class" beforeDir="false" />
+      <change beforePath="$USER_HOME$/IdeaProjects/PDC_Project/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$USER_HOME$/IdeaProjects/PDC_Project/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$USER_HOME$/IdeaProjects/PDC_Project/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$USER_HOME$/IdeaProjects/PDC_Project/PDC_Project.iml" beforeDir="false" afterPath="$USER_HOME$/IdeaProjects/PDC_Project/PDC_Project.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Interface" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
-  <component name="Git.Merge.Settings">
-    <option name="BRANCH" value="dev" />
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="dev" />
-      </map>
-    </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$USER_HOME$/IdeaProjects/PDC_Project" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -54,60 +42,48 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 8
-}</component>
-  <component name="ProjectId" id="2WZPJu71JXeCNnxVD9XpnLDPbqy" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="2We6tskeHASAuMqoCBpLxblpcUJ" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/romanticd/IdeaProjects/PDC_Project/src/main/resources&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.13967973&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.29089028&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-  },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;derby&quot;
-    ]
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Problems",
+    "project.structure.proportion": "0.13967973",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="gui" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources" />
-    </key>
-  </component>
+}]]></component>
   <component name="RunManager">
-    <configuration name="App" type="Application" factoryName="Application">
+    <configuration name="PDC_App" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="PDC_App" />
       <module name="PDC_Project" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="PDC_Project" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="PDC_Project" />
+      <option name="filePath" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -116,122 +92,16 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="73707bdb-3c81-47b9-8921-af9362192568" name="Changes" comment="" />
-      <created>1696937061189</created>
+      <changelist id="a4d42900-fcc5-47ca-9ca0-9c41682dfcf9" name="Changes" comment="" />
+      <created>1697080915894</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1696937061189</updated>
-      <workItem from="1696937063080" duration="76000" />
-      <workItem from="1696937140871" duration="7000" />
-      <workItem from="1696937403529" duration="190000" />
-      <workItem from="1696937666774" duration="404000" />
-      <workItem from="1696938864663" duration="264000" />
-      <workItem from="1696939567645" duration="197000" />
-      <workItem from="1696941477443" duration="5218000" />
-      <workItem from="1696982830770" duration="8834000" />
-      <workItem from="1696992612651" duration="23000" />
-      <workItem from="1696993034399" duration="6094000" />
-      <workItem from="1696999852059" duration="122000" />
-      <workItem from="1696999990556" duration="7487000" />
-      <workItem from="1697026001024" duration="1719000" />
-      <workItem from="1697031723270" duration="8000" />
-      <workItem from="1697031745280" duration="2770000" />
-      <workItem from="1697069018594" duration="7756000" />
+      <updated>1697080915894</updated>
+      <workItem from="1697080916884" duration="328000" />
     </task>
-    <task id="LOCAL-00001" summary="add sub in gui">
-      <option name="closed" value="true" />
-      <created>1696937922653</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1696937922653</updated>
-    </task>
-    <task id="LOCAL-00002" summary="add sub in gui">
-      <option name="closed" value="true" />
-      <created>1696939581452</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1696939581452</updated>
-    </task>
-    <task id="LOCAL-00003" summary="update course detail and background">
-      <option name="closed" value="true" />
-      <created>1696999601077</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1696999601077</updated>
-    </task>
-    <task id="LOCAL-00004" summary="delete redundant file">
-      <option name="closed" value="true" />
-      <created>1696999790992</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1696999790992</updated>
-    </task>
-    <task id="LOCAL-00005" summary="delete redundant file">
-      <option name="closed" value="true" />
-      <created>1696999964930</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1696999964930</updated>
-    </task>
-    <task id="LOCAL-00006" summary="improve UI">
-      <option name="closed" value="true" />
-      <created>1697026934715</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1697026934715</updated>
-    </task>
-    <task id="LOCAL-00007" summary="add ProfileGUI.java">
-      <option name="closed" value="true" />
-      <created>1697034423236</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1697034423236</updated>
-    </task>
-    <task id="LOCAL-00008" summary="enhance code">
-      <option name="closed" value="true" />
-      <created>1697070299119</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1697070299119</updated>
-    </task>
-    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="add sub in gui" />
-    <MESSAGE value="update main view" />
-    <MESSAGE value="update course detail and background" />
-    <MESSAGE value="delete redundant file" />
-    <MESSAGE value="improve UI" />
-    <MESSAGE value="add ProfileGUI.java" />
-    <MESSAGE value="enhance code" />
-    <option name="LAST_COMMIT_MESSAGE" value="enhance code" />
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
   </component>
 </project>
