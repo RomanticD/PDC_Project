@@ -3,11 +3,9 @@ package dao;
 import domain.User;
 
 public interface AssignmentDaoInterface {
-    boolean doesAssignmentExist(String username);
+    boolean doesAssignmentSubmissionExist(int assignmentID);
 
-    User updateAssignment(User user, String newUsername);
+    void updateAssignmentSubmission(String assignmentText, int assignmentID, User user);
 
-    boolean doesAssignmentExist(int assignmentID);
-
-    void updateAssignment(String assignmentText, int userId);
+    boolean deleteAssignmentSubmission(int assignmentID);
 }
