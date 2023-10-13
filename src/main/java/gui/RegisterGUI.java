@@ -72,11 +72,12 @@ public class RegisterGUI extends JFrame {
             String email = emailTF.getText();
             Boolean isAdmin = checkBox.isSelected();
 
-            User newUser = new User();
-            newUser.setName(name);
-            newUser.setUsername(username);
-            newUser.setPassword(password);
-            newUser.setEmail(email);
+            User newUser = User.builder()
+                    .name(name)
+                    .username(username)
+                    .password(password)
+                    .email(email)
+                    .build();
 
             if (isAdmin) {
                 newUser.setRole(Role.ADMIN);

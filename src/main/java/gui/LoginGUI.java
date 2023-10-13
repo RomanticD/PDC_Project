@@ -98,12 +98,14 @@ public class LoginGUI extends JFrame {
                 ResultSet rs = userDao.validateUser(username, password);
                 try {
                     if (rs.next()) {
-                        User currentUser = new User();
-                        currentUser.setName(rs.getString("name"));
-                        currentUser.setUsername(rs.getString("username"));
-                        currentUser.setEmail(rs.getString("email"));
-                        currentUser.setPassword(rs.getString("password"));
-                        currentUser.setRole(Objects.equals(rs.getString("role"), "ADMIN") ? Role.ADMIN : Role.USER);
+                        User currentUser = User.builder()
+                                .name(rs.getString("name"))
+                                .username(rs.getString("username"))
+                                .email(rs.getString("email"))
+                                .password(rs.getString("password"))
+                                .role(Objects.equals(rs.getString("role"), "ADMIN") ? Role.ADMIN : Role.USER)
+                                .build();
+
                         LoginGUI.this.removeNotify();
                         new MainGUI(currentUser);
                         System.out.println("SUCCESSFULLY LOGIN!");

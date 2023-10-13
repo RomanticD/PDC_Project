@@ -172,11 +172,12 @@ public class UserDao implements UserDaoInterface {
             ResultSet resultSet = ps.executeQuery();
 
             if (resultSet.next()) {
-                User user = new User();
-                user.setUsername(resultSet.getString("username"));
-                user.setName(resultSet.getString("name"));
-                user.setPassword(resultSet.getString("password"));
-                user.setEmail(resultSet.getString("email"));
+                User user = User.builder()
+                        .username(resultSet.getString("username"))
+                        .name(resultSet.getString("name"))
+                        .password(resultSet.getString("password"))
+                        .email(resultSet.getString("email"))
+                        .build();
 
                 // Convert the role string to a Role enum
                 String roleString = resultSet.getString("role");
