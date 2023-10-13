@@ -1,12 +1,11 @@
 package dao.impl;
 
-import dao.AssignmentInterface;
+import dao.AssignmentDaoInterface;
 import db.DatabaseConnectionManager;
 import java.sql.*;
-import domain.Assignment;
 import domain.User;
 
-public class AssignmentDao implements AssignmentInterface {
+public class AssignmentDao implements AssignmentDaoInterface {
 
     private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
