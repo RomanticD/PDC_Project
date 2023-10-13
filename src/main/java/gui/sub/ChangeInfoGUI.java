@@ -6,7 +6,6 @@ import dao.impl.UserDao;
 import domain.User;
 import gui.LoginGUI;
 import gui.ProfileGUI;
-import gui.RegisterGUI;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

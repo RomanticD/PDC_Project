@@ -1,8 +1,8 @@
 package gui.sub;
 
 import constants.UIConstants;
-import domain.User;
 import gui.ProfileGUI;
+import domain.User;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

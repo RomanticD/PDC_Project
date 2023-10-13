@@ -1,8 +1,8 @@
 package gui;
 
+import domain.Course;
 import dao.CourseDaoInterface;
 import dao.impl.CourseDao;
-import domain.Course;
 import domain.User;
 
 import javax.swing.*;

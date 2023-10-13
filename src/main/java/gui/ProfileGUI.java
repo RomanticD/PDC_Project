@@ -1,9 +1,9 @@
 package gui;
 
 import constants.UIConstants;
+import gui.sub.ChangeInfoGUI;
 import domain.User;
 import gui.sub.BackgroundPanel;
-import gui.sub.ChangeInfoGUI;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
