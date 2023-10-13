@@ -2,6 +2,7 @@ package gui.sub;
 
 import constants.UIConstants;
 import gui.LoginGUI;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -11,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+@Slf4j
 public class RegisterSuccessGUI {
     private JFrame frame;
 
@@ -41,6 +43,8 @@ public class RegisterSuccessGUI {
 
         JLabel successMessage = new JLabel("Register Successfully!", SwingConstants.CENTER);
         successMessage.setFont(new Font("Dialog", Font.BOLD, 18));
+
+        log.info("Register Successfully!");
 
         backgroundPanel.add("Center", successMessage);
 

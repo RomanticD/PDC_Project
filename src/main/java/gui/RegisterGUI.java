@@ -7,6 +7,7 @@ import domain.Role;
 import domain.User;
 import gui.sub.BackgroundPanel;
 import gui.sub.RegisterSuccessGUI;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
 
+@Slf4j
 public class RegisterGUI extends JFrame {
     private JPanel panel;
     private SpringLayout springLayout;
@@ -94,6 +96,8 @@ public class RegisterGUI extends JFrame {
                     } else {
                         JOptionPane.showMessageDialog(null, " The account has existed!",
                                 " The account has existed! ", JOptionPane.ERROR_MESSAGE);
+
+                        log.warn("Account Existed!");
                         new RegisterGUI();
                     }
                 }
@@ -117,6 +121,7 @@ public class RegisterGUI extends JFrame {
         if (username.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, " username is empty! ",
                     "Account", JOptionPane.ERROR_MESSAGE);
+            log.warn("Invalid Input Username");
             new RegisterGUI();
             return false;
         }
@@ -124,6 +129,7 @@ public class RegisterGUI extends JFrame {
         if (password.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Password is empty!",
                     "Password is empty", JOptionPane.ERROR_MESSAGE);
+            log.warn("Invalid Input Password");
             new RegisterGUI();
             return false;
         }
@@ -131,6 +137,7 @@ public class RegisterGUI extends JFrame {
         if (!password.equals(repeatedPassword)) {
             JOptionPane.showMessageDialog(null, " Passwords do not match！",
                     " The password is inconsistent ", JOptionPane.ERROR_MESSAGE);
+            log.warn("Password No Match!");
             new RegisterGUI();
             return false;
         }

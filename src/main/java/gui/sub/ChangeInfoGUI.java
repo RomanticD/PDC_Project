@@ -6,6 +6,7 @@ import dao.impl.UserDao;
 import domain.User;
 import gui.LoginGUI;
 import gui.ProfileGUI;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,19 +16,20 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
+@Slf4j
 public class ChangeInfoGUI extends JFrame {
-    private final String title;
+    private final String infoToModify;
     private final UserDaoInterface userDao;
     private User user;
 
-    public ChangeInfoGUI(String title, User user){
-        super("Change " + title);
+    public ChangeInfoGUI(String infoToModify, User user){
+        super("Change " + infoToModify);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(400, title.equals("Password") ? 350 : 300);
+        setSize(400, infoToModify.equals("Password") ? 350 : 300);
         setLocationRelativeTo(null);
         this.user = user;
         this.userDao = new UserDao();
-        this.title = title;
+        this.infoToModify = infoToModify;
 
         addComponents(Objects.requireNonNull(getBackgroundPanel()));
     }
@@ -60,8 +62,8 @@ public class ChangeInfoGUI extends JFrame {
         });
         panel.add(backButton);
 
-        if (!this.title.equals("Password")){
-            JLabel label = new JLabel("Enter new " + title + " :");
+        if (!this.infoToModify.equals("Password")){
+            JLabel label = new JLabel("Enter new " + infoToModify + " :");
             label.setFont(new Font("Dialog", Font.BOLD, 18));
 
             JTextField newField = new JTextField(UIConstants.LOGIN_TEXT_FIELD_SIZE);
@@ -82,7 +84,9 @@ public class ChangeInfoGUI extends JFrame {
             springLayout.putConstraint(SpringLayout.EAST, comfirmButton, -100, SpringLayout.EAST, panel);
             springLayout.putConstraint(SpringLayout.NORTH, comfirmButton, 200, SpringLayout.NORTH, panel);
             comfirmButton.addActionListener(e -> {
-                switch (title){
+                log.info("Changing " + user.getName() + "'s " + infoToModify);
+
+                switch (infoToModify){
                     case "Name": ModifyName(newField.getText());
                         break;
                     case "Username": ModifyUsername(newField.getText());
@@ -142,6 +146,7 @@ public class ChangeInfoGUI extends JFrame {
             springLayout.putConstraint(SpringLayout.EAST, comfirmButton, -100, SpringLayout.EAST, panel);
             springLayout.putConstraint(SpringLayout.NORTH, comfirmButton, 50, SpringLayout.NORTH, repeatPasswordField);
             comfirmButton.addActionListener(e -> {
+                log.info("Changing " + user.getName() + "'s " + infoToModify);
                 if (validateUserInput(oldPasswordField, newPasswordField, repeatPasswordField)){
                     ModifyPassword(String.valueOf(newPasswordField.getPassword()));
                 }

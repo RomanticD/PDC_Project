@@ -4,6 +4,7 @@ import domain.Course;
 import dao.CourseDaoInterface;
 import dao.impl.CourseDao;
 import domain.User;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+@Slf4j
 public class CourseGUI extends JFrame {
     private final User user;
     private final CourseDaoInterface courseDao;
@@ -80,6 +82,7 @@ public class CourseGUI extends JFrame {
         checkButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                log.info("Checking Button Clicked. Redirecting to " + course.getCourseName() + "'s Detail");
                 CourseGUI.this.dispose();
                 new CourseDetailGUI(course, user);
             }

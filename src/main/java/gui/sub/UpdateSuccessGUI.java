@@ -3,6 +3,7 @@ package gui.sub;
 import constants.UIConstants;
 import gui.ProfileGUI;
 import domain.User;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -12,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+@Slf4j
 public class UpdateSuccessGUI {
     private JFrame frame;
 
@@ -38,6 +40,8 @@ public class UpdateSuccessGUI {
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
+
+        log.info(user.getName() + "'s Info Update Successfully!");
 
         JPanel backgroundPanel = getBackgroundPanel();
         backgroundPanel.setLayout(new BorderLayout());

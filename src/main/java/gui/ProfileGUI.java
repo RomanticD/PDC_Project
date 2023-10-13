@@ -4,6 +4,7 @@ import constants.UIConstants;
 import gui.sub.ChangeInfoGUI;
 import domain.User;
 import gui.sub.BackgroundPanel;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -12,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+@Slf4j
 public class ProfileGUI extends JFrame {
     private User user;
 
@@ -88,7 +90,7 @@ public class ProfileGUI extends JFrame {
         springLayout.putConstraint(SpringLayout.EAST, infoChangeButton, -35, SpringLayout.EAST, panel);
         springLayout.putConstraint(SpringLayout.NORTH, infoChangeButton, yOffset, SpringLayout.NORTH, panel);
         infoChangeButton.addActionListener(e -> {
-            System.out.println("Change " + labelText + " Button Clicked");
+            log.info("Change " + labelText + " Button Clicked");
             ProfileGUI.this.dispose();
             new ChangeInfoGUI(labelText, user).setVisible(true);
         });
@@ -109,7 +111,7 @@ public class ProfileGUI extends JFrame {
         springLayout.putConstraint(SpringLayout.NORTH, changePasswordButton, 290, SpringLayout.NORTH, panel);
         springLayout.putConstraint(SpringLayout.SOUTH, changePasswordButton, -10, SpringLayout.SOUTH, panel);
         changePasswordButton.addActionListener(e -> {
-            System.out.println("Change Password Button Clicked");
+            log.info("Change Password Button Clicked");
             ProfileGUI.this.dispose();
             new ChangeInfoGUI("Password", user).setVisible(true);
         });

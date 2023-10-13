@@ -6,6 +6,7 @@ import dao.impl.UserDao;
 import domain.Role;
 import domain.User;
 import gui.sub.BackgroundPanel;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -19,6 +20,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
+@Slf4j
 public class LoginGUI extends JFrame {
     private String username;
     private String password;
@@ -108,17 +110,17 @@ public class LoginGUI extends JFrame {
 
                         LoginGUI.this.removeNotify();
                         new MainGUI(currentUser);
-                        System.out.println("SUCCESSFULLY LOGIN!");
+                        log.info("SUCCESSFULLY LOGIN! Current User: " + currentUser.getName());
                     } else {
                         JOptionPane pane = new JOptionPane("username or password incorrect!");
                         JDialog dialog = pane.createDialog("Warning");
                         dialog.setFont(new Font("Dialog", Font.BOLD, 18));
-                        System.out.println("LOGIN FAILED(check your password and username))");
+                        log.error("LOGIN FAILED(check your password and username))");
                         dialog.setVisible(true);
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
-                    System.out.println("LOGIN FAILED(sql Exception) ");
+                    log.error("LOGIN FAILED(sql Exception) ");
                 }
             }
         });

@@ -4,6 +4,7 @@ import constants.UIConstants;
 import domain.Role;
 import domain.User;
 import gui.sub.BackgroundPanel;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
+@Slf4j
 public class MainGUI extends JFrame {
     private final User user;
 
@@ -53,6 +55,7 @@ public class MainGUI extends JFrame {
         myProfileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                log.info("Going to Profile GUI");
                 MainGUI.this.dispose();
                 new ProfileGUI(user);
             }
@@ -86,6 +89,7 @@ public class MainGUI extends JFrame {
         coursesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                log.info("Going to Course GUI");
                 MainGUI.this.dispose();
                 new CourseGUI(user);
             }
