@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class User {
+    private int userId;
+
     private String name;
 
     private String username;
