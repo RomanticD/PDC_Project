@@ -77,6 +77,9 @@ public class MainGUI extends JFrame {
             springLayout.putConstraint(SpringLayout.EAST, assignmentButton, -75, SpringLayout.EAST, panel);
             springLayout.putConstraint(SpringLayout.NORTH, assignmentButton, 210, SpringLayout.NORTH, panel);
             panel.add(assignmentButton);
+            assignmentButton.addActionListener(e -> {
+                new AssignmentGUI(user);
+            });
         }
         
 
