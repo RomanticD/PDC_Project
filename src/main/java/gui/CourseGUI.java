@@ -4,6 +4,7 @@ import domain.Course;
 import dao.CourseDaoInterface;
 import dao.impl.CourseDao;
 import domain.User;
+import gui.sub.UserCourses;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
@@ -19,7 +20,7 @@ public class CourseGUI extends JFrame {
     private List<Course> courseList;
 
     public CourseGUI(User user) {
-        this.setTitle("Courses");
+        this.setTitle("All Courses");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setResizable(false);
@@ -39,23 +40,35 @@ public class CourseGUI extends JFrame {
         // Create a "Back" button and add it to the top-left corner
         JButton backButton = new JButton("Back");
         backButton.setFont(new Font("Dialog", Font.BOLD, 15));
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CourseGUI.this.dispose();
-                new MainGUI(user);
-            }
+
+        JButton userCoursesButton = new JButton("Check Enrolled Courses");
+        userCoursesButton.setFont(new Font("Dialog", Font.BOLD, 15));
+
+        userCoursesButton.addActionListener(e -> {
+            log.info("Ready to check " + user.getName() + "'s enrolled courses");
+            CourseGUI.this.dispose();
+            new UserCourses(user);
+        });
+
+        backButton.addActionListener(e -> {
+            CourseGUI.this.dispose();
+            new MainGUI(user);
         });
         topPanel.add(backButton, BorderLayout.WEST);
+
+        if (!user.isAdmin()){
+            topPanel.add(userCoursesButton, BorderLayout.EAST);
+        }
+
         mainPanel.add(topPanel, BorderLayout.NORTH);
 
-        JScrollPane js = new JScrollPane(addCourseList(), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane js = new JScrollPane(addCourseList(courseList), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         mainPanel.add(js, BorderLayout.CENTER);
 
         this.setContentPane(mainPanel);
     }
 
-    public JPanel addCourseList() {
+    public JPanel addCourseList(List<Course> courseList) {
         JPanel listPanel = new JPanel();
         listPanel.setLayout(new GridLayout(0, 1));
 

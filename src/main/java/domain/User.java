@@ -21,4 +21,8 @@ public class User {
     private String email;
 
     private Role role;
+
+    public boolean isAdmin(){
+        return role.toString().equals("ADMIN");
+    }
 }

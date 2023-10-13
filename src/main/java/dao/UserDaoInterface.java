@@ -22,4 +22,6 @@ public interface UserDaoInterface {
     User updateUserName(User user, String newName);
 
     User getUserByName(String username);
+
+    User getUserById(int id);
 }

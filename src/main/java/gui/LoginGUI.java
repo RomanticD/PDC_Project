@@ -86,44 +86,18 @@ public class LoginGUI extends JFrame {
         loginPanel.add(passwordLabel);
         loginPanel.add(passwordField);
 
+        ActionListener loginListener = e -> performLoginAction(usernameField, passwordField);
+
+        // adding action listeners for pressing enter key
+        usernameField.addActionListener(loginListener);
+        passwordField.addActionListener(loginListener);
+
         // login button
         JButton loginButton = new JButton("Login");
         loginButton.setFont(new Font("Dialog", Font.BOLD, 18));
         springLayout.putConstraint(SpringLayout.WEST, loginButton, 75, SpringLayout.WEST, loginPanel);
         springLayout.putConstraint(SpringLayout.NORTH, loginButton, 200, SpringLayout.NORTH, loginPanel);
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                username = usernameField.getText();
-                password = passwordField.getText();
-
-                ResultSet rs = userDao.validateUser(username, password);
-                try {
-                    if (rs.next()) {
-                        User currentUser = User.builder()
-                                .name(rs.getString("name"))
-                                .username(rs.getString("username"))
-                                .email(rs.getString("email"))
-                                .password(rs.getString("password"))
-                                .role(Objects.equals(rs.getString("role"), "ADMIN") ? Role.ADMIN : Role.USER)
-                                .build();
-
-                        LoginGUI.this.removeNotify();
-                        new MainGUI(currentUser);
-                        log.info("SUCCESSFULLY LOGIN! Current User: " + currentUser.getName());
-                    } else {
-                        JOptionPane pane = new JOptionPane("username or password incorrect!");
-                        JDialog dialog = pane.createDialog("Warning");
-                        dialog.setFont(new Font("Dialog", Font.BOLD, 18));
-                        log.error("LOGIN FAILED(check your password and username))");
-                        dialog.setVisible(true);
-                    }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    log.error("LOGIN FAILED(sql Exception) ");
-                }
-            }
-        });
+        loginButton.addActionListener(loginListener);
         loginPanel.add(loginButton);
 
         // register button
@@ -138,5 +112,37 @@ public class LoginGUI extends JFrame {
         loginPanel.add(registerButton);
 
         this.getContentPane().add(loginPanel);
+    }
+
+    private void performLoginAction(JTextField usernameField, JPasswordField passwordField) {
+        username = usernameField.getText();
+        password = passwordField.getText();
+
+        ResultSet rs = userDao.validateUser(username, password);
+        try {
+            if (rs.next()) {
+                User currentUser = User.builder()
+                        .name(rs.getString("name"))
+                        .username(rs.getString("username"))
+                        .email(rs.getString("email"))
+                        .password(rs.getString("password"))
+                        .role(Objects.equals(rs.getString("role"), "ADMIN") ? Role.ADMIN : Role.USER)
+                        .userId(rs.getInt("user_id"))
+                        .build();
+
+                LoginGUI.this.removeNotify();
+                new MainGUI(currentUser);
+                log.info("SUCCESSFULLY LOGIN! Current User: " + currentUser.getName());
+            } else {
+                JOptionPane pane = new JOptionPane("username or password incorrect!");
+                JDialog dialog = pane.createDialog("Warning");
+                dialog.setFont(new Font("Dialog", Font.BOLD, 18));
+                log.error("LOGIN FAILED(check your password and username))");
+                dialog.setVisible(true);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            log.error("LOGIN FAILED(sql Exception) ");
+        }
     }
 }

@@ -38,7 +38,7 @@ public class UserDao implements UserDaoInterface {
         PreparedStatement ps = null;
         String role = "USER";
 
-        if (newUser.getRole() == Role.ADMIN){
+        if (newUser.isAdmin()){
             role = "ADMIN";
         }
 
@@ -77,14 +77,13 @@ public class UserDao implements UserDaoInterface {
             int updatedRows = ps.executeUpdate();
 
             if (updatedRows > 0) {
-                // 更新成功，返回更新后的用户对象
                 user.setUsername(newUsername);
                 return user;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return null; // 更新失败，返回null
+        return null;
     }
 
     @Override
@@ -96,14 +95,13 @@ public class UserDao implements UserDaoInterface {
             int updatedRows = ps.executeUpdate();
 
             if (updatedRows > 0) {
-                // 更新成功，返回更新后的用户对象
                 user.setPassword(newPassword);
                 return user;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return null; // 更新失败，返回null
+        return null;
     }
 
     @Override
@@ -115,14 +113,13 @@ public class UserDao implements UserDaoInterface {
             int updatedRows = ps.executeUpdate();
 
             if (updatedRows > 0) {
-                // 更新成功，返回更新后的用户对象
                 user.setEmail(newEmail);
                 return user;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return null; // 更新失败，返回null
+        return null;
     }
 
     @Override
@@ -135,14 +132,13 @@ public class UserDao implements UserDaoInterface {
             int updatedRows = ps.executeUpdate();
 
             if (updatedRows > 0) {
-                // 更新成功，返回更新后的用户对象
                 user.setRole(newRole);
                 return user;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return null; // 更新失败，返回null
+        return null;
     }
 
     @Override
@@ -154,14 +150,13 @@ public class UserDao implements UserDaoInterface {
             int updatedRows = ps.executeUpdate();
 
             if (updatedRows > 0) {
-                // 更新成功，返回更新后的用户对象
                 user.setName(newName);
                 return user;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return null; // 更新失败，返回null
+        return null;
     }
 
     @Override
@@ -189,7 +184,35 @@ public class UserDao implements UserDaoInterface {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return null; // 如果未找到用户，返回null
+        return null;
+    }
+
+    @Override
+    public User getUserById(int id) {
+        String sql = "SELECT * FROM user_profile WHERE USER_ID = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet resultSet = ps.executeQuery();
+
+            if (resultSet.next()) {
+                User user = User.builder()
+                        .username(resultSet.getString("username"))
+                        .name(resultSet.getString("name"))
+                        .password(resultSet.getString("password"))
+                        .email(resultSet.getString("email"))
+                        .build();
+
+                // Convert the role string to a Role enum
+                String roleString = resultSet.getString("role");
+                Role role = roleString.equals("ADMIN") ? Role.ADMIN : Role.USER;
+                user.setRole(role);
+
+                return user;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
 }

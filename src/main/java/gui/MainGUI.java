@@ -63,7 +63,7 @@ public class MainGUI extends JFrame {
         panel.add(myProfileButton);
 
         
-        if (this.user.getRole() == Role.ADMIN){
+        if (user.isAdmin()){
             JButton adminButton = new JButton("Admin");
             adminButton.setFont(new Font("Dialog", Font.BOLD, 20));
             springLayout.putConstraint(SpringLayout.WEST, adminButton, 75, SpringLayout.WEST, panel);

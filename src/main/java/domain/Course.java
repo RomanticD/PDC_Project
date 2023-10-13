@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -16,4 +17,5 @@ public class Course {
     private String courseName;
     private String courseDescription;
     private String instructor;
+    private Date deadLine;
 }
