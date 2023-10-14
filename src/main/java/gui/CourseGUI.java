@@ -1,10 +1,13 @@
 package gui;
 
+import dao.CourseSelectionDaoInterface;
+import dao.impl.CourseSelectionDao;
 import domain.Course;
 import dao.CourseDaoInterface;
 import dao.impl.CourseDao;
 import domain.User;
-import gui.sub.UserCourses;
+import domain.enums.CourseDetailPageFrom;
+import gui.sub.CourseDetailGUI;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
@@ -17,6 +20,7 @@ import java.awt.event.ActionListener;
 public class CourseGUI extends JFrame {
     private final User user;
     private final CourseDaoInterface courseDao;
+    private final CourseSelectionDaoInterface courseSelectionDao;
     private List<Course> courseList;
 
     public CourseGUI(User user) {
@@ -27,6 +31,7 @@ public class CourseGUI extends JFrame {
         this.setSize(500, 600);
         this.setLocationRelativeTo(null);
         this.user = user;
+        this.courseSelectionDao = new CourseSelectionDao();
         this.courseDao = new CourseDao();
         this.courseList = courseDao.getAllCourses();
 
@@ -47,7 +52,7 @@ public class CourseGUI extends JFrame {
         userCoursesButton.addActionListener(e -> {
             log.info("Ready to check " + user.getName() + "'s enrolled courses");
             CourseGUI.this.dispose();
-            new UserCourses(user);
+            new UserCoursesGUI(user);
         });
 
         backButton.addActionListener(e -> {
@@ -89,6 +94,12 @@ public class CourseGUI extends JFrame {
 
         JLabel nameLabel = new JLabel(course.getCourseName());
         nameLabel.setFont(new Font("Dialog", Font.BOLD, 15));
+        if (selectedByUser(course)){
+            nameLabel.setForeground(Color.decode("#2b6f5b"));
+        }else if (selectedByUserBefore(course)){
+            nameLabel.setForeground(Color.decode("#ffc966"));
+        }
+
         nameLabel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 0)); // Add padding
 
         JButton checkButton = new JButton("Check");
@@ -97,7 +108,7 @@ public class CourseGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 log.info("Checking Button Clicked. Redirecting to " + course.getCourseName() + "'s Detail");
                 CourseGUI.this.dispose();
-                new CourseDetailGUI(course, user);
+                new CourseDetailGUI(course, user, CourseDetailPageFrom.COURSE_PAGE);
             }
         });
 
@@ -109,5 +120,13 @@ public class CourseGUI extends JFrame {
         coursePanel.add(contentPanel, BorderLayout.CENTER);
 
         return coursePanel;
+    }
+
+    private boolean selectedByUserBefore(Course course) {
+        return courseSelectionDao.selectionStatusEqualsUnselected(user, course);
+    }
+
+    private boolean selectedByUser(Course course) {
+        return courseSelectionDao.checkIfUserEnrolled(user, course);
     }
 }

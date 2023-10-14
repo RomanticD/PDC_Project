@@ -1,5 +1,6 @@
 package domain;
 
+import domain.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -2,14 +2,16 @@ package dao.impl;
 
 import dao.UserDaoInterface;
 import db.DatabaseConnectionManager;
-import domain.Role;
+import domain.enums.Role;
 import domain.User;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Slf4j
 public class UserDao implements UserDaoInterface {
     private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
@@ -26,6 +28,7 @@ public class UserDao implements UserDaoInterface {
             ps = conn.prepareStatement("select * from user_profile where username=? and password=?");
             ps.setString(1, username);
             ps.setString(2, password);
+            log.info("Executing SQL query: " + ps);
             rs = ps.executeQuery();
         } catch (SQLException e1) {
             e1.printStackTrace();
@@ -49,6 +52,7 @@ public class UserDao implements UserDaoInterface {
             ps.setString(3, newUser.getPassword());
             ps.setString(4, newUser.getEmail());
             ps.setString(5, role);
+            log.info("Executing SQL query: " + ps);
             ps.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -60,6 +64,7 @@ public class UserDao implements UserDaoInterface {
         String sql = "SELECT * FROM user_profile WHERE username = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
+            log.info("Executing SQL query: " + ps);
             ResultSet resultSet = ps.executeQuery();
             return resultSet.next(); // Check if a row with the given username exists
         } catch (SQLException ex) {
@@ -74,6 +79,7 @@ public class UserDao implements UserDaoInterface {
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newUsername);
             ps.setString(2, user.getUsername());
+            log.info("Executing SQL query: " + ps);
             int updatedRows = ps.executeUpdate();
 
             if (updatedRows > 0) {
@@ -92,6 +98,7 @@ public class UserDao implements UserDaoInterface {
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newPassword);
             ps.setString(2, user.getUsername());
+            log.info("Executing SQL query: " + ps);
             int updatedRows = ps.executeUpdate();
 
             if (updatedRows > 0) {
@@ -110,6 +117,7 @@ public class UserDao implements UserDaoInterface {
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newEmail);
             ps.setString(2, user.getUsername());
+            log.info("Executing SQL query: " + ps);
             int updatedRows = ps.executeUpdate();
 
             if (updatedRows > 0) {
@@ -129,6 +137,7 @@ public class UserDao implements UserDaoInterface {
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, roleString);
             ps.setString(2, user.getUsername());
+            log.info("Executing SQL query: " + ps);
             int updatedRows = ps.executeUpdate();
 
             if (updatedRows > 0) {
@@ -147,6 +156,7 @@ public class UserDao implements UserDaoInterface {
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newName);
             ps.setString(2, user.getUsername());
+            log.info("Executing SQL query: " + ps);
             int updatedRows = ps.executeUpdate();
 
             if (updatedRows > 0) {
@@ -164,6 +174,7 @@ public class UserDao implements UserDaoInterface {
         String sql = "SELECT * FROM user_profile WHERE username = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
+            log.info("Executing SQL query: " + ps);
             ResultSet resultSet = ps.executeQuery();
 
             if (resultSet.next()) {
@@ -192,6 +203,7 @@ public class UserDao implements UserDaoInterface {
         String sql = "SELECT * FROM user_profile WHERE USER_ID = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
+            log.info("Executing SQL query: " + ps);
             ResultSet resultSet = ps.executeQuery();
 
             if (resultSet.next()) {

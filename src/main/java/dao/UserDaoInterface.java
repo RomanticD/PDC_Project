@@ -1,6 +1,6 @@
 package dao;
 
-import domain.Role;
+import domain.enums.Role;
 import domain.User;
 
 import java.sql.ResultSet;

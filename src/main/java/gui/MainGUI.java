@@ -1,7 +1,6 @@
 package gui;
 
 import constants.UIConstants;
-import domain.Role;
 import domain.User;
 import gui.sub.BackgroundPanel;
 import lombok.extern.slf4j.Slf4j;

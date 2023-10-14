@@ -3,7 +3,7 @@ package gui;
 import constants.UIConstants;
 import dao.UserDaoInterface;
 import dao.impl.UserDao;
-import domain.Role;
+import domain.enums.Role;
 import domain.User;
 import gui.sub.BackgroundPanel;
 import lombok.extern.slf4j.Slf4j;

@@ -29,6 +29,9 @@ public class CourseDao implements CourseDaoInterface {
         String query = "SELECT * FROM COURSES";
         try (PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet resultSet = stmt.executeQuery()) {
+
+            log.info("Executing SQL query: " + stmt);
+
             while (resultSet.next()) {
                 int courseId = resultSet.getInt("COURSEID");
                 String courseName = resultSet.getString("COURSENAME");
@@ -63,6 +66,9 @@ public class CourseDao implements CourseDaoInterface {
 
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, user.getUserId());
+
+            log.info("Executing SQL query: " + stmt);
+
             ResultSet resultSet = stmt.executeQuery();
             while (resultSet.next()) {
                 int courseId = resultSet.getInt("COURSEID");
