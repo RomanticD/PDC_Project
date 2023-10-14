@@ -26,4 +26,11 @@ public class FrameUtils {
         newFrame.setLocationRelativeTo(null);
         newFrame.setVisible(true);
     }
+
+    public static void showDialog(String message){
+        Object[] options = {"OK"};
+        JOptionPane.showOptionDialog(null, message,
+                "Account Exists", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
+                null, options, options[0]);
+    }
 }

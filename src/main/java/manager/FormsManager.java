@@ -1,13 +1,13 @@
 package manager;
 
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
-import main.PDC_App_NewUI;
+import main.PDC_App;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class FormsManager {
-    private PDC_App_NewUI PDCAppNewUI;
+    private PDC_App PDCAppNewUI;
     private static FormsManager instance;
 
     public static FormsManager getInstance() {
@@ -21,7 +21,7 @@ public class FormsManager {
 
     }
 
-    public void initApplication(PDC_App_NewUI PDCAppNewUI) {
+    public void initApplication(PDC_App PDCAppNewUI) {
         this.PDCAppNewUI = PDCAppNewUI;
     }
 

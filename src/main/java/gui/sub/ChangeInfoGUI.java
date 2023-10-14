@@ -7,6 +7,7 @@ import domain.User;
 import gui.LoginGUI;
 import gui.ProfileGUI;
 import lombok.extern.slf4j.Slf4j;
+import util.FrameUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -166,9 +167,9 @@ public class ChangeInfoGUI extends JFrame {
 
     private void ModifyPassword(String newPassword) {
         userDao.updateUserPassword(user, newPassword);
-        showMessageDialog("Successfully Changed Your Password!", "Warning");
+        FrameUtils.showDialog("Successfully Changed Your Password!");
         ChangeInfoGUI.this.dispose();
-        new LoginGUI().setVisible(true);
+        FrameUtils.disposeCurrentFrameAndCreateNewFrame("PDC Project Group 18", ChangeInfoGUI.this, new LoginGUI());
     }
 
     private boolean validateUserInput(JPasswordField oldPasswordField, JPasswordField newPasswordField, JPasswordField repeatPasswordField) {
@@ -177,12 +178,12 @@ public class ChangeInfoGUI extends JFrame {
         String repeatedNewPassword = String.valueOf(repeatPasswordField.getPassword());
 
         if (!user.getPassword().equals(oldPassword)) {
-            showMessageDialog("Current password is incorrect!", "Warning");
+            FrameUtils.showDialog("Current password is incorrect!");
             ChangeInfoGUI.this.dispose();
             new ChangeInfoGUI("Password", user).setVisible(true);
             return false;
         } else if (!newPassword.equals(repeatedNewPassword)){
-            showMessageDialog("New passwords and repeated one do not match!", "Warning");
+            FrameUtils.showDialog("New passwords and repeated one do not match!");
             ChangeInfoGUI.this.dispose();
             new ChangeInfoGUI("Password", user).setVisible(true);
             return false;
@@ -196,7 +197,7 @@ public class ChangeInfoGUI extends JFrame {
             ChangeInfoGUI.this.dispose();
             new UpdateSuccessGUI(updatedUser);
         }else{
-            showMessageDialog("Invalid Input!", "Warning");
+            FrameUtils.showDialog("Invalid Input!");
         }
     }
 
@@ -206,9 +207,9 @@ public class ChangeInfoGUI extends JFrame {
             ChangeInfoGUI.this.dispose();
             new UpdateSuccessGUI(updatedUser);
         }else if (userDao.isUserExists(newUsername)){
-            showMessageDialog("Username Exists, Please Change a New One!", "Warning");
+            FrameUtils.showDialog("Username Exists, Please Change a New One!");
         } else {
-            showMessageDialog("Invalid Input!", "Warning");
+            FrameUtils.showDialog("Invalid Input!");
         }
     }
 
@@ -218,18 +219,11 @@ public class ChangeInfoGUI extends JFrame {
             ChangeInfoGUI.this.dispose();
             new UpdateSuccessGUI(updatedUser);
         }else{
-            showMessageDialog("Invalid Input!", "Warning");
+            FrameUtils.showDialog("Invalid Input!");
         }
     }
 
     private Boolean validateInput(String text){
         return !text.trim().isEmpty();
-    }
-
-    private void showMessageDialog(String message, String title) {
-        JOptionPane pane = new JOptionPane(message);
-        JDialog dialog = pane.createDialog(title);
-        dialog.setFont(new Font("Dialog", Font.BOLD, 18));
-        dialog.setVisible(true);
     }
 }

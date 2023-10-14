@@ -26,8 +26,8 @@ public class ProfileGUI extends JFrame {
         this.setLocationRelativeTo(null);
         this.user = user;
 
-        //        JPanel backgroundPanel = getBackgroundPanel();
-        JPanel backgroundPanel = new JPanel();
+                JPanel backgroundPanel = getBackgroundPanel();
+//        JPanel backgroundPanel = new JPanel();
         if (backgroundPanel != null) {
             addComponents(backgroundPanel);
         }

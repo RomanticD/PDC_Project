@@ -1,117 +1,76 @@
 package gui;
 
-import constants.UIConstants;
+import com.formdev.flatlaf.FlatClientProperties;
 import dao.UserDaoInterface;
 import dao.impl.UserDao;
-import domain.enums.Role;
 import domain.User;
-import gui.sub.BackgroundPanel;
+import domain.enums.Role;
 import lombok.extern.slf4j.Slf4j;
+import net.miginfocom.swing.MigLayout;
+import util.FrameUtils;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
 @Slf4j
-public class LoginGUI extends JFrame {
+public class LoginGUI extends JPanel {
     private String username;
     private String password;
-    private final UserDaoInterface userDao;
+    private final UserDaoInterface userDao = new UserDao();
 
-    public LoginGUI(){
-        super(UIConstants.APP_NAME);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(UIConstants.LOGIN_FRAME_SIZE[0], UIConstants.LOGIN_FRAME_SIZE[1]);
-        setLocationRelativeTo(null);
-        this.userDao = new UserDao();
-
-        addComponents(Objects.requireNonNull(getBackgroundPanel()));
+    public LoginGUI() {
+        init();
     }
 
-    /**
-     * Get current view's panel
-     * @return Panel with background
-     */
-    private JPanel getBackgroundPanel() {
-        try {
-            BufferedImage backgroundImage = ImageIO.read(new File(UIConstants.LOGIN_BACKGROUND_IMAGE));
-            return new BackgroundPanel(backgroundImage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+    private void init() {
+        setLayout(new MigLayout("fill,insets 20", "[center]", "[center]"));
+        txtUsername = new JTextField();
+        txtPassword = new JPasswordField();
+        chRememberMe = new JCheckBox("Remember me");
+        cmdLogin = new JButton("Login");
+        JPanel panel = new JPanel(new MigLayout("wrap,fillx,insets 35 45 30 45", "fill,250:280"));
+        panel.putClientProperty(FlatClientProperties.STYLE, "" +
+                "arc:20;" +
+                "[light]background:darken(@background,3%);" +
+                "[dark]background:lighten(@background,3%)");
 
-    private void addComponents(JPanel loginPanel){
-        SpringLayout springLayout = new SpringLayout();
-        loginPanel.setLayout(springLayout);
+        txtPassword.putClientProperty(FlatClientProperties.STYLE, "" +
+                "showRevealButton:true");
+        cmdLogin.putClientProperty(FlatClientProperties.STYLE, "" +
+                "[light]background:darken(@background,10%);" +
+                "[dark]background:lighten(@background,10%);" +
+                "borderWidth:0;" +
+                "focusWidth:0;" +
+                "innerFocusWidth:0");
 
-        // username
-        JLabel usernameLabel = new JLabel("Username: ");
-        usernameLabel.setFont(new Font("Dialog", Font.BOLD, 18));
+        txtUsername.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your username or email");
+        txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your password");
 
-        JTextField usernameField = new JTextField(UIConstants.LOGIN_TEXT_FIELD_SIZE);
-        usernameField.setFont(new Font("Dialog", Font.BOLD, 18));
+        JLabel lbTitle = new JLabel("Welcome back!");
+        JLabel description = new JLabel("Please sign in to access your account");
+        lbTitle.putClientProperty(FlatClientProperties.STYLE, "" +
+                "font:bold +10");
+        description.putClientProperty(FlatClientProperties.STYLE, "" +
+                "[light]foreground:lighten(@foreground,30%);" +
+                "[dark]foreground:darken(@foreground,30%)");
 
-        springLayout.putConstraint(SpringLayout.WEST, usernameLabel, 35, SpringLayout.WEST, loginPanel);
-        springLayout.putConstraint(SpringLayout.NORTH, usernameLabel, 85, SpringLayout.NORTH, loginPanel);
-        springLayout.putConstraint(SpringLayout.WEST, usernameField, 135, SpringLayout.WEST, loginPanel);
-        springLayout.putConstraint(SpringLayout.EAST, usernameField, -35, SpringLayout.EAST, loginPanel);
-        springLayout.putConstraint(SpringLayout.NORTH, usernameField, 85, SpringLayout.NORTH, loginPanel);
+        ActionListener loginListener = e -> performLoginAction(txtUsername, txtPassword);
+        cmdLogin.addActionListener(loginListener);
 
-        loginPanel.add(usernameLabel);
-        loginPanel.add(usernameField);
-
-        // password
-        JLabel passwordLabel = new JLabel("Password: ");
-        passwordLabel.setFont(new Font("Dialog", Font.BOLD, 18));
-
-        JPasswordField passwordField = new JPasswordField(UIConstants.LOGIN_TEXT_FIELD_SIZE);
-        passwordField.setFont(new Font("Dialog", Font.BOLD, 18));
-
-        springLayout.putConstraint(SpringLayout.WEST, passwordLabel, 35, SpringLayout.WEST, loginPanel);
-        springLayout.putConstraint(SpringLayout.NORTH, passwordLabel, 135, SpringLayout.NORTH, loginPanel);
-        springLayout.putConstraint(SpringLayout.WEST, passwordField, 135, SpringLayout.WEST, loginPanel);
-        springLayout.putConstraint(SpringLayout.EAST, passwordField, -35, SpringLayout.EAST, loginPanel);
-        springLayout.putConstraint(SpringLayout.NORTH, passwordField, 135, SpringLayout.NORTH, loginPanel);
-
-        loginPanel.add(passwordLabel);
-        loginPanel.add(passwordField);
-
-        ActionListener loginListener = e -> performLoginAction(usernameField, passwordField);
-
-        // adding action listeners for pressing enter key
-        usernameField.addActionListener(loginListener);
-        passwordField.addActionListener(loginListener);
-
-        // login button
-        JButton loginButton = new JButton("Login");
-        loginButton.setFont(new Font("Dialog", Font.BOLD, 18));
-        springLayout.putConstraint(SpringLayout.WEST, loginButton, 75, SpringLayout.WEST, loginPanel);
-        springLayout.putConstraint(SpringLayout.NORTH, loginButton, 200, SpringLayout.NORTH, loginPanel);
-        loginButton.addActionListener(loginListener);
-        loginPanel.add(loginButton);
-
-        // register button
-        JButton registerButton = new JButton("Register");
-        registerButton.setFont(new Font("Dialog", Font.BOLD, 18));
-        springLayout.putConstraint(SpringLayout.EAST, registerButton, -75, SpringLayout.EAST, loginPanel);
-        springLayout.putConstraint(SpringLayout.NORTH, registerButton, 200, SpringLayout.NORTH, loginPanel);
-        registerButton.addActionListener((ActionEvent e) -> {
-            new RegisterGUI().setVisible(true);
-            LoginGUI.this.dispose();
-        });
-        loginPanel.add(registerButton);
-
-        this.getContentPane().add(loginPanel);
+        panel.add(lbTitle);
+        panel.add(description);
+        panel.add(new JLabel("Username"), "gapy 8");
+        panel.add(txtUsername);
+        panel.add(new JLabel("Password"), "gapy 8");
+        panel.add(txtPassword);
+        panel.add(chRememberMe, "grow 0");
+        panel.add(cmdLogin, "gapy 10");
+        panel.add(createSignupLabel(), "gapy 10");
+        add(panel);
     }
 
     private void performLoginAction(JTextField usernameField, JPasswordField passwordField) {
@@ -130,19 +89,44 @@ public class LoginGUI extends JFrame {
                         .userId(rs.getInt("user_id"))
                         .build();
 
-                LoginGUI.this.removeNotify();
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+                frame.dispose();
                 new MainGUI(currentUser);
                 log.info("SUCCESSFULLY LOGIN! Current User: " + currentUser.getName());
             } else {
-                JOptionPane pane = new JOptionPane("username or password incorrect!");
-                JDialog dialog = pane.createDialog("Warning");
-                dialog.setFont(new Font("Dialog", Font.BOLD, 18));
                 log.error("LOGIN FAILED(check your password and username))");
-                dialog.setVisible(true);
+                FrameUtils.showDialog("Username or password is incorrect!");
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
             log.error("LOGIN FAILED(sql Exception) ");
         }
     }
+
+    private Component createSignupLabel() {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        panel.putClientProperty(FlatClientProperties.STYLE, "" +
+                "background:null");
+        JButton cmdRegister = new JButton("<html><a href=\"#\">Sign up</a></html>");
+        cmdRegister.putClientProperty(FlatClientProperties.STYLE, "" +
+                "border:3,3,3,3");
+        cmdRegister.setContentAreaFilled(false);
+        cmdRegister.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        cmdRegister.addActionListener(e -> {
+            FrameUtils.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
+        });
+        JLabel label = new JLabel("Don't have an account ?");
+        label.putClientProperty(FlatClientProperties.STYLE, "" +
+                "[light]foreground:lighten(@foreground,30%);" +
+                "[dark]foreground:darken(@foreground,30%)");
+        panel.add(label);
+        panel.add(cmdRegister);
+        return panel;
+    }
+
+
+    private JTextField txtUsername;
+    private JPasswordField txtPassword;
+    private JCheckBox chRememberMe;
+    private JButton cmdLogin;
 }

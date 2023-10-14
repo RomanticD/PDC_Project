@@ -1,19 +1,34 @@
 package main;
 
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import gui.LoginGUI;
-import lombok.extern.slf4j.Slf4j;
+import manager.FormsManager;
 
+import javax.swing.*;
 import java.awt.*;
 
-@Slf4j
-public class PDC_App {
+public class PDC_App extends JFrame {
+
+    public PDC_App() {
+        init();
+    }
+
+    private void init() {
+        setTitle("PDC Project Group 18");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(new Dimension(400, 420));
+        setLocationRelativeTo(null);
+        setContentPane(new LoginGUI());
+        FormsManager.getInstance().initApplication(this);
+    }
+
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                log.info("Application Started.....");
-                log.info("Group 18 Members: Junhua Di, Yicheng Wang, Yuliang Sun");
-                new LoginGUI().setVisible(true);
-            }
-        });
+        FlatRobotoFont.install();
+        FlatLaf.registerCustomDefaultsSource("raven.themes");
+        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
+        FlatMacDarkLaf.setup();
+        EventQueue.invokeLater(() -> new PDC_App().setVisible(true));
     }
 }

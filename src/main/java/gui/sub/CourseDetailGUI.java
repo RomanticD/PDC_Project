@@ -9,6 +9,7 @@ import domain.enums.CourseDetailPageFrom;
 import gui.CourseGUI;
 import gui.UserCoursesGUI;
 import lombok.extern.slf4j.Slf4j;
+import util.FrameUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -39,8 +40,8 @@ public class CourseDetailGUI extends JFrame {
         this.courseDetailPageFrom = courseDetailPageFrom;
         this.courseSelectionDao = new CourseSelectionDao();
 
-//        JPanel backgroundPanel = getBackgroundPanel();
-        JPanel backgroundPanel = new JPanel();
+        JPanel backgroundPanel = getBackgroundPanel();
+//        JPanel backgroundPanel = new JPanel();
         if (backgroundPanel != null) {
             addComponents(backgroundPanel);
         }
@@ -136,11 +137,7 @@ public class CourseDetailGUI extends JFrame {
             new SelectOrQuitCourseSuccessGUI(user, course, courseDetailPageFrom);
             log.info("Successfully quit course. Course name:  " + course.getCourseName());
         } else {
-            JOptionPane pane = new JOptionPane("Failed to quit!");
-            JDialog dialog = pane.createDialog("Warning");
-            dialog.setFont(new Font("Dialog", Font.BOLD, 18));
-            dialog.setVisible(true);
-
+            FrameUtils.showDialog("Failed to quit!");
             log.error("quit course:  " + course.getCourseName() + " Failed!");
         }
     }
@@ -153,11 +150,7 @@ public class CourseDetailGUI extends JFrame {
                 new SelectOrQuitCourseSuccessGUI(user, course, courseDetailPageFrom);
                 log.info("Successfully re-enrolled user in course. Course name:  " + course.getCourseName());
             } else {
-                JOptionPane pane = new JOptionPane("Failed to re-enrolled!");
-                JDialog dialog = pane.createDialog("Warning");
-                dialog.setFont(new Font("Dialog", Font.BOLD, 18));
-                dialog.setVisible(true);
-
+                FrameUtils.showDialog("Failed to re-enrolled!");
                 log.error("Re-enrolled user in course. Course name:  " + course.getCourseName() + " Failed!");
             }
         } else {
@@ -167,11 +160,7 @@ public class CourseDetailGUI extends JFrame {
                 new SelectOrQuitCourseSuccessGUI(user, course, courseDetailPageFrom);
                 log.info("Successfully selecting course. Course name: " + course.getCourseName());
             } else {
-                JOptionPane pane = new JOptionPane("Failed to select!");
-                JDialog dialog = pane.createDialog("Warning");
-                dialog.setFont(new Font("Dialog", Font.BOLD, 18));
-                dialog.setVisible(true);
-
+                FrameUtils.showDialog("Failed to select!");
                 log.error("Selecting course. Course name:  " + course.getCourseName() + " Failed!");
             }
         }
