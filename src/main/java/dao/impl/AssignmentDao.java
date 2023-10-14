@@ -1,7 +1,7 @@
 package dao.impl;
 
 import dao.AssignmentDaoInterface;
-import db.DatabaseConnectionManager;
+import manager.DatabaseConnectionManager;
 import java.sql.*;
 import domain.User;
 

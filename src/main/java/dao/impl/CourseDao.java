@@ -1,7 +1,7 @@
 package dao.impl;
 
 import dao.CourseDaoInterface;
-import db.DatabaseConnectionManager;
+import manager.DatabaseConnectionManager;
 import domain.Course;
 import domain.User;
 import lombok.extern.slf4j.Slf4j;

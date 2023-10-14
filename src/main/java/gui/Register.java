@@ -1,0 +1,219 @@
+package gui;
+
+import com.formdev.flatlaf.FlatClientProperties;
+import dao.UserDaoInterface;
+import dao.impl.UserDao;
+import domain.User;
+import domain.enums.Role;
+import gui.sub.PasswordStrengthStatus;
+import gui.sub.RegisterSuccessGUI;
+import lombok.extern.slf4j.Slf4j;
+import manager.FormsManager;
+import net.miginfocom.swing.MigLayout;
+import util.FrameUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.sql.SQLException;
+
+@Slf4j
+public class Register extends JPanel {
+    private final UserDaoInterface userDao = new UserDao();
+
+    public Register() {
+        init();
+    }
+
+    private void init() {
+        setLayout(new MigLayout("fill,insets 20", "[center]", "[center]"));
+        txtFirstName = new JTextField();
+        txtLastName = new JTextField();
+        txtUsername = new JTextField();
+        txtPassword = new JPasswordField();
+        txtEmail = new JTextField();
+        txtConfirmPassword = new JPasswordField();
+        cmdRegister = new JButton("Sign Up");
+        passwordStrengthStatus = new PasswordStrengthStatus();
+
+        JPanel panel = new JPanel(new MigLayout("wrap,fillx,insets 35 45 30 45", "[fill,360]"));
+        panel.putClientProperty(FlatClientProperties.STYLE, "" +
+                "arc:20;" +
+                "[light]background:darken(@background,3%);" +
+                "[dark]background:lighten(@background,3%)");
+
+        txtFirstName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "First name");
+        txtLastName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Last name");
+        txtUsername.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your username");
+        txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your email");
+        txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your password");
+        txtConfirmPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Re-enter your password");
+        txtPassword.putClientProperty(FlatClientProperties.STYLE, "" +
+                "showRevealButton:true");
+        txtConfirmPassword.putClientProperty(FlatClientProperties.STYLE, "" +
+                "showRevealButton:true");
+
+        cmdRegister.putClientProperty(FlatClientProperties.STYLE, "" +
+                "[light]background:darken(@background,10%);" +
+                "[dark]background:lighten(@background,10%);" +
+                "borderWidth:0;" +
+                "focusWidth:0;" +
+                "innerFocusWidth:0");
+
+        JLabel lbTitle = new JLabel("Welcome to PDC Project Management System!");
+        JLabel description = new JLabel("Check out our group's work. Join us now and revolutionize your workflow!");
+        lbTitle.putClientProperty(FlatClientProperties.STYLE, "" +
+                "font:bold +10");
+        description.putClientProperty(FlatClientProperties.STYLE, "" +
+                "[light]foreground:lighten(@foreground,30%);" +
+                "[dark]foreground:darken(@foreground,30%)");
+
+        passwordStrengthStatus.initPasswordField(txtPassword);
+
+        cmdRegister.addActionListener(e -> {
+            String name = txtFirstName.getText() + " " + txtLastName.getText();
+            String username = txtUsername.getText();
+            String password = String.valueOf(txtPassword.getPassword());
+            String repeatedPassword = String.valueOf(txtConfirmPassword.getPassword());
+            String email = txtEmail.getText();
+            Boolean isAdmin = isSelectedRoleAdmin();
+
+            User newUser = User.builder()
+                    .name(name)
+                    .username(username)
+                    .password(password)
+                    .email(email)
+                    .build();
+
+            if (isAdmin) {
+                newUser.setRole(Role.ADMIN);
+            }else{
+                newUser.setRole(Role.USER);
+            }
+
+            try {
+                if (validateInput(username, password, repeatedPassword)) {
+                    if (!userDao.isUserExists(username)) {
+                        if (userDao.createUser(newUser)) {
+                            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+                            frame.dispose();
+                            new RegisterSuccessGUI();
+                        }
+                    } else {
+                        Object[] options = {"OK"};
+                        JOptionPane.showOptionDialog(null, "The account has existed!",
+                                "Account Exists", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
+                                null, options, options[0]);
+
+                        log.warn("Account Existed!");
+                        FrameUtils.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new Register());
+                    }
+                }
+            } catch (SQLException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+            Register.this.removeNotify();
+        });
+
+
+        panel.add(lbTitle);
+        panel.add(description);
+        panel.add(new JLabel("Full Name"), "gapy 10");
+        panel.add(txtFirstName, "split 2");
+        panel.add(txtLastName);
+        panel.add(new JLabel("System Role"), "gapy 8");
+        panel.add(createRolePanel());
+        panel.add(new JSeparator(), "gapy 5 5");
+        panel.add(new JLabel("Username"));
+        panel.add(txtUsername, "wrap");
+        panel.add(new JLabel("Email"));
+        panel.add(txtEmail, "wrap");
+        panel.add(new JLabel("Password"), "gapy 8");
+        panel.add(txtPassword);
+        panel.add(passwordStrengthStatus,"gapy 0");
+        panel.add(new JLabel("Confirm Password"), "gapy 0");
+        panel.add(txtConfirmPassword);
+        panel.add(cmdRegister, "gapy 20");
+        panel.add(createLoginLabel(), "gapy 10");
+        add(panel);
+    }
+
+    private boolean validateInput(String username, String password, String repeatedPassword) throws SQLException, ClassNotFoundException {
+        if (username.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, " username is empty! ",
+                    "Account", JOptionPane.ERROR_MESSAGE);
+            log.warn("Invalid Input Username");
+            FrameUtils.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new Register());
+            return false;
+        }
+
+        if (password.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Password is empty!",
+                    "Password is empty", JOptionPane.ERROR_MESSAGE);
+            log.warn("Invalid Input Password");
+            FrameUtils.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new Register());
+            return false;
+        }
+
+        if (!password.equals(repeatedPassword)) {
+            JOptionPane.showMessageDialog(null, " Passwords do not match！",
+                    " The password is inconsistent ", JOptionPane.ERROR_MESSAGE);
+            log.warn("Password No Match!");
+            FrameUtils.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new Register());
+            return false;
+        }
+        return true;
+    }
+
+
+    private Component createRolePanel() {
+        JPanel panel = new JPanel(new MigLayout("insets 0"));
+        panel.putClientProperty(FlatClientProperties.STYLE, "" +
+                "background:null");
+        jrUser = new JRadioButton("USER");
+        jrAdmin = new JRadioButton("ADMIN");
+        groupRole = new ButtonGroup();
+        groupRole.add(jrUser);
+        groupRole.add(jrAdmin);
+        jrUser.setSelected(true);
+        panel.add(jrUser);
+        panel.add(jrAdmin);
+        return panel;
+    }
+
+    private Component createLoginLabel() {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        panel.putClientProperty(FlatClientProperties.STYLE, "" +
+                "background:null");
+        JButton cmdLogin = new JButton("<html><a href=\"#\">Sign in here</a></html>");
+        cmdLogin.putClientProperty(FlatClientProperties.STYLE, "" +
+                "border:3,3,3,3");
+        cmdLogin.setContentAreaFilled(false);
+        cmdLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        cmdLogin.addActionListener(e -> {
+            FrameUtils.disposeCurrentFrameAndCreateNewFrame("PDC Project Group 18", Register.this, new Login());
+        });
+        JLabel label = new JLabel("Already have an account ?");
+        label.putClientProperty(FlatClientProperties.STYLE, "" +
+                "[light]foreground:lighten(@foreground,30%);" +
+                "[dark]foreground:darken(@foreground,30%)");
+        panel.add(label);
+        panel.add(cmdLogin);
+        return panel;
+    }
+
+    public boolean isSelectedRoleAdmin() {
+        return jrAdmin.isSelected();
+    }
+
+    private JTextField txtFirstName;
+    private JTextField txtLastName;
+    private JRadioButton jrUser;
+    private JRadioButton jrAdmin;
+    private JTextField txtUsername;
+    private JTextField txtEmail;
+    private JPasswordField txtPassword;
+    private JPasswordField txtConfirmPassword;
+    private ButtonGroup groupRole;
+    private JButton cmdRegister;
+    private PasswordStrengthStatus passwordStrengthStatus;
+}

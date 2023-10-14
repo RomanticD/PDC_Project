@@ -39,7 +39,8 @@ public class CourseDetailGUI extends JFrame {
         this.courseDetailPageFrom = courseDetailPageFrom;
         this.courseSelectionDao = new CourseSelectionDao();
 
-        JPanel backgroundPanel = getBackgroundPanel();
+//        JPanel backgroundPanel = getBackgroundPanel();
+        JPanel backgroundPanel = new JPanel();
         if (backgroundPanel != null) {
             addComponents(backgroundPanel);
         }

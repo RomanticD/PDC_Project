@@ -1,7 +1,7 @@
 package dao.impl;
 
 import dao.UserDaoInterface;
-import db.DatabaseConnectionManager;
+import manager.DatabaseConnectionManager;
 import domain.enums.Role;
 import domain.User;
 import lombok.extern.slf4j.Slf4j;

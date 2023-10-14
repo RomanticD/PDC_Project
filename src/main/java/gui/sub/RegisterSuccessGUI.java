@@ -1,8 +1,11 @@
 package gui.sub;
 
 import constants.UIConstants;
+import gui.Login;
 import gui.LoginGUI;
 import lombok.extern.slf4j.Slf4j;
+import manager.FormsManager;
+import util.FrameUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -51,7 +54,8 @@ public class RegisterSuccessGUI {
         JButton returnButton = new JButton("Return to Login Page");
         returnButton.setFont(new Font("Dialog", Font.BOLD, 15));;
         returnButton.addActionListener((ActionEvent e) -> {
-            new LoginGUI().setVisible(true);
+            FrameUtils.disposeCurrentFrameAndCreateNewFrame("PDC Project Group 18", frame, new Login());
+
             frame.removeNotify();
         });
         returnButton.setPreferredSize(new Dimension(50, 50));
