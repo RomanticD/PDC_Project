@@ -5,6 +5,7 @@ import gui.sub.ChangeInfoGUI;
 import domain.User;
 import gui.sub.BackgroundPanel;
 import lombok.extern.slf4j.Slf4j;
+import util.FrameUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -47,15 +48,7 @@ public class ProfileGUI extends JFrame {
         SpringLayout springLayout = new SpringLayout();
         panel.setLayout(springLayout);
 
-        JButton backButton = new JButton("Back");
-        backButton.setFont(new Font("Dialog", Font.BOLD, 15));
-        springLayout.putConstraint(SpringLayout.WEST, backButton, 5, SpringLayout.WEST, panel);
-        springLayout.putConstraint(SpringLayout.NORTH, backButton, 5, SpringLayout.NORTH, panel);
-        backButton.addActionListener(e -> {
-            ProfileGUI.this.dispose();
-            new MainGUI(user);
-        });
-        panel.add(backButton);
+        FrameUtils.addBackButton(panel, springLayout, ProfileGUI.this, MainGUI.class, user);
 
         String[] labels = {"Name:", "Username:", "E-mail:", "Role:"};
         JTextArea[] textAreas = {

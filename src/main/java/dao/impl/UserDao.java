@@ -170,7 +170,7 @@ public class UserDao implements UserDaoInterface {
     }
 
     @Override
-    public User getUserByName(String username) {
+    public User getUserByUsername(String username) {
         String sql = "SELECT * FROM user_profile WHERE username = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
@@ -179,6 +179,7 @@ public class UserDao implements UserDaoInterface {
 
             if (resultSet.next()) {
                 User user = User.builder()
+                        .userId(resultSet.getInt("user_id"))
                         .username(resultSet.getString("username"))
                         .name(resultSet.getString("name"))
                         .password(resultSet.getString("password"))

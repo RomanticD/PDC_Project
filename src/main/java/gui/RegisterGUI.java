@@ -183,7 +183,7 @@ public class RegisterGUI extends JPanel {
         cmdLogin.setContentAreaFilled(false);
         cmdLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
         cmdLogin.addActionListener(e -> {
-            FrameUtils.disposeCurrentFrameAndCreateNewFrame("PDC Project Group 18", RegisterGUI.this, new LoginGUI());
+            FrameUtils.disposeCurrentFrameAndCreateNewFrame("PDC Project Group 18", RegisterGUI.this, new LoginGUI(new User()));
         });
         JLabel label = new JLabel("Already have an account ?");
         label.putClientProperty(FlatClientProperties.STYLE, "" +

@@ -53,15 +53,7 @@ public class ChangeInfoGUI extends JFrame {
         SpringLayout springLayout = new SpringLayout();
         panel.setLayout(springLayout);
 
-        JButton backButton = new JButton("Back");
-        backButton.setFont(new Font("Dialog", Font.BOLD, 15));
-        springLayout.putConstraint(SpringLayout.WEST, backButton, 5, SpringLayout.WEST, panel);
-        springLayout.putConstraint(SpringLayout.NORTH, backButton, 5, SpringLayout.NORTH, panel);
-        backButton.addActionListener(e -> {
-            ChangeInfoGUI.this.dispose();
-            new ProfileGUI(user);
-        });
-        panel.add(backButton);
+        FrameUtils.addBackButton(panel, springLayout, ChangeInfoGUI.this, ProfileGUI.class, user);
 
         if (!this.infoToModify.equals("Password")){
             JLabel label = new JLabel("Enter new " + infoToModify + " :");
@@ -166,10 +158,10 @@ public class ChangeInfoGUI extends JFrame {
     }
 
     private void ModifyPassword(String newPassword) {
-        userDao.updateUserPassword(user, newPassword);
+        this.user = userDao.updateUserPassword(user, newPassword);
         FrameUtils.showDialog("Successfully Changed Your Password!");
         ChangeInfoGUI.this.dispose();
-        FrameUtils.disposeCurrentFrameAndCreateNewFrame("PDC Project Group 18", ChangeInfoGUI.this, new LoginGUI());
+        FrameUtils.disposeCurrentFrameAndCreateNewFrame("PDC Project Group 18", ChangeInfoGUI.this, new LoginGUI(user));
     }
 
     private boolean validateUserInput(JPasswordField oldPasswordField, JPasswordField newPasswordField, JPasswordField repeatPasswordField) {

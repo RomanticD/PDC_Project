@@ -1,8 +1,11 @@
 package gui;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import dao.PreferenceDaoInterface;
 import dao.UserDaoInterface;
+import dao.impl.PreferenceDao;
 import dao.impl.UserDao;
+import domain.Preference;
 import domain.User;
 import domain.enums.Role;
 import lombok.extern.slf4j.Slf4j;
@@ -18,19 +21,42 @@ import java.util.Objects;
 
 @Slf4j
 public class LoginGUI extends JPanel {
+    private User user;
     private String username;
     private String password;
     private final UserDaoInterface userDao = new UserDao();
+    private final PreferenceDaoInterface preferenceDao = new PreferenceDao();
 
-    public LoginGUI() {
+    public LoginGUI(User user) {
+        this.user = user;
         init();
     }
 
     private void init() {
         setLayout(new MigLayout("fill,insets 20", "[center]", "[center]"));
-        txtUsername = new JTextField();
-        txtPassword = new JPasswordField();
-        chRememberMe = new JCheckBox("Remember me");
+
+        if (user.getUserId() == 0) {
+            txtUsername = new JTextField();
+            txtPassword = new JPasswordField();
+            chRememberMe = new JCheckBox("Remember me");
+        } else {
+            Preference preferenceByUserId = preferenceDao.getPreferenceByUserId(user.getUserId());
+            if (preferenceByUserId != null) {
+                chRememberMe = new JCheckBox("Remember me", preferenceByUserId.isRememberMe());
+                if (chRememberMe.isSelected()){
+                    txtUsername = new JTextField(preferenceByUserId.getStoredUsername());
+                    txtPassword = new JPasswordField(preferenceByUserId.getStoredPassword());
+                }else{
+                    txtUsername = new JTextField();
+                    txtPassword = new JPasswordField();
+                }
+            } else {
+                txtUsername = new JTextField();
+                txtPassword = new JPasswordField();
+                chRememberMe = new JCheckBox("Remember me");
+            }
+        }
+
         cmdLogin = new JButton("Login");
         JPanel panel = new JPanel(new MigLayout("wrap,fillx,insets 35 45 30 45", "fill,250:280"));
         panel.putClientProperty(FlatClientProperties.STYLE, "" +
@@ -74,8 +100,21 @@ public class LoginGUI extends JPanel {
     }
 
     private void performLoginAction(JTextField usernameField, JPasswordField passwordField) {
+        boolean rememberMe = chRememberMe.isSelected();
         username = usernameField.getText();
         password = passwordField.getText();
+
+        this.user = userDao.getUserByUsername(username);
+
+        if (hasCurrentUserPreferenceStored()){
+            if (rememberMe){
+                setRememberStatusToTrue(username, password);
+            }else{
+                setRememberStatusToFalse(username, password);
+            }
+        }else if (rememberMe){
+            storeNewPreference(username, password);
+        }
 
         ResultSet rs = userDao.validateUser(username, password);
         try {
@@ -100,6 +139,51 @@ public class LoginGUI extends JPanel {
         } catch (SQLException ex) {
             ex.printStackTrace();
             log.error("LOGIN FAILED(sql Exception) ");
+        }
+    }
+
+    private void storeNewPreference(String username, String password) {
+        if (user.getUserId() != 0){
+            Preference preference = Preference.builder()
+                    .userId(user.getUserId())
+                    .storedUsername(username)
+                    .storedPassword(password)
+                    .rememberMe(true)
+                    .build();
+
+            preferenceDao.setNewUserPreference(preference);
+        }
+    }
+
+    private void setRememberStatusToFalse(String username, String password) {
+        setRememberStatus(username, password, false);
+    }
+
+    private void setRememberStatusToTrue(String username, String password) {
+        setRememberStatus(username, password, true);
+    }
+
+    private void setRememberStatus(String username, String password, boolean status) {
+        Preference preference = Preference.builder()
+                .userId(user.getUserId())
+                .storedUsername(username)
+                .storedPassword(password)
+                .rememberMe(status)
+                .build();
+
+        preferenceDao.updatePreference(preference);
+    }
+
+    private boolean hasCurrentUserPreferenceStored() {
+        if (user.getUserId() == 0){
+            return false;
+        }else {
+            Preference preferenceByUserId = preferenceDao.getPreferenceByUserId(user.getUserId());
+            if (preferenceByUserId == null){
+                return false;
+            } else {
+                return true;
+            }
         }
     }
 

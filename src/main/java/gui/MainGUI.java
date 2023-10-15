@@ -4,6 +4,7 @@ import constants.UIConstants;
 import domain.User;
 import gui.sub.BackgroundPanel;
 import lombok.extern.slf4j.Slf4j;
+import util.FrameUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -45,6 +46,9 @@ public class MainGUI extends JFrame {
     private void addComponents(JPanel panel) {
         SpringLayout springLayout = new SpringLayout();
         panel.setLayout(springLayout);
+
+        ActionListener backToLoginGUI = e -> backToLoginGUI();
+        FrameUtils.addBackButtonWithCustomAction(panel, springLayout, backToLoginGUI);
 
         JButton myProfileButton = new JButton("Profile");
         myProfileButton.setFont(new Font("Dialog", Font.BOLD, 20));
@@ -98,5 +102,9 @@ public class MainGUI extends JFrame {
         });
 
         this.getContentPane().add(panel);
+    }
+
+    private void backToLoginGUI() {
+        FrameUtils.disposeCurrentFrameAndCreateNewFrame("PDC Project Group 18", MainGUI.this, new LoginGUI(user));
     }
 }

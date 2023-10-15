@@ -63,25 +63,8 @@ public class CourseDetailGUI extends JFrame {
         SpringLayout springLayout = new SpringLayout();
         panel.setLayout(springLayout);
 
-        JButton backButton = new JButton("Back");
-        backButton.setFont(new Font("Dialog", Font.BOLD, 15));
-        springLayout.putConstraint(SpringLayout.WEST, backButton, 5, SpringLayout.WEST, panel);
-        springLayout.putConstraint(SpringLayout.NORTH, backButton, 5, SpringLayout.NORTH, panel);
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CourseDetailGUI.this.dispose();
-                switch (courseDetailPageFrom){
-                    case COURSE_PAGE: new CourseGUI(user);
-                        break;
-                    case USER_COURSE_PAGE: new UserCoursesGUI(user);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-        panel.add(backButton);
+        ActionListener backToSpecificGUI = e -> backToSpecificGUI();
+        FrameUtils.addBackButtonWithCustomAction(panel, springLayout, backToSpecificGUI);
 
         String[] labels = {"Course ID:", "Course Name:", "Course Instructor:", "Course Description:", "Enrolled:"};
         JTextArea[] textAreas = {
@@ -128,6 +111,18 @@ public class CourseDetailGUI extends JFrame {
         }
 
         getContentPane().add(panel);
+    }
+
+    private void backToSpecificGUI() {
+        CourseDetailGUI.this.dispose();
+        switch (courseDetailPageFrom){
+            case COURSE_PAGE: new CourseGUI(user);
+                break;
+            case USER_COURSE_PAGE: new UserCoursesGUI(user);
+                break;
+            default:
+                break;
+        }
     }
 
     private void performQuit() {
