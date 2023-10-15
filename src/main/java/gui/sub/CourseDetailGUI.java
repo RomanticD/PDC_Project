@@ -129,7 +129,7 @@ public class CourseDetailGUI extends JFrame {
         boolean quit = quitCourse();
         if (quit){
             CourseDetailGUI.this.dispose();
-            new SelectOrQuitCourseSuccessGUI(user, course, courseDetailPageFrom);
+            new SelectOrQuitCourseSuccessGUI(new JFrame(), user, course, courseDetailPageFrom);
             log.info("Successfully quit course. Course name:  " + course.getCourseName());
         } else {
             FrameUtils.showDialog("Failed to quit!");
@@ -142,7 +142,7 @@ public class CourseDetailGUI extends JFrame {
             boolean success = reenrolledUserInCourse();
             if (success){
                 CourseDetailGUI.this.dispose();
-                new SelectOrQuitCourseSuccessGUI(user, course, courseDetailPageFrom);
+                new SelectOrQuitCourseSuccessGUI(new JFrame(), user, course, courseDetailPageFrom);
                 log.info("Successfully re-enrolled user in course. Course name:  " + course.getCourseName());
             } else {
                 FrameUtils.showDialog("Failed to re-enrolled!");
@@ -152,7 +152,7 @@ public class CourseDetailGUI extends JFrame {
             boolean success = setUserEnrolled();
             if (success){
                 CourseDetailGUI.this.dispose();
-                new SelectOrQuitCourseSuccessGUI(user, course, courseDetailPageFrom);
+                new SelectOrQuitCourseSuccessGUI(new JFrame(), user, course, courseDetailPageFrom);
                 log.info("Successfully selecting course. Course name: " + course.getCourseName());
             } else {
                 FrameUtils.showDialog("Failed to select!");

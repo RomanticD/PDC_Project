@@ -95,7 +95,7 @@ public class RegisterGUI extends JPanel {
                         if (userDao.createUser(newUser)) {
                             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
                             frame.dispose();
-                            new RegisterSuccessGUI();
+                            new RegisterSuccessGUI(new JFrame());
                         }
                     } else {
                         FrameUtils.showDialog("The account has existed!");

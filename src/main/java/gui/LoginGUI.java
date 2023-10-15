@@ -105,6 +105,11 @@ public class LoginGUI extends JPanel {
         password = passwordField.getText();
 
         this.user = userDao.getUserByUsername(username);
+        if (user == null) {
+            FrameUtils.showDialog("Account Not Exists!");
+            usernameField.setText("");
+            passwordField.setText("");
+        }
 
         if (hasCurrentUserPreferenceStored()){
             if (rememberMe){

@@ -20,8 +20,8 @@ public class BaseSuccessGUI {
 
     private final ActionListener returnButtonAction;
 
-    public BaseSuccessGUI(String backgroundPath, String successMessage, String returnButtonMessage, ActionListener returnButtonAction) {
-        this.frame = new JFrame();
+    public BaseSuccessGUI(JFrame frame, String backgroundPath, String successMessage, String returnButtonMessage, ActionListener returnButtonAction) {
+        this.frame = frame;
         this.backgroundPath = backgroundPath;
         this.successMessage = successMessage;
         this.returnButtonMessage = returnButtonMessage;
@@ -60,6 +60,7 @@ public class BaseSuccessGUI {
         returnButton.setFont(new Font("Dialog", Font.BOLD, 15));;
         returnButton.addActionListener(returnButtonAction);
         returnButton.addActionListener(e -> {
+            frame.removeNotify();
             frame.dispose();
         });
 
