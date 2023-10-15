@@ -8,13 +8,13 @@ import domain.User;
 import domain.enums.CourseDetailPageFrom;
 import gui.CourseGUI;
 import gui.UserCoursesGUI;
+import gui.sub.success.SelectOrQuitCourseSuccessGUI;
 import lombok.extern.slf4j.Slf4j;
 import util.FrameUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;

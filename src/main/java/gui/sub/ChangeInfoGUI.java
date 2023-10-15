@@ -6,6 +6,7 @@ import dao.impl.UserDao;
 import domain.User;
 import gui.LoginGUI;
 import gui.ProfileGUI;
+import gui.sub.success.UpdateSuccessGUI;
 import lombok.extern.slf4j.Slf4j;
 import util.FrameUtils;
 

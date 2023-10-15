@@ -6,7 +6,7 @@ import dao.impl.UserDao;
 import domain.User;
 import domain.enums.Role;
 import gui.sub.PasswordStrengthStatus;
-import gui.sub.RegisterSuccessGUI;
+import gui.sub.success.RegisterSuccessGUI;
 import lombok.extern.slf4j.Slf4j;
 import net.miginfocom.swing.MigLayout;
 import util.FrameUtils;
