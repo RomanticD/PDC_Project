@@ -1,5 +1,6 @@
 package gui;
 
+import constants.ExportConstants;
 import dao.CourseDaoInterface;
 import dao.impl.CourseDao;
 import domain.Course;
@@ -7,9 +8,12 @@ import domain.User;
 import domain.enums.CourseDetailPageFrom;
 import gui.sub.CourseDetailGUI;
 import lombok.extern.slf4j.Slf4j;
+import util.FrameUtils;
+import util.MethodUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 @Slf4j
@@ -44,6 +48,12 @@ public class UserCoursesGUI extends JFrame{
             new CourseGUI(user);
         });
 
+        ActionListener exportAction = e -> performExport();
+        JButton exportButton = new JButton("Export My Course Info");
+        exportButton.setFont(new Font("Dialog", Font.BOLD, 15));
+        exportButton.addActionListener(exportAction);
+
+        topPanel.add(exportButton, BorderLayout.EAST);
         topPanel.add(backButton, BorderLayout.WEST);
         mainPanel.add(topPanel, BorderLayout.NORTH);
 
@@ -51,6 +61,11 @@ public class UserCoursesGUI extends JFrame{
         mainPanel.add(js, BorderLayout.CENTER);
 
         this.setContentPane(mainPanel);
+    }
+
+    private void performExport() {
+        MethodUtil.exportCoursesToExcel(courseList, user);
+        FrameUtils.showDialog("Export successfully! Please check the " + ExportConstants.EXPORT_COURSE_TO_PATH + " directory.");
     }
 
     public JPanel addCourseList(List<Course> courseList) {
