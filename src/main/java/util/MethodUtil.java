@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -123,6 +124,23 @@ public class MethodUtil {
             return true;
         } catch (IOException e) {
             log.error("Error exporting");
+            return false;
+        }
+    }
+
+    public static boolean deleteUserCache(User user) {
+        String filePath = ExportConstants.EXPORT_COURSE_TO_PATH + "/user_" + user.getUserId() + "_ExportedCourses.xlsx";
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            if (file.delete()) {
+                return true;
+            } else {
+                log.error("Failed to delete the file.");
+                return false;
+            }
+        } else {
+            log.warn("File does not exist.");
             return false;
         }
     }
