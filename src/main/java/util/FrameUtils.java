@@ -1,5 +1,7 @@
 package util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+@Slf4j
 public class FrameUtils {
 
     /**
@@ -86,7 +89,7 @@ public class FrameUtils {
                 }
                 backToFrame.setVisible(true);
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e1) {
-                e1.printStackTrace();
+                log.error("Error occurred when adding BackButton: " + e1.getMessage());
             }
         });
         containerPanel.add(backButton);
