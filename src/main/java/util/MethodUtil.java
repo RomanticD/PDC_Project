@@ -14,6 +14,11 @@ import java.util.List;
 
 @Slf4j
 public class MethodUtil {
+    /**
+     * Check the strength of a password based on various criteria.
+     * @param password The password string to be evaluated.
+     * @return An integer representing the password strength: 1 (weak), 2 (moderate), 3 (strong).
+     */
     public static int checkPasswordStrength(String password) {
         int score = 0;
         if (password.length() >= 8) {
@@ -44,6 +49,12 @@ public class MethodUtil {
         }
     }
 
+    /**
+     * Export a list of courses to an Excel file.
+     * @param courseList The list of courses to be exported.
+     * @param user The user associated with the exported data.
+     * @return True if the export is successful, false otherwise.
+     */
     public static boolean exportCoursesToExcel(List<Course> courseList, User user) {
         // create sheet
         Workbook workbook = new XSSFWorkbook();
@@ -128,6 +139,11 @@ public class MethodUtil {
         }
     }
 
+    /**
+     * Delete the cache of a user, if it exists.
+     * @param user The user whose cache is to be deleted.
+     * @return True if the cache is successfully deleted, false otherwise.
+     */
     public static boolean deleteUserCache(User user) {
         String filePath = ExportConstants.EXPORT_COURSE_TO_PATH + "/user_" + user.getUserId() + "_ExportedCourses.xlsx";
         File file = new File(filePath);
