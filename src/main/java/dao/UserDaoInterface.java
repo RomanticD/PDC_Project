@@ -24,4 +24,8 @@ public interface UserDaoInterface {
     User getUserByUsername(String username);
 
     User getUserById(int id);
+
+    boolean deleteUserById(int id);
+
+    boolean deleteUserByUsername(String username);
 }

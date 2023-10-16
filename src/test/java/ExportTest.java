@@ -18,8 +18,8 @@ import static util.MethodUtil.deleteUserCache;
 public class ExportTest {
     @Test
     public void testThatExportCoursesToExcelMethodCanOutputFile() throws Exception {
-        User user = InstanceUtil.getUserInstance();
-        Course course = InstanceUtil.getCourseInstance();
+        User user = InstanceUtil.getTestUserInstance();
+        Course course = InstanceUtil.getTestCourseInstance();
 
         // Create a mock Workbook, Sheet, and Row
         Workbook workbook = Mockito.mock(Workbook.class);

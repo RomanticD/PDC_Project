@@ -229,6 +229,36 @@ public class UserDao implements UserDaoInterface, Closeable {
         }
         return null;
     }
+
+    @Override
+    public boolean deleteUserById(int id) {
+        String sql = "DELETE FROM user_profile WHERE user_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            log.info("Executing SQL query: " + ps);
+            int deletedRows = ps.executeUpdate();
+            return deletedRows > 0;
+        } catch (SQLException ex) {
+            log.error("Failed to delete user!");
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteUserByUsername(String username) {
+        String sql = "DELETE FROM user_profile WHERE USERNAME = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            log.info("Executing SQL query: " + ps);
+            int deletedRows = ps.executeUpdate();
+            return deletedRows > 0;
+        } catch (SQLException ex) {
+            log.error("Failed to delete user!");
+        }
+        return false;
+    }
+
+
     @Override
     public void close() throws IOException {
         try {

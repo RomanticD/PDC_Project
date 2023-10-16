@@ -6,10 +6,9 @@ import domain.enums.Role;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class InstanceUtil {
-    public static User getUserInstance(){
+    public static User getTestUserInstance(){
         return User.builder()
                 .userId(0)
                 .email("Test@Example.com")
@@ -20,7 +19,7 @@ public class InstanceUtil {
                 .build();
     }
 
-    public static Course getCourseInstance() throws ParseException {
+    public static Course getTestCourseInstance() throws ParseException {
         return Course.builder()
                 .courseID(999)
                 .courseDescription("Test Description")
