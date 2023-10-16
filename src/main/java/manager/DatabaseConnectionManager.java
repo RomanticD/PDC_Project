@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 
 public class DatabaseConnectionManager {
 
-    private String protocol = "jdbc:derby:";
+    private final String protocol = "jdbc:derby:";
     private Connection conn;
 
     public DatabaseConnectionManager() {

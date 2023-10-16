@@ -5,13 +5,15 @@ import domain.Preference;
 import lombok.extern.slf4j.Slf4j;
 import manager.DatabaseConnectionManager;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Slf4j
-public class PreferenceDao implements PreferenceDaoInterface {
+public class PreferenceDao implements PreferenceDaoInterface, Closeable {
     private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
 
@@ -94,5 +96,15 @@ public class PreferenceDao implements PreferenceDaoInterface {
             log.error("Error when set new Preference, message: " + e.getMessage());
         }
         return false;
+    }
+
+    @Override
+    public void close() throws IOException {
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            log.error("Error when closing connection");
+            throw new IOException(e);
+        }
     }
 }

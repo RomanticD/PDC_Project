@@ -6,6 +6,8 @@ import domain.Course;
 import domain.User;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @Slf4j
-public class CourseDao implements CourseDaoInterface {
+public class CourseDao implements CourseDaoInterface, Closeable {
     private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
 
@@ -95,6 +97,16 @@ public class CourseDao implements CourseDaoInterface {
             e.printStackTrace();
         }
         return courses;
+    }
+
+    @Override
+    public void close() throws IOException {
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            log.error("Error when closing connection");
+            throw new IOException(e);
+        }
     }
 }
 
