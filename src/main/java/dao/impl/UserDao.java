@@ -211,6 +211,7 @@ public class UserDao implements UserDaoInterface, Closeable {
 
             if (resultSet.next()) {
                 User user = User.builder()
+                        .userId(resultSet.getInt("user_id"))
                         .username(resultSet.getString("username"))
                         .name(resultSet.getString("name"))
                         .password(resultSet.getString("password"))

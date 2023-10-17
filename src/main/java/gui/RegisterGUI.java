@@ -1,6 +1,7 @@
 package gui;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import constants.UIConstants;
 import dao.UserDaoInterface;
 import dao.impl.UserDao;
 import domain.User;
@@ -9,7 +10,7 @@ import gui.sub.PasswordStrengthStatus;
 import gui.sub.success.RegisterSuccessGUI;
 import lombok.extern.slf4j.Slf4j;
 import net.miginfocom.swing.MigLayout;
-import util.FrameUtils;
+import util.FrameUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -98,10 +99,10 @@ public class RegisterGUI extends JPanel {
                             new RegisterSuccessGUI(new JFrame());
                         }
                     } else {
-                        FrameUtils.showDialog("The account has existed!");
+                        FrameUtil.showDialog("The account has existed!");
 
                         log.warn("Account Existed!");
-                        FrameUtils.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
+                        FrameUtil.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
                     }
                 }
             } catch (SQLException | ClassNotFoundException ex) {
@@ -135,23 +136,23 @@ public class RegisterGUI extends JPanel {
 
     private boolean validateInput(String username, String password, String repeatedPassword) throws SQLException, ClassNotFoundException {
         if (username.trim().isEmpty()) {
-            FrameUtils.showDialog("username is empty!");
+            FrameUtil.showDialog("username is empty!");
             log.warn("Invalid Input Username");
-            FrameUtils.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
+            FrameUtil.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
             return false;
         }
 
         if (password.trim().isEmpty()) {
             log.warn("Password is empty!");
-            FrameUtils.showDialog("Invalid Input Password");
-            FrameUtils.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
+            FrameUtil.showDialog("Invalid Input Password");
+            FrameUtil.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
             return false;
         }
 
         if (!password.equals(repeatedPassword)) {
             log.warn("Passwords do not match！");
-            FrameUtils.showDialog("Password No Match!");
-            FrameUtils.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
+            FrameUtil.showDialog("Password No Match!");
+            FrameUtil.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
             return false;
         }
         return true;
@@ -183,7 +184,7 @@ public class RegisterGUI extends JPanel {
         cmdLogin.setContentAreaFilled(false);
         cmdLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
         cmdLogin.addActionListener(e -> {
-            FrameUtils.disposeCurrentFrameAndCreateNewFrame("PDC Project Group 18", RegisterGUI.this, new LoginGUI(new User()));
+            FrameUtil.disposeCurrentFrameAndCreateNewFrame(UIConstants.APP_NAME, RegisterGUI.this, new LoginGUI(new User()));
         });
         JLabel label = new JLabel("Already have an account ?");
         label.putClientProperty(FlatClientProperties.STYLE, "" +

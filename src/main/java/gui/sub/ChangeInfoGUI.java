@@ -8,7 +8,7 @@ import gui.LoginGUI;
 import gui.ProfileGUI;
 import gui.sub.success.UpdateSuccessGUI;
 import lombok.extern.slf4j.Slf4j;
-import util.FrameUtils;
+import util.FrameUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -54,7 +54,7 @@ public class ChangeInfoGUI extends JFrame {
         SpringLayout springLayout = new SpringLayout();
         panel.setLayout(springLayout);
 
-        FrameUtils.addBackButton(panel, springLayout, ChangeInfoGUI.this, ProfileGUI.class, user);
+        FrameUtil.addBackButton(panel, springLayout, ChangeInfoGUI.this, ProfileGUI.class, user);
 
         if (!this.infoToModify.equals("Password")){
             JLabel label = new JLabel("Enter new " + infoToModify + " :");
@@ -95,7 +95,7 @@ public class ChangeInfoGUI extends JFrame {
         } else {
             JLabel oldPasswordLabel = new JLabel("Current password:");
             JLabel newPasswordLabel = new JLabel("New password:");
-            JLabel repeatNewPasswordLabel = new JLabel("Repeat new password");
+            JLabel repeatNewPasswordLabel = new JLabel("Repeat new password:");
             oldPasswordLabel.setFont(new Font("Dialog", Font.BOLD, 18));
             newPasswordLabel.setFont(new Font("Dialog", Font.BOLD, 18));
             repeatNewPasswordLabel.setFont(new Font("Dialog", Font.BOLD, 18));
@@ -160,9 +160,9 @@ public class ChangeInfoGUI extends JFrame {
 
     private void ModifyPassword(String newPassword) {
         this.user = userDao.updateUserPassword(user, newPassword);
-        FrameUtils.showDialog("Successfully Changed Your Password!");
+        FrameUtil.showDialog("Successfully Changed Your Password!");
         ChangeInfoGUI.this.dispose();
-        FrameUtils.disposeCurrentFrameAndCreateNewFrame("PDC Project Group 18", ChangeInfoGUI.this, new LoginGUI(user));
+        FrameUtil.disposeCurrentFrameAndCreateNewFrame("PDC Project Group 18", ChangeInfoGUI.this, new LoginGUI(user));
     }
 
     private boolean validateUserInput(JPasswordField oldPasswordField, JPasswordField newPasswordField, JPasswordField repeatPasswordField) {
@@ -171,12 +171,12 @@ public class ChangeInfoGUI extends JFrame {
         String repeatedNewPassword = String.valueOf(repeatPasswordField.getPassword());
 
         if (!user.getPassword().equals(oldPassword)) {
-            FrameUtils.showDialog("Current password is incorrect!");
+            FrameUtil.showDialog("Current password is incorrect!");
             ChangeInfoGUI.this.dispose();
             new ChangeInfoGUI("Password", user).setVisible(true);
             return false;
         } else if (!newPassword.equals(repeatedNewPassword)){
-            FrameUtils.showDialog("New passwords and repeated one do not match!");
+            FrameUtil.showDialog("New passwords and repeated one do not match!");
             ChangeInfoGUI.this.dispose();
             new ChangeInfoGUI("Password", user).setVisible(true);
             return false;
@@ -190,7 +190,7 @@ public class ChangeInfoGUI extends JFrame {
             ChangeInfoGUI.this.dispose();
             new UpdateSuccessGUI(updatedUser);
         }else{
-            FrameUtils.showDialog("Invalid Input!");
+            FrameUtil.showDialog("Invalid Input!");
         }
     }
 
@@ -200,9 +200,9 @@ public class ChangeInfoGUI extends JFrame {
             ChangeInfoGUI.this.dispose();
             new UpdateSuccessGUI(updatedUser);
         }else if (userDao.isUserExists(newUsername)){
-            FrameUtils.showDialog("Username Exists, Please Change a New One!");
+            FrameUtil.showDialog("Username Exists, Please Change a New One!");
         } else {
-            FrameUtils.showDialog("Invalid Input!");
+            FrameUtil.showDialog("Invalid Input!");
         }
     }
 
@@ -212,7 +212,7 @@ public class ChangeInfoGUI extends JFrame {
             ChangeInfoGUI.this.dispose();
             new UpdateSuccessGUI(updatedUser);
         }else{
-            FrameUtils.showDialog("Invalid Input!");
+            FrameUtil.showDialog("Invalid Input!");
         }
     }
 

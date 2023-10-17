@@ -10,7 +10,7 @@ import domain.User;
 import domain.enums.Role;
 import lombok.extern.slf4j.Slf4j;
 import net.miginfocom.swing.MigLayout;
-import util.FrameUtils;
+import util.FrameUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,7 +73,7 @@ public class LoginGUI extends JPanel {
                 "focusWidth:0;" +
                 "innerFocusWidth:0");
 
-        txtUsername.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your username or email");
+        txtUsername.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your username");
         txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your password");
 
         JLabel lbTitle = new JLabel("Welcome back!");
@@ -106,7 +106,7 @@ public class LoginGUI extends JPanel {
 
         this.user = userDao.getUserByUsername(username);
         if (user == null) {
-            FrameUtils.showDialog("Account Not Exists!");
+            FrameUtil.showDialog("Account Do Not Exist!");
             usernameField.setText("");
             passwordField.setText("");
         }
@@ -139,7 +139,7 @@ public class LoginGUI extends JPanel {
                 log.info("SUCCESSFULLY LOGIN! Current User: " + currentUser.getName());
             } else {
                 log.error("LOGIN FAILED(check your password and username))");
-                FrameUtils.showDialog("Username or password is incorrect!");
+                FrameUtil.showDialog("Username or password is incorrect!");
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -202,7 +202,7 @@ public class LoginGUI extends JPanel {
         cmdRegister.setContentAreaFilled(false);
         cmdRegister.setCursor(new Cursor(Cursor.HAND_CURSOR));
         cmdRegister.addActionListener(e -> {
-            FrameUtils.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
+            FrameUtil.disposeCurrentFrameAndCreateNewFrame("Registration", this, new RegisterGUI());
         });
         JLabel label = new JLabel("Don't have an account ?");
         label.putClientProperty(FlatClientProperties.STYLE, "" +

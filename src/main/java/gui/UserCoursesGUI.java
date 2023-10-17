@@ -8,7 +8,7 @@ import domain.User;
 import domain.enums.CourseDetailPageFrom;
 import gui.sub.CourseDetailGUI;
 import lombok.extern.slf4j.Slf4j;
-import util.FrameUtils;
+import util.FrameUtil;
 import util.MethodUtil;
 
 import javax.swing.*;
@@ -33,7 +33,6 @@ public class UserCoursesGUI extends JFrame{
         this.courseDao = new CourseDao();
         this.courseList = courseDao.getCourseByUser(user);
 
-        // Create a main panel to hold everything
         JPanel mainPanel = new JPanel();
         JPanel topPanel = new JPanel();
 
@@ -53,7 +52,9 @@ public class UserCoursesGUI extends JFrame{
         exportButton.setFont(new Font("Dialog", Font.BOLD, 15));
         exportButton.addActionListener(exportAction);
 
-        topPanel.add(exportButton, BorderLayout.EAST);
+        if (!courseList.isEmpty()){
+            topPanel.add(exportButton, BorderLayout.EAST);
+        }
         topPanel.add(backButton, BorderLayout.WEST);
         mainPanel.add(topPanel, BorderLayout.NORTH);
 
@@ -65,16 +66,29 @@ public class UserCoursesGUI extends JFrame{
 
     private void performExport() {
         MethodUtil.exportCoursesToExcel(courseList, user);
-        FrameUtils.showDialog("Export successfully! Please check the " + ExportConstants.EXPORT_COURSE_TO_PATH + " directory.");
+        FrameUtil.showDialog("Export successfully! Please check the " + ExportConstants.EXPORT_COURSE_TO_PATH + " directory.");
     }
 
     public JPanel addCourseList(List<Course> courseList) {
         JPanel listPanel = new JPanel();
-        listPanel.setLayout(new GridLayout(0, 1));
+        listPanel.setLayout(new GridBagLayout());
 
-        for (Course course : courseList) {
-            listPanel.add(addCourseItem(course));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.CENTER;
+
+        if (courseList.isEmpty()) {
+            JLabel emptyCourseListLabel = new JLabel("No course selected yet!");
+            emptyCourseListLabel.setFont(new Font("Dialog", Font.BOLD, 20));
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            listPanel.add(emptyCourseListLabel, gbc);
+        } else {
+            listPanel.setLayout(new GridLayout(0, 1));
+            for (Course course : courseList) {
+                listPanel.add(addCourseItem(course));
+            }
         }
+
         if (courseList.size() < 6) {
             for (int i = 0; i < 6 - courseList.size(); i++) {
                 listPanel.add(new JPanel());

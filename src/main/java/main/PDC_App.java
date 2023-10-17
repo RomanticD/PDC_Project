@@ -3,6 +3,7 @@ package main;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import constants.UIConstants;
 import domain.User;
 import gui.LoginGUI;
 import manager.FormsManager;
@@ -17,7 +18,7 @@ public class PDC_App extends JFrame {
     }
 
     private void init() {
-        setTitle("PDC Project Group 18");
+        setTitle(UIConstants.APP_NAME);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(new Dimension(400, 420));
         setLocationRelativeTo(null);

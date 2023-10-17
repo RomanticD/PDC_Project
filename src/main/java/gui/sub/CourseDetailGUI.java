@@ -10,7 +10,7 @@ import gui.CourseGUI;
 import gui.UserCoursesGUI;
 import gui.sub.success.SelectOrQuitCourseSuccessGUI;
 import lombok.extern.slf4j.Slf4j;
-import util.FrameUtils;
+import util.FrameUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -64,7 +64,7 @@ public class CourseDetailGUI extends JFrame {
         panel.setLayout(springLayout);
 
         ActionListener backToSpecificGUI = e -> backToSpecificGUI();
-        FrameUtils.addBackButtonWithCustomAction(panel, springLayout, backToSpecificGUI);
+        FrameUtil.addBackButtonWithCustomAction(panel, springLayout, backToSpecificGUI);
 
         String[] labels = {"Course ID:", "Course Name:", "Course Instructor:", "Course Description:", "Enrolled:"};
         JTextArea[] textAreas = {
@@ -132,7 +132,7 @@ public class CourseDetailGUI extends JFrame {
             new SelectOrQuitCourseSuccessGUI(new JFrame(), user, course, courseDetailPageFrom);
             log.info("Successfully quit course. Course name:  " + course.getCourseName());
         } else {
-            FrameUtils.showDialog("Failed to quit!");
+            FrameUtil.showDialog("Failed to quit!");
             log.error("quit course:  " + course.getCourseName() + " Failed!");
         }
     }
@@ -145,7 +145,7 @@ public class CourseDetailGUI extends JFrame {
                 new SelectOrQuitCourseSuccessGUI(new JFrame(), user, course, courseDetailPageFrom);
                 log.info("Successfully re-enrolled user in course. Course name:  " + course.getCourseName());
             } else {
-                FrameUtils.showDialog("Failed to re-enrolled!");
+                FrameUtil.showDialog("Failed to re-enrolled!");
                 log.error("Re-enrolled user in course. Course name:  " + course.getCourseName() + " Failed!");
             }
         } else {
@@ -155,7 +155,7 @@ public class CourseDetailGUI extends JFrame {
                 new SelectOrQuitCourseSuccessGUI(new JFrame(), user, course, courseDetailPageFrom);
                 log.info("Successfully selecting course. Course name: " + course.getCourseName());
             } else {
-                FrameUtils.showDialog("Failed to select!");
+                FrameUtil.showDialog("Failed to select!");
                 log.error("Selecting course. Course name:  " + course.getCourseName() + " Failed!");
             }
         }
