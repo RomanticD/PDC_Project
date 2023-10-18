@@ -6,11 +6,13 @@ import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import constants.UIConstants;
 import domain.User;
 import gui.LoginGUI;
+import lombok.extern.slf4j.Slf4j;
 import manager.FormsManager;
 
 import javax.swing.*;
 import java.awt.*;
 
+@Slf4j
 public class PDC_App extends JFrame {
 
     public PDC_App() {
@@ -18,6 +20,7 @@ public class PDC_App extends JFrame {
     }
 
     private void init() {
+        log.info("Application started....");
         setTitle(UIConstants.APP_NAME);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(new Dimension(400, 420));

@@ -3,6 +3,8 @@ package dao;
 import domain.Course;
 import domain.User;
 
+import java.util.Date;
+
 public interface CourseSelectionDaoInterface {
     int[] getSelectedCourseId(User user);
 
@@ -15,4 +17,6 @@ public interface CourseSelectionDaoInterface {
     boolean selectionStatusEqualsUnselected(User user, Course course);
 
     boolean setUnselectedToSelectionStatus(User user, Course course);
+
+    Date getCourseSelectionDate(Course course, User user);
 }

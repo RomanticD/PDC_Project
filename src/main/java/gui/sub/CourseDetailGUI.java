@@ -19,6 +19,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Slf4j
 public class CourseDetailGUI extends JFrame {
@@ -33,7 +35,7 @@ public class CourseDetailGUI extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setResizable(false);
-        this.setSize(700, 430);
+        this.setSize(700, 470);
         this.setLocationRelativeTo(null);
         this.course = course;
         this.user = user;
@@ -66,13 +68,17 @@ public class CourseDetailGUI extends JFrame {
         ActionListener backToSpecificGUI = e -> backToSpecificGUI();
         FrameUtil.addBackButtonWithCustomAction(panel, springLayout, backToSpecificGUI);
 
-        String[] labels = {"Course ID:", "Course Name:", "Course Instructor:", "Course Description:", "Enrolled:"};
+        Date selectionDate = courseSelectionDao.getCourseSelectionDate(course, user);
+        String formattedDate = selectionDate != null ? String.valueOf(selectionDate) : "No Selection Date";
+
+        String[] labels = {"Course ID:", "Course Name:", "Course Instructor:", "Course Description:", "Enrolled:", "Select Date"};
         JTextArea[] textAreas = {
                 createJTextArea(String.valueOf(course.getCourseID())),
                 createJTextArea(course.getCourseName()),
                 createJTextArea(course.getInstructor()),
                 createJTextArea(course.getCourseDescription()),
-                createJTextArea(userEnrolled ? "Enrolled" : "Not Enrolled")
+                createJTextArea(userEnrolled ? "Enrolled" : "Not Enrolled"),
+                createJTextArea(formattedDate)
         };
 
         for (int i = 0; i < labels.length; i++) {
@@ -97,7 +103,7 @@ public class CourseDetailGUI extends JFrame {
             quitCourseButton.setFont(new Font("Dialog", Font.PLAIN, 15));
             springLayout.putConstraint(SpringLayout.WEST, quitCourseButton, 250, SpringLayout.WEST, panel);
             springLayout.putConstraint(SpringLayout.EAST, quitCourseButton, -250, SpringLayout.EAST, panel);
-            springLayout.putConstraint(SpringLayout.NORTH, quitCourseButton, 350, SpringLayout.NORTH, panel);
+            springLayout.putConstraint(SpringLayout.NORTH, quitCourseButton, 410, SpringLayout.NORTH, panel);
             quitCourseButton.addActionListener(quitButtonListener);
             panel.add(quitCourseButton);
         }else{
@@ -105,7 +111,7 @@ public class CourseDetailGUI extends JFrame {
             addCourseButton.setFont(new Font("Dialog", Font.PLAIN, 15));
             springLayout.putConstraint(SpringLayout.WEST, addCourseButton, 250, SpringLayout.WEST, panel);
             springLayout.putConstraint(SpringLayout.EAST, addCourseButton, -250, SpringLayout.EAST, panel);
-            springLayout.putConstraint(SpringLayout.NORTH, addCourseButton, 350, SpringLayout.NORTH, panel);
+            springLayout.putConstraint(SpringLayout.NORTH, addCourseButton, 410, SpringLayout.NORTH, panel);
             addCourseButton.addActionListener(selectButtonListener);
             panel.add(addCourseButton);
         }

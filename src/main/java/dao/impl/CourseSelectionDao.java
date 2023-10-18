@@ -8,10 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,11 +62,12 @@ public class CourseSelectionDao implements CourseSelectionDaoInterface, Closeabl
 
     @Override
     public boolean reenrolled(User user, Course course) {
-        String query = "UPDATE COURSE_SELECTION SET SELECTION_STATUS = ? WHERE USER_ID = ? AND COURSE_ID = ?";
+        String query = "UPDATE COURSE_SELECTION SET SELECTION_STATUS = ?, SELECTION_TIME = ? WHERE USER_ID = ? AND COURSE_ID = ?";
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, "Selected");
-            stmt.setInt(2, user.getUserId());
-            stmt.setInt(3, course.getCourseID());
+            stmt.setDate(2, Date.valueOf(LocalDate.now()));
+            stmt.setInt(3, user.getUserId());
+            stmt.setInt(4, course.getCourseID());
             log.info("Executing SQL query: " + stmt);
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
@@ -78,13 +77,15 @@ public class CourseSelectionDao implements CourseSelectionDaoInterface, Closeabl
         return false;
     }
 
+
     @Override
     public boolean newUserEnrolledRecord(User user, Course course) {
-        String query = "INSERT INTO COURSE_SELECTION (USER_ID, COURSE_ID, SELECTION_STATUS) VALUES (?, ?, ?)";
+        String query = "INSERT INTO COURSE_SELECTION (USER_ID, COURSE_ID, SELECTION_STATUS, SELECTION_TIME) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, user.getUserId());
             stmt.setInt(2, course.getCourseID());
             stmt.setString(3, "Selected");
+            stmt.setDate(4, Date.valueOf(LocalDate.now()));
             log.info("Executing SQL query: " + stmt);
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
@@ -126,6 +127,25 @@ public class CourseSelectionDao implements CourseSelectionDaoInterface, Closeabl
         }
         return false;
     }
+
+    @Override
+    public Date getCourseSelectionDate(Course course, User user) {
+        String query = "SELECT SELECTION_TIME FROM COURSE_SELECTION WHERE USER_ID = ? AND COURSE_ID = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, user.getUserId());
+            stmt.setInt(2, course.getCourseID());
+            log.info("Executing SQL query: " + stmt);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDate("SELECTION_TIME");
+                }
+            }
+        } catch (SQLException e) {
+            log.error("Error occurred while fetching course selection date. Details: " + e.getMessage());
+        }
+        return null;
+    }
+
 
     @Override
     public void close() throws IOException {
