@@ -1,18 +1,19 @@
 package dao.impl;
 
 import dao.SubmissionDaoInterface;
-import db.DatabaseConnectionManager;
 import domain.Assignment;
 import domain.User;
+import manager.DatabaseConnectionManager;
 
 import java.sql.*;
 
 public class SubmissionDao implements SubmissionDaoInterface {
 
+    private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
 
     public SubmissionDao() {
-        DatabaseConnectionManager databaseConnectionManager = new DatabaseConnectionManager();
+        databaseConnectionManager = new DatabaseConnectionManager();
         conn = databaseConnectionManager.getConnection();
     }
 
