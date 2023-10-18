@@ -1,7 +1,12 @@
 package util;
 
+import constants.UIConstants;
+
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.Raster;
@@ -11,229 +16,43 @@ import java.net.URL;
 
 public class GraphicsUtil {
 
-    private GraphicsUtil() {
-    }
-
-    // Returns the graphics configuration for the primary screen
-    private static GraphicsConfiguration getGraphicsConfiguration() {
-        return GraphicsEnvironment.getLocalGraphicsEnvironment().
-                getDefaultScreenDevice().getDefaultConfiguration();
-    }
-
-    public static BufferedImage createColorModelCompatibleImage(BufferedImage image) {
-        ColorModel cm = image.getColorModel();
-        return new BufferedImage(cm,
-                cm.createCompatibleWritableRaster(image.getWidth(),
-                        image.getHeight()),
-                cm.isAlphaPremultiplied(), null);
-    }
-
-    public static BufferedImage createCompatibleImage(BufferedImage image) {
-        return createCompatibleImage(image, image.getWidth(), image.getHeight());
-    }
-
-    public static BufferedImage createCompatibleImage(BufferedImage image,
-            int width, int height) {
-        return getGraphicsConfiguration().createCompatibleImage(width, height,
-                image.getTransparency());
-    }
-
-    public static BufferedImage createCompatibleImage(int width, int height) {
-        return getGraphicsConfiguration().createCompatibleImage(width, height);
-    }
-
-    public static BufferedImage createCompatibleTranslucentImage(int width,
-            int height) {
-        return getGraphicsConfiguration().createCompatibleImage(width, height,
-                Transparency.TRANSLUCENT);
-    }
-
-    public static BufferedImage loadCompatibleImage(URL resource)
-            throws IOException {
-        BufferedImage image = ImageIO.read(resource);
-        return toCompatibleImage(image);
-    }
-
-    public static BufferedImage toCompatibleImage(BufferedImage image) {
-        if (image.getColorModel().equals(
-                getGraphicsConfiguration().getColorModel())) {
-            return image;
-        }
-
-        BufferedImage compatibleImage
-                = getGraphicsConfiguration().createCompatibleImage(
-                        image.getWidth(), image.getHeight(),
-                        image.getTransparency());
-        Graphics g = compatibleImage.getGraphics();
-        g.drawImage(image, 0, 0, null);
-        g.dispose();
-
-        return compatibleImage;
-    }
-
-    public static BufferedImage createThumbnailFast(BufferedImage image,
-            int newSize) {
-        float ratio;
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        if (width > height) {
-            if (newSize >= width) {
-                throw new IllegalArgumentException("newSize must be lower than"
-                        + " the image width");
-            } else if (newSize <= 0) {
-                throw new IllegalArgumentException("newSize must"
-                        + " be greater than 0");
+    /**
+     * Creates a JPanel with a colored square and a label in the center.
+     * @param color The color of the square.
+     * @param size The size of the square.
+     * @param label The label to be displayed in the center of the square.
+     * @return JPanel containing the colored square with the label in the center.
+     */
+    public static JPanel createColoredSquareWithLabel(Color color, int size, String label) {
+        JPanel squarePanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setColor(color);
+                RoundRectangle2D.Double roundedSquare = new RoundRectangle2D.Double((double) (UIConstants.COURSE_GUI_FRAME_SIZE[0] / 2) - 70, 0, size, size, 5, 5);
+                g2d.fill(roundedSquare);
             }
+        };
+        squarePanel.setLayout(new BorderLayout());
 
-            ratio = (float) width / (float) height;
-            width = newSize;
-            height = (int) (newSize / ratio);
-        } else {
-            if (newSize >= height) {
-                throw new IllegalArgumentException("newSize must be lower than"
-                        + " the image height");
-            } else if (newSize <= 0) {
-                throw new IllegalArgumentException("newSize must"
-                        + " be greater than 0");
-            }
+        JLabel labelComponent = new JLabel(label);
+        labelComponent.setHorizontalAlignment(SwingConstants.CENTER);
+        squarePanel.add(labelComponent, BorderLayout.CENTER);
 
-            ratio = (float) height / (float) width;
-            height = newSize;
-            width = (int) (newSize / ratio);
-        }
-
-        BufferedImage temp = createCompatibleImage(image, width, height);
-        Graphics2D g2 = temp.createGraphics();
-        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g2.drawImage(image, 0, 0, temp.getWidth(), temp.getHeight(), null);
-        g2.dispose();
-
-        return temp;
+        return squarePanel;
     }
 
-    public static BufferedImage createThumbnailFast(BufferedImage image,
-            int newWidth, int newHeight) {
-        if (newWidth >= image.getWidth()
-                || newHeight >= image.getHeight()) {
-            throw new IllegalArgumentException("newWidth and newHeight cannot"
-                    + " be greater than the image"
-                    + " dimensions");
-        } else if (newWidth <= 0 || newHeight <= 0) {
-            throw new IllegalArgumentException("newWidth and newHeight must"
-                    + " be greater than 0");
-        }
-
-        BufferedImage temp = createCompatibleImage(image, newWidth, newHeight);
-        Graphics2D g2 = temp.createGraphics();
-        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g2.drawImage(image, 0, 0, temp.getWidth(), temp.getHeight(), null);
-        g2.dispose();
-
-        return temp;
-    }
-
-    public static BufferedImage createThumbnail(BufferedImage image,
-            int newSize) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        boolean isWidthGreater = width > height;
-
-        if (isWidthGreater) {
-            if (newSize >= width) {
-                throw new IllegalArgumentException("newSize must be lower than"
-                        + " the image width");
-            }
-        } else if (newSize >= height) {
-            throw new IllegalArgumentException("newSize must be lower than"
-                    + " the image height");
-        }
-
-        if (newSize <= 0) {
-            throw new IllegalArgumentException("newSize must"
-                    + " be greater than 0");
-        }
-
-        float ratioWH = (float) width / (float) height;
-        float ratioHW = (float) height / (float) width;
-
-        BufferedImage thumb = image;
-
-        do {
-            if (isWidthGreater) {
-                width /= 2;
-                if (width < newSize) {
-                    width = newSize;
-                }
-                height = (int) (width / ratioWH);
-            } else {
-                height /= 2;
-                if (height < newSize) {
-                    height = newSize;
-                }
-                width = (int) (height / ratioHW);
-            }
-
-            BufferedImage temp = createCompatibleImage(image, width, height);
-            Graphics2D g2 = temp.createGraphics();
-            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                    RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            g2.drawImage(thumb, 0, 0, temp.getWidth(), temp.getHeight(), null);
-            g2.dispose();
-
-            thumb = temp;
-        } while (newSize != (isWidthGreater ? width : height));
-
-        return thumb;
-    }
-
-    public static BufferedImage createThumbnail(BufferedImage image,
-            int newWidth, int newHeight) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        if (newWidth >= width || newHeight >= height) {
-            throw new IllegalArgumentException("newWidth and newHeight cannot"
-                    + " be greater than the image"
-                    + " dimensions");
-        } else if (newWidth <= 0 || newHeight <= 0) {
-            throw new IllegalArgumentException("newWidth and newHeight must"
-                    + " be greater than 0");
-        }
-
-        BufferedImage thumb = image;
-
-        do {
-            if (width > newWidth) {
-                width /= 2;
-                if (width < newWidth) {
-                    width = newWidth;
-                }
-            }
-
-            if (height > newHeight) {
-                height /= 2;
-                if (height < newHeight) {
-                    height = newHeight;
-                }
-            }
-
-            BufferedImage temp = createCompatibleImage(image, width, height);
-            Graphics2D g2 = temp.createGraphics();
-            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                    RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            g2.drawImage(thumb, 0, 0, temp.getWidth(), temp.getHeight(), null);
-            g2.dispose();
-
-            thumb = temp;
-        } while (width != newWidth || height != newHeight);
-
-        return thumb;
-    }
-
+    /**
+     * Retrieves pixels from the specified BufferedImage.
+     * @param img The BufferedImage from which pixels are to be retrieved.
+     * @param x The x-coordinate of the upper-left corner of the specified rectangular region.
+     * @param y The y-coordinate of the upper-left corner of the specified rectangular region.
+     * @param w The width of the specified rectangular region.
+     * @param h The height of the specified rectangular region.
+     * @param pixels The array where the pixels will be stored.
+     * @return An array of pixels from the BufferedImage.
+     */
     public static int[] getPixels(BufferedImage img,
             int x, int y, int w, int h, int[] pixels) {
         if (w == 0 || h == 0) {
@@ -258,6 +77,15 @@ public class GraphicsUtil {
         return img.getRGB(x, y, w, h, pixels, 0, w);
     }
 
+    /**
+     * Sets pixels to the specified BufferedImage.
+     * @param img The BufferedImage to which pixels are to be set.
+     * @param x The x-coordinate of the upper-left corner of the specified rectangular region.
+     * @param y The y-coordinate of the upper-left corner of the specified rectangular region.
+     * @param w The width of the specified rectangular region.
+     * @param h The height of the specified rectangular region.
+     * @param pixels The array of pixels to be set.
+     */
     public static void setPixels(BufferedImage img,
             int x, int y, int w, int h, int[] pixels) {
         if (pixels == null || w == 0 || h == 0) {
@@ -273,7 +101,6 @@ public class GraphicsUtil {
             WritableRaster raster = img.getRaster();
             raster.setDataElements(x, y, w, h, pixels);
         } else {
-            // Unmanages the image
             img.setRGB(x, y, w, h, pixels, 0, w);
         }
     }

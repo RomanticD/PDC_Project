@@ -1,5 +1,6 @@
 package gui.sub.clock;
 
+import constants.UIConstants;
 import domain.Time;
 
 import javax.swing.*;
@@ -17,7 +18,7 @@ public class Clock extends JComponent {
     private boolean start = true;
 
     public Clock() {
-        setPreferredSize(new Dimension(250, 250));
+        setPreferredSize(new Dimension(UIConstants.CLOCK_SIZE, UIConstants.CLOCK_SIZE));
         setBackground(Color.WHITE);
         initTime();
         init();

@@ -1,5 +1,6 @@
 package gui;
 
+import constants.UIConstants;
 import dao.CourseSelectionDaoInterface;
 import dao.impl.CourseSelectionDao;
 import domain.Course;
@@ -9,6 +10,7 @@ import domain.User;
 import domain.enums.CourseDetailPageFrom;
 import gui.sub.CourseDetailGUI;
 import lombok.extern.slf4j.Slf4j;
+import util.GraphicsUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +30,7 @@ public class CourseGUI extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setResizable(false);
-        this.setSize(500, 600);
+        this.setSize(UIConstants.COURSE_GUI_FRAME_SIZE[0], UIConstants.COURSE_GUI_FRAME_SIZE[1]);
         this.setLocationRelativeTo(null);
         this.user = user;
         this.courseSelectionDao = new CourseSelectionDao();
@@ -38,9 +40,11 @@ public class CourseGUI extends JFrame {
         // Create a main panel to hold everything
         JPanel mainPanel = new JPanel();
         JPanel topPanel = new JPanel();
+        JPanel bottomPanel = new JPanel();
 
         topPanel.setLayout(new BorderLayout());
         mainPanel.setLayout(new BorderLayout());
+        bottomPanel.setLayout(new BorderLayout());
 
         // Create a "Back" button and add it to the top-left corner
         JButton backButton = new JButton("Back");
@@ -65,10 +69,14 @@ public class CourseGUI extends JFrame {
             topPanel.add(userCoursesButton, BorderLayout.EAST);
         }
 
-        mainPanel.add(topPanel, BorderLayout.NORTH);
+        bottomPanel.add(GraphicsUtil.createColoredSquareWithLabel(UIConstants.ENROLLED_COLOR, 15, "Enrolled"), BorderLayout.NORTH);
+        bottomPanel.add(GraphicsUtil.createColoredSquareWithLabel(UIConstants.ENROLLED_BEFORE_BUT_QUIT_COLOR, 15, "Enrolled Before"), BorderLayout.CENTER);
+        bottomPanel.add(GraphicsUtil.createColoredSquareWithLabel(Color.white, 15, "No Operation Yet"), BorderLayout.SOUTH);
 
+        mainPanel.add(topPanel, BorderLayout.NORTH);
         JScrollPane js = new JScrollPane(addCourseList(courseList), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         mainPanel.add(js, BorderLayout.CENTER);
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
         this.setContentPane(mainPanel);
     }
@@ -95,9 +103,9 @@ public class CourseGUI extends JFrame {
         JLabel nameLabel = new JLabel(course.getCourseName());
         nameLabel.setFont(new Font("Dialog", Font.BOLD, 15));
         if (selectedByUser(course)){
-            nameLabel.setForeground(Color.decode("#2b6f5b"));
+            nameLabel.setForeground(UIConstants.ENROLLED_COLOR);
         }else if (selectedByUserBefore(course)){
-            nameLabel.setForeground(Color.decode("#ffc966"));
+            nameLabel.setForeground(UIConstants.ENROLLED_BEFORE_BUT_QUIT_COLOR);
         }
 
         nameLabel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 0)); // Add padding

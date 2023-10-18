@@ -15,5 +15,4 @@ public class Assignment {
     private int assignmentID;
     private String assignmentName;
     private int courseID;
-    private Date deadline;
 }
