@@ -66,7 +66,7 @@ public class MainGUI extends JFrame {
             JButton assignmentButton = addButton("Assignment", panel, myProfileButton, 105, springLayout);
             assignmentButton.addActionListener(e -> {
                 MainGUI.this.dispose();
-                new AssignmentGUI(user);
+                new SubmissionGUI(user);
             });
         }
 
