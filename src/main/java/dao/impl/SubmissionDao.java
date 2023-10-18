@@ -11,7 +11,6 @@ public class SubmissionDao implements SubmissionDaoInterface {
 
     private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
-    private int submissionID = 0;
 
     public SubmissionDao() {
         databaseConnectionManager = new DatabaseConnectionManager();
@@ -38,29 +37,30 @@ public class SubmissionDao implements SubmissionDaoInterface {
     }
 
     @Override
+    public void insertSubmission(String assignmentText, Assignment assignment, User user) {
+        String query = "INSERT INTO submissions (SUBMISSIONFILEORLINK, assignmentID, studentID, SUBMISSIONTIME) VALUES (?, ?, ?, CURRENT_TIMESTAMP)";
+
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setString(1, assignmentText);
+            statement.setInt(2, assignment.getAssignmentID());
+            statement.setInt(3, user.getUserId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
     public void updateSubmission(String assignmentText, Assignment assignment, User user) {
-        if(doesSubmissionExist(assignment.getAssignmentID(), user.getUserId())){
-            String query = "UPDATE submissions SET SUBMISSIONFILEORLINK = ?, SUBMISSIONTIME = CURRENT_TIMESTAMP WHERE assignmentID = ?";
+        String query = "UPDATE submissions SET SUBMISSIONFILEORLINK = ?, SUBMISSIONTIME = CURRENT_TIMESTAMP WHERE assignmentID = ?";
 
-            try (PreparedStatement statement = conn.prepareStatement(query)) {
-                statement.setString(1, assignmentText);
-                statement.setInt(2, assignment.getAssignmentID());
-                statement.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            String query = "INSERT INTO submissions (SUBMISSIONFILEORLINK, assignmentID, studentID, submissionID, SUBMISSIONTIME) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)";
-
-            try (PreparedStatement statement = conn.prepareStatement(query)) {
-                statement.setString(1, assignmentText);
-                statement.setInt(2, assignment.getAssignmentID());
-                statement.setInt(3, user.getUserId());
-                statement.setInt(4, submissionID++);
-                statement.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setString(1, assignmentText);
+            statement.setInt(2, assignment.getAssignmentID());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

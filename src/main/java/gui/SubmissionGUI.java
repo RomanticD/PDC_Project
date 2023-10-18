@@ -40,7 +40,7 @@ public class SubmissionGUI extends JFrame {
         });
 
         submitButton.addActionListener(e -> {
-            submissionDao.updateSubmission(textArea1.getText(), assignment, user);
+            submissionDao.insertSubmission(textArea1.getText(), assignment, user);
         });
     }
 }
