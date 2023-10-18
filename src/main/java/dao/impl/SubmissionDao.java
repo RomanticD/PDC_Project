@@ -38,7 +38,7 @@ public class SubmissionDao implements SubmissionDaoInterface {
 
     @Override
     public void updateSubmission(String assignmentText, Assignment assignment, User user) {
-        if(doesSubmissionExist(assignment.getAssignmentID(), user.getUserID())){
+        if(doesSubmissionExist(assignment.getAssignmentID(), user.getUserId())){
             String query = "UPDATE submissions SET SUBMISSIONFILEORLINK = ?, SUBMISSIONTIME = CURRENT_TIMESTAMP WHERE assignmentID = ?";
 
             try (PreparedStatement statement = conn.prepareStatement(query)) {
@@ -54,7 +54,7 @@ public class SubmissionDao implements SubmissionDaoInterface {
             try (PreparedStatement statement = conn.prepareStatement(query)) {
                 statement.setString(1, assignmentText);
                 statement.setInt(2, assignment.getAssignmentID());
-                statement.setInt(3, user.getUserID());
+                statement.setInt(3, user.getUserId());
                 statement.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
