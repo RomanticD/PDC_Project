@@ -1,6 +1,8 @@
 package gui;
 
+import domain.Assignment;
 import domain.User;
+import dao.impl.SubmissionDao;
 
 import javax.swing.*;
 
@@ -27,9 +29,18 @@ public class SubmissionGUI extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
+
+        SubmissionDao submissionDao = new SubmissionDao();
+        Assignment assignment = new Assignment();
+        assignment.setAssignmentID(1);
+
         backButton.addActionListener(e -> {
             new MainGUI(user);
             SubmissionGUI.this.dispose();
+        });
+
+        submitButton.addActionListener(e -> {
+            submissionDao.updateSubmission(textArea1.getText(), assignment, user);
         });
     }
 }
