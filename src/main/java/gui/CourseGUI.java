@@ -1,10 +1,16 @@
 package gui;
 
+import constants.UIConstants;
+import dao.CourseSelectionDaoInterface;
+import dao.impl.CourseSelectionDao;
 import domain.Course;
 import dao.CourseDaoInterface;
 import dao.impl.CourseDao;
 import domain.User;
+import domain.enums.CourseDetailPageFrom;
+import gui.sub.CourseDetailGUI;
 import lombok.extern.slf4j.Slf4j;
+import util.GraphicsUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,46 +22,66 @@ import java.awt.event.ActionListener;
 public class CourseGUI extends JFrame {
     private final User user;
     private final CourseDaoInterface courseDao;
+    private final CourseSelectionDaoInterface courseSelectionDao;
     private List<Course> courseList;
 
     public CourseGUI(User user) {
-        this.setTitle("Courses");
+        this.setTitle("All Courses");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setResizable(false);
-        this.setSize(500, 600);
+        this.setSize(UIConstants.COURSE_GUI_FRAME_SIZE[0], UIConstants.COURSE_GUI_FRAME_SIZE[1]);
         this.setLocationRelativeTo(null);
         this.user = user;
+        this.courseSelectionDao = new CourseSelectionDao();
         this.courseDao = new CourseDao();
         this.courseList = courseDao.getAllCourses();
 
         // Create a main panel to hold everything
         JPanel mainPanel = new JPanel();
         JPanel topPanel = new JPanel();
+        JPanel bottomPanel = new JPanel();
 
         topPanel.setLayout(new BorderLayout());
         mainPanel.setLayout(new BorderLayout());
+        bottomPanel.setLayout(new BorderLayout());
 
         // Create a "Back" button and add it to the top-left corner
         JButton backButton = new JButton("Back");
         backButton.setFont(new Font("Dialog", Font.BOLD, 15));
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CourseGUI.this.dispose();
-                new MainGUI(user);
-            }
+
+        JButton userCoursesButton = new JButton("Check Enrolled Courses");
+        userCoursesButton.setFont(new Font("Dialog", Font.BOLD, 15));
+
+        userCoursesButton.addActionListener(e -> {
+            log.info("Ready to check " + user.getName() + "'s enrolled courses");
+            CourseGUI.this.dispose();
+            new UserCoursesGUI(user);
+        });
+
+        backButton.addActionListener(e -> {
+            CourseGUI.this.dispose();
+            new MainGUI(user);
         });
         topPanel.add(backButton, BorderLayout.WEST);
-        mainPanel.add(topPanel, BorderLayout.NORTH);
 
-        JScrollPane js = new JScrollPane(addCourseList(), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        if (!user.isAdmin()){
+            topPanel.add(userCoursesButton, BorderLayout.EAST);
+        }
+
+        bottomPanel.add(GraphicsUtil.createColoredSquareWithLabel(UIConstants.ENROLLED_COLOR, 15, "Enrolled"), BorderLayout.NORTH);
+        bottomPanel.add(GraphicsUtil.createColoredSquareWithLabel(UIConstants.ENROLLED_BEFORE_BUT_QUIT_COLOR, 15, "Enrolled Before"), BorderLayout.CENTER);
+        bottomPanel.add(GraphicsUtil.createColoredSquareWithLabel(Color.white, 15, "No Operation Yet"), BorderLayout.SOUTH);
+
+        mainPanel.add(topPanel, BorderLayout.NORTH);
+        JScrollPane js = new JScrollPane(addCourseList(courseList), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         mainPanel.add(js, BorderLayout.CENTER);
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
         this.setContentPane(mainPanel);
     }
 
-    public JPanel addCourseList() {
+    public JPanel addCourseList(List<Course> courseList) {
         JPanel listPanel = new JPanel();
         listPanel.setLayout(new GridLayout(0, 1));
 
@@ -76,6 +102,12 @@ public class CourseGUI extends JFrame {
 
         JLabel nameLabel = new JLabel(course.getCourseName());
         nameLabel.setFont(new Font("Dialog", Font.BOLD, 15));
+        if (selectedByUser(course)){
+            nameLabel.setForeground(UIConstants.ENROLLED_COLOR);
+        }else if (selectedByUserBefore(course)){
+            nameLabel.setForeground(UIConstants.ENROLLED_BEFORE_BUT_QUIT_COLOR);
+        }
+
         nameLabel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 0)); // Add padding
 
         JButton checkButton = new JButton("Check");
@@ -84,7 +116,7 @@ public class CourseGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 log.info("Checking Button Clicked. Redirecting to " + course.getCourseName() + "'s Detail");
                 CourseGUI.this.dispose();
-                new CourseDetailGUI(course, user);
+                new CourseDetailGUI(course, user, CourseDetailPageFrom.COURSE_PAGE);
             }
         });
 
@@ -96,5 +128,13 @@ public class CourseGUI extends JFrame {
         coursePanel.add(contentPanel, BorderLayout.CENTER);
 
         return coursePanel;
+    }
+
+    private boolean selectedByUserBefore(Course course) {
+        return courseSelectionDao.selectionStatusEqualsUnselected(user, course);
+    }
+
+    private boolean selectedByUser(Course course) {
+        return courseSelectionDao.checkIfUserEnrolled(user, course);
     }
 }

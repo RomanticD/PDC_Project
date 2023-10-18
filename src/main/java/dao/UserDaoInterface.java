@@ -1,6 +1,6 @@
 package dao;
 
-import domain.Role;
+import domain.enums.Role;
 import domain.User;
 
 import java.sql.ResultSet;
@@ -21,5 +21,11 @@ public interface UserDaoInterface {
 
     User updateUserName(User user, String newName);
 
-    User getUserByName(String username);
+    User getUserByUsername(String username);
+
+    User getUserById(int id);
+
+    boolean deleteUserById(int id);
+
+    boolean deleteUserByUsername(String username);
 }

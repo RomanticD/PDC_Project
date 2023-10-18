@@ -1,5 +1,6 @@
 package domain;
 
+import domain.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class User {
+    private int userId;
+
     private String name;
 
     private String username;
@@ -19,4 +22,8 @@ public class User {
     private String email;
 
     private Role role;
+
+    public boolean isAdmin(){
+        return role.toString().equals("ADMIN");
+    }
 }

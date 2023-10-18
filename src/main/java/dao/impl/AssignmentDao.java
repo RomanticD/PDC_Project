@@ -1,11 +1,16 @@
 package dao.impl;
 
 import dao.AssignmentDaoInterface;
-import db.DatabaseConnectionManager;
+import lombok.extern.slf4j.Slf4j;
+import manager.DatabaseConnectionManager;
+
+import java.io.Closeable;
+import java.io.IOException;
 import java.sql.*;
 import domain.User;
 
-public class AssignmentDao implements AssignmentDaoInterface {
+@Slf4j
+public class AssignmentDao implements AssignmentDaoInterface , Closeable {
 
     private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
@@ -54,6 +59,16 @@ public class AssignmentDao implements AssignmentDaoInterface {
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void close() throws IOException {
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            log.error("Error when closing connection");
+            throw new IOException(e);
         }
     }
 }

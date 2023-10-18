@@ -6,7 +6,9 @@ import dao.impl.UserDao;
 import domain.User;
 import gui.LoginGUI;
 import gui.ProfileGUI;
+import gui.sub.success.UpdateSuccessGUI;
 import lombok.extern.slf4j.Slf4j;
+import util.FrameUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -52,15 +54,7 @@ public class ChangeInfoGUI extends JFrame {
         SpringLayout springLayout = new SpringLayout();
         panel.setLayout(springLayout);
 
-        JButton backButton = new JButton("Back");
-        backButton.setFont(new Font("Dialog", Font.BOLD, 15));
-        springLayout.putConstraint(SpringLayout.WEST, backButton, 5, SpringLayout.WEST, panel);
-        springLayout.putConstraint(SpringLayout.NORTH, backButton, 5, SpringLayout.NORTH, panel);
-        backButton.addActionListener(e -> {
-            ChangeInfoGUI.this.dispose();
-            new ProfileGUI(user);
-        });
-        panel.add(backButton);
+        FrameUtil.addBackButton(panel, springLayout, ChangeInfoGUI.this, ProfileGUI.class, user);
 
         if (!this.infoToModify.equals("Password")){
             JLabel label = new JLabel("Enter new " + infoToModify + " :");
@@ -101,7 +95,7 @@ public class ChangeInfoGUI extends JFrame {
         } else {
             JLabel oldPasswordLabel = new JLabel("Current password:");
             JLabel newPasswordLabel = new JLabel("New password:");
-            JLabel repeatNewPasswordLabel = new JLabel("Repeat new password");
+            JLabel repeatNewPasswordLabel = new JLabel("Repeat new password:");
             oldPasswordLabel.setFont(new Font("Dialog", Font.BOLD, 18));
             newPasswordLabel.setFont(new Font("Dialog", Font.BOLD, 18));
             repeatNewPasswordLabel.setFont(new Font("Dialog", Font.BOLD, 18));
@@ -165,10 +159,10 @@ public class ChangeInfoGUI extends JFrame {
     }
 
     private void ModifyPassword(String newPassword) {
-        userDao.updateUserPassword(user, newPassword);
-        showMessageDialog("Successfully Changed Your Password!", "Warning");
+        this.user = userDao.updateUserPassword(user, newPassword);
+        FrameUtil.showDialog("Successfully Changed Your Password!");
         ChangeInfoGUI.this.dispose();
-        new LoginGUI().setVisible(true);
+        FrameUtil.disposeCurrentFrameAndCreateNewFrame("PDC Project Group 18", ChangeInfoGUI.this, new LoginGUI(user));
     }
 
     private boolean validateUserInput(JPasswordField oldPasswordField, JPasswordField newPasswordField, JPasswordField repeatPasswordField) {
@@ -177,12 +171,12 @@ public class ChangeInfoGUI extends JFrame {
         String repeatedNewPassword = String.valueOf(repeatPasswordField.getPassword());
 
         if (!user.getPassword().equals(oldPassword)) {
-            showMessageDialog("Current password is incorrect!", "Warning");
+            FrameUtil.showDialog("Current password is incorrect!");
             ChangeInfoGUI.this.dispose();
             new ChangeInfoGUI("Password", user).setVisible(true);
             return false;
         } else if (!newPassword.equals(repeatedNewPassword)){
-            showMessageDialog("New passwords and repeated one do not match!", "Warning");
+            FrameUtil.showDialog("New passwords and repeated one do not match!");
             ChangeInfoGUI.this.dispose();
             new ChangeInfoGUI("Password", user).setVisible(true);
             return false;
@@ -196,7 +190,7 @@ public class ChangeInfoGUI extends JFrame {
             ChangeInfoGUI.this.dispose();
             new UpdateSuccessGUI(updatedUser);
         }else{
-            showMessageDialog("Invalid Input!", "Warning");
+            FrameUtil.showDialog("Invalid Input!");
         }
     }
 
@@ -206,9 +200,9 @@ public class ChangeInfoGUI extends JFrame {
             ChangeInfoGUI.this.dispose();
             new UpdateSuccessGUI(updatedUser);
         }else if (userDao.isUserExists(newUsername)){
-            showMessageDialog("Username Exists, Please Change a New One!", "Warning");
+            FrameUtil.showDialog("Username Exists, Please Change a New One!");
         } else {
-            showMessageDialog("Invalid Input!", "Warning");
+            FrameUtil.showDialog("Invalid Input!");
         }
     }
 
@@ -218,18 +212,11 @@ public class ChangeInfoGUI extends JFrame {
             ChangeInfoGUI.this.dispose();
             new UpdateSuccessGUI(updatedUser);
         }else{
-            showMessageDialog("Invalid Input!", "Warning");
+            FrameUtil.showDialog("Invalid Input!");
         }
     }
 
     private Boolean validateInput(String text){
         return !text.trim().isEmpty();
-    }
-
-    private void showMessageDialog(String message, String title) {
-        JOptionPane pane = new JOptionPane(message);
-        JDialog dialog = pane.createDialog(title);
-        dialog.setFont(new Font("Dialog", Font.BOLD, 18));
-        dialog.setVisible(true);
     }
 }

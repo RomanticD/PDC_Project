@@ -1,16 +1,20 @@
 package dao.impl;
 
 import dao.UserDaoInterface;
-import db.DatabaseConnectionManager;
-import domain.Role;
+import manager.DatabaseConnectionManager;
+import domain.enums.Role;
 import domain.User;
+import lombok.extern.slf4j.Slf4j;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDao implements UserDaoInterface {
+@Slf4j
+public class UserDao implements UserDaoInterface, Closeable {
     private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
 
@@ -26,6 +30,7 @@ public class UserDao implements UserDaoInterface {
             ps = conn.prepareStatement("select * from user_profile where username=? and password=?");
             ps.setString(1, username);
             ps.setString(2, password);
+            log.info("Executing SQL query: " + ps);
             rs = ps.executeQuery();
         } catch (SQLException e1) {
             e1.printStackTrace();
@@ -38,7 +43,7 @@ public class UserDao implements UserDaoInterface {
         PreparedStatement ps = null;
         String role = "USER";
 
-        if (newUser.getRole() == Role.ADMIN){
+        if (newUser.isAdmin()){
             role = "ADMIN";
         }
 
@@ -49,6 +54,7 @@ public class UserDao implements UserDaoInterface {
             ps.setString(3, newUser.getPassword());
             ps.setString(4, newUser.getEmail());
             ps.setString(5, role);
+            log.info("Executing SQL query: " + ps);
             ps.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -60,6 +66,7 @@ public class UserDao implements UserDaoInterface {
         String sql = "SELECT * FROM user_profile WHERE username = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
+            log.info("Executing SQL query: " + ps);
             ResultSet resultSet = ps.executeQuery();
             return resultSet.next(); // Check if a row with the given username exists
         } catch (SQLException ex) {
@@ -74,17 +81,17 @@ public class UserDao implements UserDaoInterface {
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newUsername);
             ps.setString(2, user.getUsername());
+            log.info("Executing SQL query: " + ps);
             int updatedRows = ps.executeUpdate();
 
             if (updatedRows > 0) {
-                // 更新成功，返回更新后的用户对象
                 user.setUsername(newUsername);
                 return user;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return null; // 更新失败，返回null
+        return null;
     }
 
     @Override
@@ -93,17 +100,17 @@ public class UserDao implements UserDaoInterface {
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newPassword);
             ps.setString(2, user.getUsername());
+            log.info("Executing SQL query: " + ps);
             int updatedRows = ps.executeUpdate();
 
             if (updatedRows > 0) {
-                // 更新成功，返回更新后的用户对象
                 user.setPassword(newPassword);
                 return user;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return null; // 更新失败，返回null
+        return null;
     }
 
     @Override
@@ -112,17 +119,17 @@ public class UserDao implements UserDaoInterface {
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newEmail);
             ps.setString(2, user.getUsername());
+            log.info("Executing SQL query: " + ps);
             int updatedRows = ps.executeUpdate();
 
             if (updatedRows > 0) {
-                // 更新成功，返回更新后的用户对象
                 user.setEmail(newEmail);
                 return user;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return null; // 更新失败，返回null
+        return null;
     }
 
     @Override
@@ -132,17 +139,17 @@ public class UserDao implements UserDaoInterface {
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, roleString);
             ps.setString(2, user.getUsername());
+            log.info("Executing SQL query: " + ps);
             int updatedRows = ps.executeUpdate();
 
             if (updatedRows > 0) {
-                // 更新成功，返回更新后的用户对象
                 user.setRole(newRole);
                 return user;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return null; // 更新失败，返回null
+        return null;
     }
 
     @Override
@@ -151,28 +158,30 @@ public class UserDao implements UserDaoInterface {
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newName);
             ps.setString(2, user.getUsername());
+            log.info("Executing SQL query: " + ps);
             int updatedRows = ps.executeUpdate();
 
             if (updatedRows > 0) {
-                // 更新成功，返回更新后的用户对象
                 user.setName(newName);
                 return user;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return null; // 更新失败，返回null
+        return null;
     }
 
     @Override
-    public User getUserByName(String username) {
+    public User getUserByUsername(String username) {
         String sql = "SELECT * FROM user_profile WHERE username = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
+            log.info("Executing SQL query: " + ps);
             ResultSet resultSet = ps.executeQuery();
 
             if (resultSet.next()) {
                 User user = User.builder()
+                        .userId(resultSet.getInt("user_id"))
                         .username(resultSet.getString("username"))
                         .name(resultSet.getString("name"))
                         .password(resultSet.getString("password"))
@@ -189,7 +198,75 @@ public class UserDao implements UserDaoInterface {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return null; // 如果未找到用户，返回null
+        return null;
     }
 
+    @Override
+    public User getUserById(int id) {
+        String sql = "SELECT * FROM user_profile WHERE USER_ID = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            log.info("Executing SQL query: " + ps);
+            ResultSet resultSet = ps.executeQuery();
+
+            if (resultSet.next()) {
+                User user = User.builder()
+                        .userId(resultSet.getInt("user_id"))
+                        .username(resultSet.getString("username"))
+                        .name(resultSet.getString("name"))
+                        .password(resultSet.getString("password"))
+                        .email(resultSet.getString("email"))
+                        .build();
+
+                // Convert the role string to a Role enum
+                String roleString = resultSet.getString("role");
+                Role role = roleString.equals("ADMIN") ? Role.ADMIN : Role.USER;
+                user.setRole(role);
+
+                return user;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean deleteUserById(int id) {
+        String sql = "DELETE FROM user_profile WHERE user_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            log.info("Executing SQL query: " + ps);
+            int deletedRows = ps.executeUpdate();
+            return deletedRows > 0;
+        } catch (SQLException ex) {
+            log.error("Failed to delete user!");
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteUserByUsername(String username) {
+        String sql = "DELETE FROM user_profile WHERE USERNAME = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            log.info("Executing SQL query: " + ps);
+            int deletedRows = ps.executeUpdate();
+            return deletedRows > 0;
+        } catch (SQLException ex) {
+            log.error("Failed to delete user!");
+        }
+        return false;
+    }
+
+
+    @Override
+    public void close() throws IOException {
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            log.error("Error when closing connection");
+            throw new IOException(e);
+        }
+    }
 }

@@ -1,15 +1,15 @@
 package gui;
 
 import constants.UIConstants;
-import domain.Role;
 import domain.User;
 import gui.sub.BackgroundPanel;
+import gui.sub.clock.Clock;
 import lombok.extern.slf4j.Slf4j;
+import util.FrameUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -20,14 +20,13 @@ import java.util.Objects;
 public class MainGUI extends JFrame {
     private final User user;
 
-
     public MainGUI(User user) {
         this.user = user;
         this.setTitle("Welcome, " + user.getRole() + " " + user.getName() + " !");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setResizable(false);
-        this.setSize(320,480);
+        this.setSize(UIConstants.MAIN_GUI_FRAME_SIZE[0],UIConstants.MAIN_GUI_FRAME_SIZE[1]);
         this.setLocationRelativeTo(null);
         JPanel panel = getBackgroundPanel();
         addComponents(Objects.requireNonNull(panel));
@@ -47,57 +46,59 @@ public class MainGUI extends JFrame {
         SpringLayout springLayout = new SpringLayout();
         panel.setLayout(springLayout);
 
-        JButton myProfileButton = new JButton("Profile");
-        myProfileButton.setFont(new Font("Dialog", Font.BOLD, 20));
-        springLayout.putConstraint(SpringLayout.WEST, myProfileButton, 75, SpringLayout.WEST, panel);
-        springLayout.putConstraint(SpringLayout.EAST, myProfileButton, -75, SpringLayout.EAST, panel);
-        springLayout.putConstraint(SpringLayout.NORTH, myProfileButton, 105, SpringLayout.NORTH, panel);
-        myProfileButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                log.info("Going to Profile GUI");
-                MainGUI.this.dispose();
-                new ProfileGUI(user);
-            }
+        ActionListener backToLoginGUI = e -> backToLoginGUI();
+        FrameUtil.addBackButtonWithCustomAction(panel, springLayout, backToLoginGUI);
+
+        //Profile Button
+        JButton myProfileButton = addButton("Profile", panel, panel, 105, springLayout);
+        myProfileButton.addActionListener(e -> {
+            log.info("Going to Profile GUI");
+            MainGUI.this.dispose();
+            new ProfileGUI(user);
         });
-        panel.add(myProfileButton);
 
         
-        if (this.user.getRole() == Role.ADMIN){
-            JButton adminButton = new JButton("Admin");
-            adminButton.setFont(new Font("Dialog", Font.BOLD, 20));
-            springLayout.putConstraint(SpringLayout.WEST, adminButton, 75, SpringLayout.WEST, panel);
-            springLayout.putConstraint(SpringLayout.EAST, adminButton, -75, SpringLayout.EAST, panel);
-            springLayout.putConstraint(SpringLayout.NORTH, adminButton, 210, SpringLayout.NORTH, panel);
-            panel.add(adminButton);
+        if (user.isAdmin()){
+            //Admin Button if user is admin
+            JButton adminButton = addButton("Admin", panel, myProfileButton, 105, springLayout);
         }else{
-            JButton assignmentButton = new JButton("Assignment");
-            assignmentButton.setFont(new Font("Dialog", Font.BOLD, 20));
-            springLayout.putConstraint(SpringLayout.WEST, assignmentButton, 75, SpringLayout.WEST, panel);
-            springLayout.putConstraint(SpringLayout.EAST, assignmentButton, -75, SpringLayout.EAST, panel);
-            springLayout.putConstraint(SpringLayout.NORTH, assignmentButton, 210, SpringLayout.NORTH, panel);
-            panel.add(assignmentButton);
+            //Assignment Button if user is student
+            JButton assignmentButton = addButton("Assignment", panel, myProfileButton, 105, springLayout);
             assignmentButton.addActionListener(e -> {
+                MainGUI.this.dispose();
                 new AssignmentGUI(user);
             });
         }
-        
 
-        JButton coursesButton = new JButton("Course");
-        coursesButton.setFont(new Font("Dialog", Font.BOLD, 20));
-        springLayout.putConstraint(SpringLayout.WEST, coursesButton, 75, SpringLayout.WEST, panel);
-        springLayout.putConstraint(SpringLayout.EAST, coursesButton, -75, SpringLayout.EAST, panel);
-        springLayout.putConstraint(SpringLayout.NORTH, coursesButton, 315, SpringLayout.NORTH, panel);
-        panel.add(coursesButton);
-        coursesButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                log.info("Going to Course GUI");
-                MainGUI.this.dispose();
-                new CourseGUI(user);
-            }
+        //Course Button
+        JButton coursesButton = addButton("Course", panel, myProfileButton, 210, springLayout);
+        coursesButton.addActionListener(e -> {
+            log.info("Going to Course GUI");
+            MainGUI.this.dispose();
+            new CourseGUI(user);
         });
 
+        //Clock to display current time
+        Clock clock = new Clock();
+        springLayout.putConstraint(SpringLayout.WEST, clock, 10, SpringLayout.WEST, panel);
+        springLayout.putConstraint(SpringLayout.NORTH, clock, (UIConstants.MAIN_GUI_FRAME_SIZE[1] - UIConstants.CLOCK_SIZE) / 2, SpringLayout.NORTH, panel);
+        panel.add(clock);
+
         this.getContentPane().add(panel);
+    }
+
+    private void backToLoginGUI() {
+        FrameUtil.disposeCurrentFrameAndCreateNewFrame(UIConstants.APP_NAME, MainGUI.this, new LoginGUI(user));
+    }
+
+    private JButton addButton(String name, JComponent container, JComponent verticalRelatedComponent, int topPaddingToVerticalComponent, SpringLayout springLayout){
+        JButton button = new JButton(name);
+        button.setFont(new Font("Dialog", Font.BOLD, 20));
+        springLayout.putConstraint(SpringLayout.WEST, button, UIConstants.MAIN_PAGE_BUTTON_LEADING_PADDING, SpringLayout.WEST, container);
+        springLayout.putConstraint(SpringLayout.EAST, button, UIConstants.MAIN_PAGE_BUTTON_BOTTOM_PADDING, SpringLayout.EAST, container);
+        springLayout.putConstraint(SpringLayout.NORTH, button, topPaddingToVerticalComponent, SpringLayout.NORTH, verticalRelatedComponent);
+        container.add(button);
+
+        return button;
     }
 }

@@ -1,78 +1,81 @@
 package gui;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import constants.UIConstants;
 import dao.UserDaoInterface;
 import dao.impl.UserDao;
-import domain.Role;
 import domain.User;
-import gui.sub.BackgroundPanel;
-import gui.sub.RegisterSuccessGUI;
+import domain.enums.Role;
+import gui.sub.PasswordStrengthStatus;
+import gui.sub.success.RegisterSuccessGUI;
 import lombok.extern.slf4j.Slf4j;
+import net.miginfocom.swing.MigLayout;
+import util.FrameUtil;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
 
 @Slf4j
-public class RegisterGUI extends JFrame {
-    private JPanel panel;
-    private SpringLayout springLayout;
-    private final UserDaoInterface userDao;
+public class RegisterGUI extends JPanel {
+    private final UserDaoInterface userDao = new UserDao();
 
-    public RegisterGUI(){
-        super(UIConstants.APP_NAME);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(500,450);
-        setLocationRelativeTo(null);
-        this.userDao = new UserDao();
-        this.panel = Objects.requireNonNull(getBackgroundPanel());
-        this.springLayout = new SpringLayout();
-        panel.setLayout(springLayout);
-
-        addComponents(panel);
+    public RegisterGUI() {
+        init();
     }
 
-    /**
-     * Get current view's panel
-     * @return Panel with background
-     */
-    private JPanel getBackgroundPanel() {
-        try {
-            BufferedImage backgroundImage = ImageIO.read(new File(UIConstants.REGISTER_BACKGROUND_IMAGE));
-            return new BackgroundPanel(backgroundImage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+    private void init() {
+        setLayout(new MigLayout("fill,insets 20", "[center]", "[center]"));
+        txtFirstName = new JTextField();
+        txtLastName = new JTextField();
+        txtUsername = new JTextField();
+        txtPassword = new JPasswordField();
+        txtEmail = new JTextField();
+        txtConfirmPassword = new JPasswordField();
+        cmdRegister = new JButton("Sign Up");
+        passwordStrengthStatus = new PasswordStrengthStatus();
 
-    private void addComponents(JPanel panel){
+        JPanel panel = new JPanel(new MigLayout("wrap,fillx,insets 35 45 30 45", "[fill,360]"));
+        panel.putClientProperty(FlatClientProperties.STYLE, "" +
+                "arc:20;" +
+                "[light]background:darken(@background,3%);" +
+                "[dark]background:lighten(@background,3%)");
 
-        JTextField nameTF = addLabelAndField("name", 50, panel);
-        JTextField usernameTF = addLabelAndField("username", 110, panel);
-        JPasswordField passwordTF = addPasswordField("password", 170, panel);
-        JPasswordField repeatPasswordTF = addPasswordField("repeat password", 230, panel);
-        JTextField emailTF = addLabelAndField("email", 290, panel);
+        txtFirstName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "First name");
+        txtLastName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Last name");
+        txtUsername.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your username");
+        txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your email");
+        txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your password");
+        txtConfirmPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Re-enter your password");
+        txtPassword.putClientProperty(FlatClientProperties.STYLE, "" +
+                "showRevealButton:true");
+        txtConfirmPassword.putClientProperty(FlatClientProperties.STYLE, "" +
+                "showRevealButton:true");
 
-        JCheckBox checkBox = new JCheckBox("registered as an Admin");
-        springLayout.putConstraint(SpringLayout.WEST, checkBox, 150, SpringLayout.WEST, panel);
-        springLayout.putConstraint(SpringLayout.EAST, checkBox, -150, SpringLayout.EAST, panel);
-        springLayout.putConstraint(SpringLayout.NORTH, checkBox, 330, SpringLayout.NORTH, panel);
-        panel.add(checkBox);
+        cmdRegister.putClientProperty(FlatClientProperties.STYLE, "" +
+                "[light]background:darken(@background,10%);" +
+                "[dark]background:lighten(@background,10%);" +
+                "borderWidth:0;" +
+                "focusWidth:0;" +
+                "innerFocusWidth:0");
 
-        JButton registerButton = addButton("Register", 190, 190, 370, panel);
-        registerButton.addActionListener(e -> {
-            String name = nameTF.getText();
-            String username = usernameTF.getText();
-            String password = String.valueOf(passwordTF.getPassword());
-            String repeatedPassword = String.valueOf(repeatPasswordTF.getPassword());
-            String email = emailTF.getText();
-            Boolean isAdmin = checkBox.isSelected();
+        JLabel lbTitle = new JLabel("Welcome to PDC Project Management System!");
+        JLabel description = new JLabel("Check out our group's work. Join us now and revolutionize your workflow!");
+        lbTitle.putClientProperty(FlatClientProperties.STYLE, "" +
+                "font:bold +10");
+        description.putClientProperty(FlatClientProperties.STYLE, "" +
+                "[light]foreground:lighten(@foreground,30%);" +
+                "[dark]foreground:darken(@foreground,30%)");
+
+        passwordStrengthStatus.initPasswordField(txtPassword);
+
+        cmdRegister.addActionListener(e -> {
+            String name = txtFirstName.getText() + " " + txtLastName.getText();
+            String username = txtUsername.getText();
+            String password = String.valueOf(txtPassword.getPassword());
+            String repeatedPassword = String.valueOf(txtConfirmPassword.getPassword());
+            String email = txtEmail.getText();
+            Boolean isAdmin = isSelectedRoleAdmin();
 
             User newUser = User.builder()
                     .name(name)
@@ -91,14 +94,15 @@ public class RegisterGUI extends JFrame {
                 if (validateInput(username, password, repeatedPassword)) {
                     if (!userDao.isUserExists(username)) {
                         if (userDao.createUser(newUser)) {
-                            new RegisterSuccessGUI();
+                            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+                            frame.dispose();
+                            new RegisterSuccessGUI(new JFrame());
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, " The account has existed!",
-                                " The account has existed! ", JOptionPane.ERROR_MESSAGE);
+                        FrameUtil.showDialog("The account has existed!");
 
                         log.warn("Account Existed!");
-                        new RegisterGUI();
+                        FrameUtil.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
                     }
                 }
             } catch (SQLException | ClassNotFoundException ex) {
@@ -107,79 +111,103 @@ public class RegisterGUI extends JFrame {
             RegisterGUI.this.removeNotify();
         });
 
-        JButton backButton = addButton("back", 5, 420, 5, panel);
-        backButton.addActionListener(e -> {
-            RegisterGUI.this.dispose();
-            new LoginGUI().setVisible(true);
-        });
 
-
-        this.getContentPane().add(panel);
+        panel.add(lbTitle);
+        panel.add(description);
+        panel.add(new JLabel("Full Name"), "gapy 10");
+        panel.add(txtFirstName, "split 2");
+        panel.add(txtLastName);
+        panel.add(new JLabel("System Role"), "gapy 8");
+        panel.add(createRolePanel());
+        panel.add(new JSeparator(), "gapy 5 5");
+        panel.add(new JLabel("Username"));
+        panel.add(txtUsername, "wrap");
+        panel.add(new JLabel("Email"));
+        panel.add(txtEmail, "wrap");
+        panel.add(new JLabel("Password"), "gapy 8");
+        panel.add(txtPassword);
+        panel.add(passwordStrengthStatus,"gapy 0");
+        panel.add(new JLabel("Confirm Password"), "gapy 0");
+        panel.add(txtConfirmPassword);
+        panel.add(cmdRegister, "gapy 20");
+        panel.add(createLoginLabel(), "gapy 10");
+        add(panel);
     }
 
     private boolean validateInput(String username, String password, String repeatedPassword) throws SQLException, ClassNotFoundException {
         if (username.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, " username is empty! ",
-                    "Account", JOptionPane.ERROR_MESSAGE);
+            FrameUtil.showDialog("username is empty!");
             log.warn("Invalid Input Username");
-            new RegisterGUI();
+            FrameUtil.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
             return false;
         }
 
         if (password.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Password is empty!",
-                    "Password is empty", JOptionPane.ERROR_MESSAGE);
-            log.warn("Invalid Input Password");
-            new RegisterGUI();
+            log.warn("Password is empty!");
+            FrameUtil.showDialog("Invalid Input Password");
+            FrameUtil.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
             return false;
         }
 
         if (!password.equals(repeatedPassword)) {
-            JOptionPane.showMessageDialog(null, " Passwords do not match！",
-                    " The password is inconsistent ", JOptionPane.ERROR_MESSAGE);
-            log.warn("Password No Match!");
-            new RegisterGUI();
+            log.warn("Passwords do not match！");
+            FrameUtil.showDialog("Password No Match!");
+            FrameUtil.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
             return false;
         }
         return true;
     }
 
-    public JButton addButton(String name, int leadPadding, int trailPadding, int topPadding, JPanel relativePanel){
-        JButton button = new JButton(name);
-        button.setFont(new Font("Dialog", Font.BOLD, 18));
-        springLayout.putConstraint(SpringLayout.WEST, button, leadPadding, SpringLayout.WEST, relativePanel);
-        springLayout.putConstraint(SpringLayout.EAST, button, -trailPadding, SpringLayout.EAST, relativePanel);
-        springLayout.putConstraint(SpringLayout.NORTH, button, topPadding, SpringLayout.NORTH, relativePanel);
-        panel.add(button);
 
-        return button;
+    private Component createRolePanel() {
+        JPanel panel = new JPanel(new MigLayout("insets 0"));
+        panel.putClientProperty(FlatClientProperties.STYLE, "" +
+                "background:null");
+        jrUser = new JRadioButton("USER");
+        jrAdmin = new JRadioButton("ADMIN");
+        groupRole = new ButtonGroup();
+        groupRole.add(jrUser);
+        groupRole.add(jrAdmin);
+        jrUser.setSelected(true);
+        panel.add(jrUser);
+        panel.add(jrAdmin);
+        return panel;
     }
 
-    private void addLabelAndFieldConstraint(String labelName, int topPadding, JPanel relativePanel, JTextField textField) {
-        JLabel label = new JLabel(labelName + ": ");
-        label.setFont(new Font("Dialog", Font.BOLD, 18));
-
-        textField.setFont(new Font("Dialog", Font.BOLD, 18));
-
-        springLayout.putConstraint(SpringLayout.WEST, label, 35, SpringLayout.WEST, relativePanel);
-        springLayout.putConstraint(SpringLayout.NORTH, label, topPadding, SpringLayout.NORTH, relativePanel);
-        springLayout.putConstraint(SpringLayout.WEST, textField, 235, SpringLayout.WEST, relativePanel);
-        springLayout.putConstraint(SpringLayout.EAST, textField, -35, SpringLayout.EAST, relativePanel);
-        springLayout.putConstraint(SpringLayout.NORTH, textField, topPadding, SpringLayout.NORTH, relativePanel);
-
+    private Component createLoginLabel() {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        panel.putClientProperty(FlatClientProperties.STYLE, "" +
+                "background:null");
+        JButton cmdLogin = new JButton("<html><a href=\"#\">Sign in here</a></html>");
+        cmdLogin.putClientProperty(FlatClientProperties.STYLE, "" +
+                "border:3,3,3,3");
+        cmdLogin.setContentAreaFilled(false);
+        cmdLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        cmdLogin.addActionListener(e -> {
+            FrameUtil.disposeCurrentFrameAndCreateNewFrame(UIConstants.APP_NAME, RegisterGUI.this, new LoginGUI(new User()));
+        });
+        JLabel label = new JLabel("Already have an account ?");
+        label.putClientProperty(FlatClientProperties.STYLE, "" +
+                "[light]foreground:lighten(@foreground,30%);" +
+                "[dark]foreground:darken(@foreground,30%)");
         panel.add(label);
-        panel.add(textField);
+        panel.add(cmdLogin);
+        return panel;
     }
 
-    private JTextField addLabelAndField(String labelName, int topPadding, JPanel relativePanel) {
-        JTextField field = new JTextField(UIConstants.LOGIN_TEXT_FIELD_SIZE);
-        addLabelAndFieldConstraint(labelName, topPadding, relativePanel, field);
-        return field;
+    public boolean isSelectedRoleAdmin() {
+        return jrAdmin.isSelected();
     }
 
-    private JPasswordField addPasswordField(String labelName, int topPadding, JPanel relativePanel) {
-        JPasswordField field = new JPasswordField(UIConstants.LOGIN_TEXT_FIELD_SIZE);
-        addLabelAndFieldConstraint(labelName, topPadding, relativePanel, field);
-        return field;
-    }
+    private JTextField txtFirstName;
+    private JTextField txtLastName;
+    private JRadioButton jrUser;
+    private JRadioButton jrAdmin;
+    private JTextField txtUsername;
+    private JTextField txtEmail;
+    private JPasswordField txtPassword;
+    private JPasswordField txtConfirmPassword;
+    private ButtonGroup groupRole;
+    private JButton cmdRegister;
+    private PasswordStrengthStatus passwordStrengthStatus;
 }

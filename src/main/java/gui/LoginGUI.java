@@ -1,142 +1,221 @@
 package gui;
 
-import constants.UIConstants;
+import com.formdev.flatlaf.FlatClientProperties;
+import dao.PreferenceDaoInterface;
 import dao.UserDaoInterface;
+import dao.impl.PreferenceDao;
 import dao.impl.UserDao;
-import domain.Role;
+import domain.Preference;
 import domain.User;
-import gui.sub.BackgroundPanel;
+import domain.enums.Role;
 import lombok.extern.slf4j.Slf4j;
+import net.miginfocom.swing.MigLayout;
+import util.FrameUtil;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
 @Slf4j
-public class LoginGUI extends JFrame {
+public class LoginGUI extends JPanel {
+    private User user;
     private String username;
     private String password;
-    private final UserDaoInterface userDao;
+    private final UserDaoInterface userDao = new UserDao();
+    private final PreferenceDaoInterface preferenceDao = new PreferenceDao();
 
-    public LoginGUI(){
-        super(UIConstants.APP_NAME);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(UIConstants.LOGIN_FRAME_SIZE[0], UIConstants.LOGIN_FRAME_SIZE[1]);
-        setLocationRelativeTo(null);
-        this.userDao = new UserDao();
-
-        addComponents(Objects.requireNonNull(getBackgroundPanel()));
+    public LoginGUI(User user) {
+        this.user = user;
+        init();
     }
 
-    /**
-     * Get current view's panel
-     * @return Panel with background
-     */
-    private JPanel getBackgroundPanel() {
-        try {
-            BufferedImage backgroundImage = ImageIO.read(new File(UIConstants.LOGIN_BACKGROUND_IMAGE));
-            return new BackgroundPanel(backgroundImage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+    private void init() {
+        setLayout(new MigLayout("fill,insets 20", "[center]", "[center]"));
 
-    private void addComponents(JPanel loginPanel){
-        SpringLayout springLayout = new SpringLayout();
-        loginPanel.setLayout(springLayout);
-
-        // username
-        JLabel usernameLabel = new JLabel("Username: ");
-        usernameLabel.setFont(new Font("Dialog", Font.BOLD, 18));
-
-        JTextField usernameField = new JTextField(UIConstants.LOGIN_TEXT_FIELD_SIZE);
-        usernameField.setFont(new Font("Dialog", Font.BOLD, 18));
-
-        springLayout.putConstraint(SpringLayout.WEST, usernameLabel, 35, SpringLayout.WEST, loginPanel);
-        springLayout.putConstraint(SpringLayout.NORTH, usernameLabel, 85, SpringLayout.NORTH, loginPanel);
-        springLayout.putConstraint(SpringLayout.WEST, usernameField, 135, SpringLayout.WEST, loginPanel);
-        springLayout.putConstraint(SpringLayout.EAST, usernameField, -35, SpringLayout.EAST, loginPanel);
-        springLayout.putConstraint(SpringLayout.NORTH, usernameField, 85, SpringLayout.NORTH, loginPanel);
-
-        loginPanel.add(usernameLabel);
-        loginPanel.add(usernameField);
-
-        // password
-        JLabel passwordLabel = new JLabel("Password: ");
-        passwordLabel.setFont(new Font("Dialog", Font.BOLD, 18));
-
-        JPasswordField passwordField = new JPasswordField(UIConstants.LOGIN_TEXT_FIELD_SIZE);
-        passwordField.setFont(new Font("Dialog", Font.BOLD, 18));
-
-        springLayout.putConstraint(SpringLayout.WEST, passwordLabel, 35, SpringLayout.WEST, loginPanel);
-        springLayout.putConstraint(SpringLayout.NORTH, passwordLabel, 135, SpringLayout.NORTH, loginPanel);
-        springLayout.putConstraint(SpringLayout.WEST, passwordField, 135, SpringLayout.WEST, loginPanel);
-        springLayout.putConstraint(SpringLayout.EAST, passwordField, -35, SpringLayout.EAST, loginPanel);
-        springLayout.putConstraint(SpringLayout.NORTH, passwordField, 135, SpringLayout.NORTH, loginPanel);
-
-        loginPanel.add(passwordLabel);
-        loginPanel.add(passwordField);
-
-        // login button
-        JButton loginButton = new JButton("Login");
-        loginButton.setFont(new Font("Dialog", Font.BOLD, 18));
-        springLayout.putConstraint(SpringLayout.WEST, loginButton, 75, SpringLayout.WEST, loginPanel);
-        springLayout.putConstraint(SpringLayout.NORTH, loginButton, 200, SpringLayout.NORTH, loginPanel);
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                username = usernameField.getText();
-                password = passwordField.getText();
-
-                ResultSet rs = userDao.validateUser(username, password);
-                try {
-                    if (rs.next()) {
-                        User currentUser = User.builder()
-                                .name(rs.getString("name"))
-                                .username(rs.getString("username"))
-                                .email(rs.getString("email"))
-                                .password(rs.getString("password"))
-                                .role(Objects.equals(rs.getString("role"), "ADMIN") ? Role.ADMIN : Role.USER)
-                                .build();
-
-                        LoginGUI.this.removeNotify();
-                        new MainGUI(currentUser);
-                        log.info("SUCCESSFULLY LOGIN! Current User: " + currentUser.getName());
-                    } else {
-                        JOptionPane pane = new JOptionPane("username or password incorrect!");
-                        JDialog dialog = pane.createDialog("Warning");
-                        dialog.setFont(new Font("Dialog", Font.BOLD, 18));
-                        log.error("LOGIN FAILED(check your password and username))");
-                        dialog.setVisible(true);
-                    }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    log.error("LOGIN FAILED(sql Exception) ");
+        if (user.getUserId() == 0) {
+            txtUsername = new JTextField();
+            txtPassword = new JPasswordField();
+            chRememberMe = new JCheckBox("Remember me");
+        } else {
+            Preference preferenceByUserId = preferenceDao.getPreferenceByUserId(user.getUserId());
+            if (preferenceByUserId != null) {
+                chRememberMe = new JCheckBox("Remember me", preferenceByUserId.isRememberMe());
+                if (chRememberMe.isSelected()){
+                    txtUsername = new JTextField(preferenceByUserId.getStoredUsername());
+                    txtPassword = new JPasswordField(preferenceByUserId.getStoredPassword());
+                }else{
+                    txtUsername = new JTextField();
+                    txtPassword = new JPasswordField();
                 }
+            } else {
+                txtUsername = new JTextField();
+                txtPassword = new JPasswordField();
+                chRememberMe = new JCheckBox("Remember me");
             }
-        });
-        loginPanel.add(loginButton);
+        }
 
-        // register button
-        JButton registerButton = new JButton("Register");
-        registerButton.setFont(new Font("Dialog", Font.BOLD, 18));
-        springLayout.putConstraint(SpringLayout.EAST, registerButton, -75, SpringLayout.EAST, loginPanel);
-        springLayout.putConstraint(SpringLayout.NORTH, registerButton, 200, SpringLayout.NORTH, loginPanel);
-        registerButton.addActionListener((ActionEvent e) -> {
-            new RegisterGUI().setVisible(true);
-            LoginGUI.this.dispose();
-        });
-        loginPanel.add(registerButton);
+        cmdLogin = new JButton("Login");
+        JPanel panel = new JPanel(new MigLayout("wrap,fillx,insets 35 45 30 45", "fill,250:280"));
+        panel.putClientProperty(FlatClientProperties.STYLE, "" +
+                "arc:20;" +
+                "[light]background:darken(@background,3%);" +
+                "[dark]background:lighten(@background,3%)");
 
-        this.getContentPane().add(loginPanel);
+        txtPassword.putClientProperty(FlatClientProperties.STYLE, "" +
+                "showRevealButton:true");
+        cmdLogin.putClientProperty(FlatClientProperties.STYLE, "" +
+                "[light]background:darken(@background,10%);" +
+                "[dark]background:lighten(@background,10%);" +
+                "borderWidth:0;" +
+                "focusWidth:0;" +
+                "innerFocusWidth:0");
+
+        txtUsername.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your username");
+        txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your password");
+
+        JLabel lbTitle = new JLabel("Welcome back!");
+        JLabel description = new JLabel("Please sign in to access your account");
+        lbTitle.putClientProperty(FlatClientProperties.STYLE, "" +
+                "font:bold +10");
+        description.putClientProperty(FlatClientProperties.STYLE, "" +
+                "[light]foreground:lighten(@foreground,30%);" +
+                "[dark]foreground:darken(@foreground,30%)");
+
+        ActionListener loginListener = e -> performLoginAction(txtUsername, txtPassword);
+        cmdLogin.addActionListener(loginListener);
+
+        panel.add(lbTitle);
+        panel.add(description);
+        panel.add(new JLabel("Username"), "gapy 8");
+        panel.add(txtUsername);
+        panel.add(new JLabel("Password"), "gapy 8");
+        panel.add(txtPassword);
+        panel.add(chRememberMe, "grow 0");
+        panel.add(cmdLogin, "gapy 10");
+        panel.add(createSignupLabel(), "gapy 10");
+        add(panel);
     }
+
+    private void performLoginAction(JTextField usernameField, JPasswordField passwordField) {
+        boolean rememberMe = chRememberMe.isSelected();
+        username = usernameField.getText();
+        password = passwordField.getText();
+
+        this.user = userDao.getUserByUsername(username);
+        if (user == null) {
+            FrameUtil.showDialog("Account Do Not Exist!");
+            usernameField.setText("");
+            passwordField.setText("");
+        }
+
+        if (hasCurrentUserPreferenceStored()){
+            if (rememberMe){
+                setRememberStatusToTrue(username, password);
+            }else{
+                setRememberStatusToFalse(username, password);
+            }
+        }else if (rememberMe){
+            storeNewPreference(username, password);
+        }
+
+        ResultSet rs = userDao.validateUser(username, password);
+        try {
+            if (rs.next()) {
+                User currentUser = User.builder()
+                        .name(rs.getString("name"))
+                        .username(rs.getString("username"))
+                        .email(rs.getString("email"))
+                        .password(rs.getString("password"))
+                        .role(Objects.equals(rs.getString("role"), "ADMIN") ? Role.ADMIN : Role.USER)
+                        .userId(rs.getInt("user_id"))
+                        .build();
+
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+                frame.dispose();
+                new MainGUI(currentUser);
+                log.info("SUCCESSFULLY LOGIN! Current User: " + currentUser.getName());
+            } else {
+                log.error("LOGIN FAILED(check your password and username))");
+                FrameUtil.showDialog("Username or password is incorrect!");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            log.error("LOGIN FAILED(sql Exception) ");
+        }
+    }
+
+    private void storeNewPreference(String username, String password) {
+        if (user.getUserId() != 0){
+            Preference preference = Preference.builder()
+                    .userId(user.getUserId())
+                    .storedUsername(username)
+                    .storedPassword(password)
+                    .rememberMe(true)
+                    .build();
+
+            preferenceDao.setNewUserPreference(preference);
+        }
+    }
+
+    private void setRememberStatusToFalse(String username, String password) {
+        setRememberStatus(username, password, false);
+    }
+
+    private void setRememberStatusToTrue(String username, String password) {
+        setRememberStatus(username, password, true);
+    }
+
+    private void setRememberStatus(String username, String password, boolean status) {
+        Preference preference = Preference.builder()
+                .userId(user.getUserId())
+                .storedUsername(username)
+                .storedPassword(password)
+                .rememberMe(status)
+                .build();
+
+        preferenceDao.updatePreference(preference);
+    }
+
+    private boolean hasCurrentUserPreferenceStored() {
+        if (user.getUserId() == 0){
+            return false;
+        }else {
+            Preference preferenceByUserId = preferenceDao.getPreferenceByUserId(user.getUserId());
+            if (preferenceByUserId == null){
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
+    private Component createSignupLabel() {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        panel.putClientProperty(FlatClientProperties.STYLE, "" +
+                "background:null");
+        JButton cmdRegister = new JButton("<html><a href=\"#\">Sign up</a></html>");
+        cmdRegister.putClientProperty(FlatClientProperties.STYLE, "" +
+                "border:3,3,3,3");
+        cmdRegister.setContentAreaFilled(false);
+        cmdRegister.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        cmdRegister.addActionListener(e -> {
+            FrameUtil.disposeCurrentFrameAndCreateNewFrame("Registration", this, new RegisterGUI());
+        });
+        JLabel label = new JLabel("Don't have an account ?");
+        label.putClientProperty(FlatClientProperties.STYLE, "" +
+                "[light]foreground:lighten(@foreground,30%);" +
+                "[dark]foreground:darken(@foreground,30%)");
+        panel.add(label);
+        panel.add(cmdRegister);
+        return panel;
+    }
+
+
+    private JTextField txtUsername;
+    private JPasswordField txtPassword;
+    private JCheckBox chRememberMe;
+    private JButton cmdLogin;
 }
