@@ -1,11 +1,12 @@
 package dao;
 
+import domain.Assignment;
 import domain.User;
 
 public interface AssignmentDaoInterface {
-    boolean doesAssignmentSubmissionExist(int assignmentID);
+    boolean doesAssignmentExist(int assignmentID);
 
-    void updateAssignmentSubmission(String assignmentText, int assignmentID, User user);
+    void updateAssignment(String assignmentText, Assignment assignment, User user);
 
-    boolean deleteAssignmentSubmission(int assignmentID);
+    boolean deleteAssignment(int assignmentID);
 }

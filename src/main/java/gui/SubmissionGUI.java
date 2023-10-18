@@ -4,7 +4,7 @@ import domain.User;
 
 import javax.swing.*;
 
-public class AssignmentGUI extends JFrame {
+public class SubmissionGUI extends JFrame {
     private final User user;
     private JPanel panel1;
     private JToolBar toolBar1;
@@ -19,7 +19,7 @@ public class AssignmentGUI extends JFrame {
     private JTextArea textArea1;
     private JTextArea textArea2;
 
-    public AssignmentGUI(User user) {
+    public SubmissionGUI(User user) {
         this.user = user;
         setContentPane(panel1);
         setTitle("welcome");
@@ -29,7 +29,7 @@ public class AssignmentGUI extends JFrame {
         setLocationRelativeTo(null);
         backButton.addActionListener(e -> {
             new MainGUI(user);
-            AssignmentGUI.this.dispose();
+            SubmissionGUI.this.dispose();
         });
     }
 }
