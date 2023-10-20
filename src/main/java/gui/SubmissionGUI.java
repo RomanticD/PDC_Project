@@ -42,10 +42,5 @@ public class SubmissionGUI extends JFrame {
         submitButton.addActionListener(e -> {
             submissionDao.insertSubmission(textArea1.getText(), assignment, user);
         });
-
-        clearButton.addActionListener(e -> {
-            new AssignmentGUI(assignment);
-            SubmissionGUI.this.dispose();
-        });
     }
 }
