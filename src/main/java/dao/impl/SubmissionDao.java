@@ -37,11 +37,11 @@ public class SubmissionDao implements SubmissionDaoInterface {
     }
 
     @Override
-    public void insertSubmission(String assignmentText, Assignment assignment, User user) {
+    public void insertSubmission(String submissionText, Assignment assignment, User user) {
         String query = "INSERT INTO submissions (SUBMISSIONFILEORLINK, assignmentID, studentID, SUBMISSIONTIME) VALUES (?, ?, ?, CURRENT_TIMESTAMP)";
 
         try (PreparedStatement statement = conn.prepareStatement(query)) {
-            statement.setString(1, assignmentText);
+            statement.setString(1, submissionText);
             statement.setInt(2, assignment.getAssignmentID());
             statement.setInt(3, user.getUserId());
             statement.executeUpdate();
@@ -52,11 +52,11 @@ public class SubmissionDao implements SubmissionDaoInterface {
 
 
     @Override
-    public void updateSubmission(String assignmentText, Assignment assignment, User user) {
+    public void updateSubmission(String submissionText, Assignment assignment, User user) {
         String query = "UPDATE submissions SET SUBMISSIONFILEORLINK = ?, SUBMISSIONTIME = CURRENT_TIMESTAMP WHERE assignmentID = ?";
 
         try (PreparedStatement statement = conn.prepareStatement(query)) {
-            statement.setString(1, assignmentText);
+            statement.setString(1, submissionText);
             statement.setInt(2, assignment.getAssignmentID());
             statement.executeUpdate();
         } catch (SQLException e) {
