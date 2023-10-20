@@ -24,7 +24,7 @@ public class SubmissionGUI extends JFrame {
     public SubmissionGUI(User user) {
         this.user = user;
         setContentPane(panel1);
-        setTitle("welcome");
+        setTitle("Welcome");
         setSize(500, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -41,6 +41,11 @@ public class SubmissionGUI extends JFrame {
 
         submitButton.addActionListener(e -> {
             submissionDao.insertSubmission(textArea1.getText(), assignment, user);
+        });
+
+        clearButton.addActionListener(e -> {
+            new AssignmentGUI(assignment);
+            SubmissionGUI.this.dispose();
         });
     }
 }
