@@ -100,6 +100,25 @@ public class CourseDao implements CourseDaoInterface, Closeable {
     }
 
     @Override
+    public int getCourseIDByName(String courseName) {
+        int courseID = -1;
+        String query = "SELECT courseID FROM courses WHERE courseName = ?";
+
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setString(1, courseName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                courseID = resultSet.getInt("courseID");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately in your application
+        }
+
+        return courseID;
+    }
+
+    @Override
     public void close() throws IOException {
         try {
             conn.close();

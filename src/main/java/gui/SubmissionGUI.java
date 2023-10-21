@@ -8,6 +8,7 @@ import javax.swing.*;
 
 public class SubmissionGUI extends JFrame {
     private final User user;
+    private final SubmissionDao submissionDao = new SubmissionDao();
     private JPanel panel1;
     private JToolBar toolBar1;
     private JButton backButton;
@@ -18,34 +19,31 @@ public class SubmissionGUI extends JFrame {
     private JPanel panel2;
     private JLabel assignmentLabel;
     private JLabel programmeLabel;
-    private JTextArea textArea1;
-    private JTextArea textArea2;
+    private JTextArea submissionContent;
+    private JTextArea assignmentContent;
 
-    public SubmissionGUI(User user) {
+    public SubmissionGUI(User user, Assignment assignment) {
+
         this.user = user;
+
+        backButton.addActionListener(e -> {
+            SubmissionGUI.this.dispose();
+            new SelectAssignmentGUI(user);
+        });
+
+        clearButton.addActionListener(e -> {
+            submissionContent.setText("");
+        });
+
+        submitButton.addActionListener(e -> {
+            submissionDao.insertSubmission(submissionContent.getText(), assignment, user);
+        });
+
         setContentPane(panel1);
         setTitle("Welcome");
         setSize(500, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
-
-        SubmissionDao submissionDao = new SubmissionDao();
-        Assignment assignment = new Assignment();
-        assignment.setAssignmentID(1);
-
-        backButton.addActionListener(e -> {
-            new MainGUI(user);
-            SubmissionGUI.this.dispose();
-        });
-
-        submitButton.addActionListener(e -> {
-            submissionDao.insertSubmission(textArea1.getText(), assignment, user);
-        });
-
-        clearButton.addActionListener(e -> {
-            new AssignmentGUI(user);
-            SubmissionGUI.this.dispose();
-        });
     }
 }
