@@ -1,5 +1,6 @@
 package gui;
 
+import dao.AssignmentDaoInterface;
 import dao.impl.AssignmentDao;
 import domain.Course;
 import domain.User;
@@ -24,7 +25,7 @@ public class SelectAssignmentGUI extends JFrame{
     public SelectAssignmentGUI(User user){
         // In this GUI, you can select an assignment from selected courses to submit or arrange.
 
-        AssignmentDao assignmentDao = new AssignmentDao();
+        AssignmentDaoInterface assignmentDao = new AssignmentDao();
         CourseDao courseDao = new CourseDao();
         DefaultListModel<String> courseListModel = new DefaultListModel<>();
         DefaultListModel<String> assignmentListModel = new DefaultListModel<>();
@@ -41,25 +42,22 @@ public class SelectAssignmentGUI extends JFrame{
         assignmentList.setModel(assignmentListModel);
 
         // According to the selected course, show the assignments of that
-        courseList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    // Retrieve the selected course
-                    String selectedCourse = courseList.getSelectedValue();
+        courseList.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                // Retrieve the selected course
+                String selectedCourse = courseList.getSelectedValue();
 
-                    // Convert the selectedCourse to assignmentNames.
-                    List<String> assignmentNames = assignmentDao.getAssignmentNameByCourseID(courseDao.getCourseIDByName(selectedCourse));
+                // Convert the selectedCourse to assignmentNames.
+                List<String> assignmentNames = assignmentDao.getAssignmentNameByCourseID(courseDao.getCourseIDByName(selectedCourse));
 
-                    // Clear the assignmentListModel
-                    assignmentListModel.clear();
+                // Clear the assignmentListModel
+                assignmentListModel.clear();
 
-                    for (String assignmentName : assignmentNames) {
-                        assignmentListModel.addElement(assignmentName);
-                    }
-
-                    assignmentList.setModel(assignmentListModel);
+                for (String assignmentName : assignmentNames) {
+                    assignmentListModel.addElement(assignmentName);
                 }
+
+                assignmentList.setModel(assignmentListModel);
             }
         });
 
@@ -82,7 +80,6 @@ public class SelectAssignmentGUI extends JFrame{
         setLocationRelativeTo(null);
     }
 
-    // Transform the courseList to courseName
     private static List<String> getCourseNames(List<Course> courseList){
         List<String> courseNames = new ArrayList<>();
 

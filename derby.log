@@ -1,18 +1,13 @@
 ----------------------------------------------------------------
-Sat Oct 21 22:12:36 CST 2023:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-018b-5294-a967-0000002710b0 
-on database directory /Users/sunyuliang/Desktop/Astin/PDC_Project/pdc_project with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@341d9e96 
-Loaded from file:/Users/sunyuliang/.m2/repository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar
-java.vendor=IBM Corporation
-java.runtime.version=11.0.21+5
-java.fullversion=11.0.21+5
-JRE 11 Mac OS X aarch64-64-Bit 20230905_408 (JIT enabled, AOT enabled)
-OpenJ9   - 87d042a68
-OMR      - fa7b6ddc7
-JCL      - 32a436870a based on jdk-11.0.21+5
-user.dir=/Users/sunyuliang/Desktop/Astin/PDC_Project
+Sat Oct 21 22:58:49 CST 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-018b-52be-f8e1-00000fb12230 
+on database directory /Users/romanticd/Desktop/PDC_Project/pdc_project with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@251a69d7 
+Loaded from file:/Users/romanticd/Documents/jar%e6%96%87%e4%bb%b6/apache-maven-3.8.6/localRepository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar
+java.vendor=Oracle Corporation
+java.runtime.version=17.0.7+8-LTS-224
+user.dir=/Users/romanticd/Desktop/PDC_Project
 os.name=Mac OS X
 os.arch=aarch64
-os.version=13.4
+os.version=14.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
