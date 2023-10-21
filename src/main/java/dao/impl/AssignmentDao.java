@@ -9,6 +9,10 @@ import manager.DatabaseConnectionManager;
 import java.io.Closeable;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import domain.User;
 
 @Slf4j
@@ -16,6 +20,7 @@ public class AssignmentDao implements AssignmentDaoInterface{
 
     private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
+    private final CourseDao courseDao = new CourseDao();
 
     public AssignmentDao() {
         databaseConnectionManager = new DatabaseConnectionManager();
@@ -79,5 +84,53 @@ public class AssignmentDao implements AssignmentDaoInterface{
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public List<String> getAssignmentNameByCourseID(int courseID) {
+        List<String> assignmentNames = new ArrayList<>();
+        String query = "SELECT assignmentName FROM assignments WHERE courseID = ?";
+
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setInt(1, courseID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String assignmentName = resultSet.getString("assignmentName");
+                assignmentNames.add(assignmentName);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately in your application
+        }
+
+        return assignmentNames;
+    }
+
+    public Assignment getAssignmentByAssignmentName(String assignmentName) {
+        Assignment assignment = new Assignment();
+        String query = "SELECT * FROM assignments WHERE ASSIGNMENTNAME = ? ";
+
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, assignmentName);
+
+            log.info("Executing SQL query: " + stmt);
+
+            ResultSet resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                int courseId = resultSet.getInt("COURSEID");
+                int assignmentID = resultSet.getInt("ASSIGNMENTID");
+
+                assignment = Assignment.builder()
+                        .assignmentName(assignmentName)
+                        .courseID(courseId)
+                        .assignmentID(assignmentID)
+                        .build();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return assignment;
     }
 }
