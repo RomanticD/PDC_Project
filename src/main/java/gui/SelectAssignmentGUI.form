@@ -26,7 +26,7 @@
           <vspacer id="67d71">
             <constraints/>
           </vspacer>
-          <component id="1aa5f" class="javax.swing.JButton" binding="arrangeButton" default-binding="true">
+          <component id="1aa5f" class="javax.swing.JButton" binding="operationButton" default-binding="true">
             <constraints/>
             <properties>
               <text value="Arrange"/>

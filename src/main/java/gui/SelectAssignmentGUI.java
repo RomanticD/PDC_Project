@@ -1,34 +1,47 @@
 package gui;
 
 import dao.AssignmentDaoInterface;
+import dao.CourseDaoInterface;
 import dao.impl.AssignmentDao;
 import domain.Course;
 import domain.User;
 import dao.impl.CourseDao;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SelectAssignmentGUI extends JFrame{
     private JPanel panel;
     private JButton backButton;
-    private JButton arrangeButton;
+    private JButton operationButton;
     private JList<String> courseList;
     private JList<String> assignmentList;
     private JScrollPane coursePane;
     private JScrollPane assignmentPane;
     private JPanel pnlList;
 
-    public SelectAssignmentGUI(User user){
-        // In this GUI, you can select an assignment from selected courses to submit or arrange.
 
+    public SelectAssignmentGUI(User user){
         AssignmentDaoInterface assignmentDao = new AssignmentDao();
-        CourseDao courseDao = new CourseDao();
+        CourseDaoInterface courseDao = new CourseDao();
         DefaultListModel<String> courseListModel = new DefaultListModel<>();
         DefaultListModel<String> assignmentListModel = new DefaultListModel<>();
+
+        String buttonText = user.isAdmin() ? "Arrange" : "Submit";
+        operationButton.setText(buttonText);
+
+        ActionListener OperationButtonActionListener = e -> {
+            if (user.isAdmin()){
+                //button action when user is admin
+            } else {
+                //button action when user is NOT admin
+            }
+        };
+
+        operationButton.addActionListener(OperationButtonActionListener);
+
 
         // Get the courseList and convert it to courseNameList showed in courseList
         List<String> CourseNames = getCourseNames(courseDao.getCourseByUser(user));
@@ -73,20 +86,24 @@ public class SelectAssignmentGUI extends JFrame{
         });
 
         setContentPane(panel);
-        setTitle("Welcome");
+        setTitle("Course and Assignment");
         setSize(500, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Retrieves the names of courses from the provided list of Course objects.
+     *
+     * @param courseList The list of Course objects from which to retrieve the names.
+     * @return A List containing the names of the courses.
+     */
     private static List<String> getCourseNames(List<Course> courseList){
         List<String> courseNames = new ArrayList<>();
-
         for (Course course : courseList) {
             courseNames.add(course.getCourseName());
         }
-
         return courseNames;
     }
 }
