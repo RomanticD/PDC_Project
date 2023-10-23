@@ -1,14 +1,13 @@
 package gui;
 
+import dao.AssignmentDaoInterface;
+import dao.CourseDaoInterface;
 import dao.impl.AssignmentDao;
-import domain.Course;
 import domain.User;
 import dao.impl.CourseDao;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import java.util.ArrayList;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,17 +22,18 @@ public class SelectAssignmentGUI extends JFrame{
     private JPanel pnlList;
     private JLabel courses;
     private JLabel assignments;
+    private JButton createNewButton;
 
     public SelectAssignmentGUI(User user){
         // In this GUI, you can select an assignment from selected courses to submit or arrange.
 
-        AssignmentDao assignmentDao = new AssignmentDao();
-        CourseDao courseDao = new CourseDao();
+        AssignmentDaoInterface assignmentDao = new AssignmentDao();
+        CourseDaoInterface courseDao = new CourseDao();
         DefaultListModel<String> courseListModel = new DefaultListModel<>();
         DefaultListModel<String> assignmentListModel = new DefaultListModel<>();
 
         // Get the courseList and convert it to courseNameList showed in courseList
-        List<String> CourseNames = getCourseNames(courseDao.getCourseByUser(user));
+        List<String> CourseNames = courseDao.getCourseNames(courseDao.getCourseByUser(user));
 
         for (String assignmentName : CourseNames) {
             courseListModel.addElement(assignmentName);
@@ -44,29 +44,40 @@ public class SelectAssignmentGUI extends JFrame{
         assignmentList.setModel(assignmentListModel);
 
         // According to the selected course, show the assignments of that
-        courseList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    // Retrieve the selected course
-                    String selectedCourse = courseList.getSelectedValue();
+        courseList.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                // Retrieve the selected course
+                String selectedCourse = courseList.getSelectedValue();
 
-                    // Convert the selectedCourse to assignmentNames.
-                    List<String> assignmentNames = assignmentDao.getAssignmentNameByCourseID(courseDao.getCourseIDByName(selectedCourse));
+                // Convert the selectedCourse to assignmentNames.
+                List<String> assignmentNames = assignmentDao.getAssignmentNameByCourseID(courseDao.getCourseIDByName(selectedCourse));
 
-                    // Clear the assignmentListModel
-                    assignmentListModel.clear();
+                // Clear the assignmentListModel
+                assignmentListModel.clear();
 
-                    for (String assignmentName : assignmentNames) {
-                        assignmentListModel.addElement(assignmentName);
-                    }
-
-                    assignmentList.setModel(assignmentListModel);
+                for (String assignmentName : assignmentNames) {
+                    assignmentListModel.addElement(assignmentName);
                 }
+
+                assignmentList.setModel(assignmentListModel);
             }
         });
 
-        selectButton.addActionListener(e -> {
+        backButton.addActionListener(e -> {
+            SelectAssignmentGUI.this.dispose();
+            new MainGUI(user);
+        });
+
+        if(user.isAdmin()){
+            createNewButton.addActionListener(e -> {
+                SelectAssignmentGUI.this.dispose();
+                new ArrangementGUI(user);
+            });
+        } else {
+            createNewButton.setVisible(false);
+        }
+
+        ActionListener selectButtonActionListener = e -> {
             String selectedAssignment = assignmentList.getSelectedValue();
             if(Objects.equals(selectedAssignment, null)){
                 int option = JOptionPane.showOptionDialog(
@@ -82,19 +93,21 @@ public class SelectAssignmentGUI extends JFrame{
 
                 if (option == 0) {
                     // User clicked "Yes"
-                    // Add your code here to handle "Yes" option
                     System.out.println("User clicked 'Yes'");
+                    this.dispose();
+                    new SelectAssignmentGUI(user);
                 }
             } else {
-                SelectAssignmentGUI.this.dispose();
-                new SubmissionGUI(user, assignmentDao.getAssignmentByAssignmentName(selectedAssignment));
+                if (user.isAdmin()){
+                    SelectAssignmentGUI.this.dispose();
+                    new ArrangementGUI(user, assignmentDao.getAssignmentByAssignmentName(selectedAssignment));
+                } else {
+                    SelectAssignmentGUI.this.dispose();
+                    new SubmissionGUI(user, assignmentDao.getAssignmentByAssignmentName(selectedAssignment));
+                }
             }
-        });
-
-        backButton.addActionListener(e -> {
-            SelectAssignmentGUI.this.dispose();
-            new MainGUI(user);
-        });
+        };
+        selectButton.addActionListener(selectButtonActionListener);
 
         setContentPane(panel);
         setTitle("Select your assignment");
@@ -102,16 +115,5 @@ public class SelectAssignmentGUI extends JFrame{
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
-    }
-
-    // Transform the courseList to courseName
-    private static List<String> getCourseNames(List<Course> courseList){
-        List<String> courseNames = new ArrayList<>();
-
-        for (Course course : courseList) {
-            courseNames.add(course.getCourseName());
-        }
-
-        return courseNames;
     }
 }

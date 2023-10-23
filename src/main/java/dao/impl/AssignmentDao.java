@@ -16,7 +16,7 @@ import java.util.List;
 import domain.User;
 
 @Slf4j
-public class AssignmentDao implements AssignmentDaoInterface{
+public class AssignmentDao implements AssignmentDaoInterface, Closeable{
 
     private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
@@ -31,14 +31,17 @@ public class AssignmentDao implements AssignmentDaoInterface{
     public boolean doesAssignmentExist(int assignmentID) {
         String query = "SELECT COUNT(*) FROM assignments WHERE assignmentID = ?";
 
-        try (PreparedStatement statement = conn.prepareStatement(query)) {
-            statement.setInt(1, assignmentID);
-            try (ResultSet resultSet = statement.executeQuery()) {
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setInt(1, assignmentID);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     int count = resultSet.getInt(1);
                     return count > 0; // If count > 0, the assignment exists
                 }
             }
+
+            log.info("Executing SQL query: " + preparedStatement);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -48,12 +51,16 @@ public class AssignmentDao implements AssignmentDaoInterface{
 
     @Override
     public void insertAssignment(String assignmentName, int courseID, String assignmentContent) {
-        String query = "INSERT INTO assignments (ASSIGNMENTNAME, COURSEID) VALUES (?, ?)";
+        String query = "INSERT INTO assignments (ASSIGNMENTNAME, COURSEID, ASSIGNMENTCONTENT) VALUES (?, ?, ?)";
 
-        try (PreparedStatement statement = conn.prepareStatement(query)) {
-            statement.setString(1, assignmentName);
-            statement.setInt(2, courseID);
-            statement.executeUpdate();
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setString(1, assignmentName);
+            preparedStatement.setInt(2, courseID);
+            preparedStatement.setString(3, assignmentContent);
+            preparedStatement.executeUpdate();
+
+            log.info("Executing SQL query: " + preparedStatement);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -61,13 +68,16 @@ public class AssignmentDao implements AssignmentDaoInterface{
 
     @Override
     public void updateAssignment(String assignmentName, int courseID, String assignmentContent) {
-        String query = "UPDATE assignments SET ASSIGNMENTNAME = ?, COURSEID = ? WHERE ASSIGNMENTNAME = ?";
+        String query = "UPDATE assignments SET ASSIGNMENTCONTENT = ?, COURSEID = ? WHERE ASSIGNMENTNAME = ?";
 
-        try (PreparedStatement statement = conn.prepareStatement(query)) {
-            statement.setString(1, assignmentName);
-            statement.setInt(2, courseID);
-            statement.setString(3, assignmentName);
-            statement.executeUpdate();
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setString(1, assignmentContent);
+            preparedStatement.setInt(2, courseID);
+            preparedStatement.setString(3, assignmentName);
+            preparedStatement.executeUpdate();
+
+            log.info("Executing SQL query: " + preparedStatement);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -77,9 +87,12 @@ public class AssignmentDao implements AssignmentDaoInterface{
     public boolean deleteAssignment(String assignmentName) {
         String query = "DELETE FROM assignments WHERE assignmentName = ?";
 
-        try (PreparedStatement statement = conn.prepareStatement(query)) {
-            statement.setString(1, assignmentName);
-            statement.executeUpdate();
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setString(1, assignmentName);
+            preparedStatement.executeUpdate();
+
+            log.info("Executing SQL query: " + preparedStatement);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -95,6 +108,8 @@ public class AssignmentDao implements AssignmentDaoInterface{
             preparedStatement.setInt(1, courseID);
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            log.info("Executing SQL query: " + preparedStatement);
+
             while (resultSet.next()) {
                 String assignmentName = resultSet.getString("assignmentName");
                 assignmentNames.add(assignmentName);
@@ -107,23 +122,24 @@ public class AssignmentDao implements AssignmentDaoInterface{
     }
 
     public Assignment getAssignmentByAssignmentName(String assignmentName) {
-        Assignment assignment = new Assignment();
         String query = "SELECT * FROM assignments WHERE ASSIGNMENTNAME = ? ";
 
-        try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, assignmentName);
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setString(1, assignmentName);
 
-            log.info("Executing SQL query: " + stmt);
+            log.info("Executing SQL query: " + preparedStatement);
 
-            ResultSet resultSet = stmt.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 int courseId = resultSet.getInt("COURSEID");
                 int assignmentID = resultSet.getInt("ASSIGNMENTID");
+                String assignmentContent = resultSet.getString("ASSIGNMENTCONTENT");
 
-                assignment = Assignment.builder()
+                return Assignment.builder()
+                        .assignmentContent(assignmentContent)
                         .assignmentName(assignmentName)
-                        .courseID(courseId)
                         .assignmentID(assignmentID)
+                        .courseID(courseId)
                         .build();
             }
 
@@ -131,6 +147,16 @@ public class AssignmentDao implements AssignmentDaoInterface{
             e.printStackTrace();
         }
 
-        return assignment;
+        return null;
+    }
+
+    @Override
+    public void close() throws IOException {
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            log.error("Error when closing connection");
+            throw new IOException(e);
+        }
     }
 }

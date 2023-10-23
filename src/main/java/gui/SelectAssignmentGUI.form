@@ -26,6 +26,12 @@
           <vspacer id="67d71">
             <constraints/>
           </vspacer>
+          <component id="c44a4" class="javax.swing.JButton" binding="createNewButton">
+            <constraints/>
+            <properties>
+              <text value="New"/>
+            </properties>
+          </component>
           <component id="1aa5f" class="javax.swing.JButton" binding="selectButton">
             <constraints/>
             <properties>
