@@ -5,6 +5,7 @@ import dao.CourseDaoInterface;
 import dao.impl.AssignmentDao;
 import domain.User;
 import dao.impl.CourseDao;
+import util.FrameUtil;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -29,6 +30,7 @@ public class SelectAssignmentGUI extends JFrame{
 
         AssignmentDaoInterface assignmentDao = new AssignmentDao();
         CourseDaoInterface courseDao = new CourseDao();
+
         DefaultListModel<String> courseListModel = new DefaultListModel<>();
         DefaultListModel<String> assignmentListModel = new DefaultListModel<>();
 
@@ -80,23 +82,7 @@ public class SelectAssignmentGUI extends JFrame{
         ActionListener selectButtonActionListener = e -> {
             String selectedAssignment = assignmentList.getSelectedValue();
             if(Objects.equals(selectedAssignment, null)){
-                int option = JOptionPane.showOptionDialog(
-                        SelectAssignmentGUI.this,   // Parent component (this JFrame)
-                        "You haven't selected the assignment", // Message
-                        "Confirmation",  // Title
-                        JOptionPane.YES_NO_OPTION,  // Option type
-                        JOptionPane.QUESTION_MESSAGE, // Message type
-                        null,  // Icon (null for default)
-                        new String[] {"OK"}, // Custom button text
-                        "OK" // Default button text
-                );
-
-                if (option == 0) {
-                    // User clicked "Yes"
-                    System.out.println("User clicked 'Yes'");
-                    this.dispose();
-                    new SelectAssignmentGUI(user);
-                }
+                FrameUtil.showConfirmation(SelectAssignmentGUI.this, user, "You haven't selected any assignment!");
             } else {
                 if (user.isAdmin()){
                     SelectAssignmentGUI.this.dispose();

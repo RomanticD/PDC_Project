@@ -6,6 +6,7 @@ import dao.impl.AssignmentDao;
 import dao.impl.CourseDao;
 import domain.Assignment;
 import domain.User;
+import util.FrameUtil;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -33,6 +34,7 @@ public class ArrangementGUI extends JFrame{
 
         arrangeButton.addActionListener(e -> {
             assignmentDao.updateAssignment(assignment.getAssignmentName(), assignment.getCourseID(),contentText.getText());
+            FrameUtil.showConfirmation(ArrangementGUI.this, user, "Arrange successfully!");
         });
 
         backButton.addActionListener(e -> {
@@ -59,7 +61,7 @@ public class ArrangementGUI extends JFrame{
         List<String> CourseNames = courseDao.getCourseNames(courseDao.getCourseByUser(user));
 
         for (String assignmentName : CourseNames) {
-                courseListModel.addElement(assignmentName);
+            courseListModel.addElement(assignmentName);
         }
 
         // Set the model for the lists
@@ -67,6 +69,7 @@ public class ArrangementGUI extends JFrame{
 
         arrangeButton.addActionListener(e -> {
             assignmentDao.insertAssignment(nameText.getText(), courseDao.getCourseIDByName(courseList.getSelectedValue()), contentText.getText());
+            FrameUtil.showConfirmation(ArrangementGUI.this, user, "Create successfully!");
         });
 
         backButton.addActionListener(e -> {

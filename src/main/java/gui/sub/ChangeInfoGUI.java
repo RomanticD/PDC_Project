@@ -72,12 +72,12 @@ public class ChangeInfoGUI extends JFrame {
             panel.add(label);
             panel.add(newField);
 
-            JButton comfirmButton = new JButton("Confirm Modify");
-            comfirmButton.setFont(new Font("Dialog", Font.BOLD, 18));
-            springLayout.putConstraint(SpringLayout.WEST, comfirmButton, 100, SpringLayout.WEST, panel);
-            springLayout.putConstraint(SpringLayout.EAST, comfirmButton, -100, SpringLayout.EAST, panel);
-            springLayout.putConstraint(SpringLayout.NORTH, comfirmButton, 200, SpringLayout.NORTH, panel);
-            comfirmButton.addActionListener(e -> {
+            JButton confirmButton = new JButton("Confirm Modify");
+            confirmButton.setFont(new Font("Dialog", Font.BOLD, 18));
+            springLayout.putConstraint(SpringLayout.WEST, confirmButton, 100, SpringLayout.WEST, panel);
+            springLayout.putConstraint(SpringLayout.EAST, confirmButton, -100, SpringLayout.EAST, panel);
+            springLayout.putConstraint(SpringLayout.NORTH, confirmButton, 200, SpringLayout.NORTH, panel);
+            confirmButton.addActionListener(e -> {
                 log.info("Changing " + user.getName() + "'s " + infoToModify);
 
                 switch (infoToModify){
@@ -91,7 +91,7 @@ public class ChangeInfoGUI extends JFrame {
                         break;
                 }
             });
-            panel.add(comfirmButton);
+            panel.add(confirmButton);
         } else {
             JLabel oldPasswordLabel = new JLabel("Current password:");
             JLabel newPasswordLabel = new JLabel("New password:");
