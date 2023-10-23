@@ -10,16 +10,19 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SelectAssignmentGUI extends JFrame{
     private JPanel panel;
     private JButton backButton;
-    private JButton arrangeButton;
+    private JButton selectButton;
     private JList<String> courseList;
     private JList<String> assignmentList;
     private JScrollPane coursePane;
     private JScrollPane assignmentPane;
     private JPanel pnlList;
+    private JLabel courses;
+    private JLabel assignments;
 
     public SelectAssignmentGUI(User user){
         // In this GUI, you can select an assignment from selected courses to submit or arrange.
@@ -63,10 +66,29 @@ public class SelectAssignmentGUI extends JFrame{
             }
         });
 
-        assignmentList.addListSelectionListener(e -> {
-            SelectAssignmentGUI.this.dispose();
+        selectButton.addActionListener(e -> {
             String selectedAssignment = assignmentList.getSelectedValue();
-            new SubmissionGUI(user, assignmentDao.getAssignmentByAssignmentName(selectedAssignment));
+            if(Objects.equals(selectedAssignment, null)){
+                int option = JOptionPane.showOptionDialog(
+                        SelectAssignmentGUI.this,   // Parent component (this JFrame)
+                        "You haven't selected the assignment", // Message
+                        "Confirmation",  // Title
+                        JOptionPane.YES_NO_OPTION,  // Option type
+                        JOptionPane.QUESTION_MESSAGE, // Message type
+                        null,  // Icon (null for default)
+                        new String[] {"OK"}, // Custom button text
+                        "OK" // Default button text
+                );
+
+                if (option == 0) {
+                    // User clicked "Yes"
+                    // Add your code here to handle "Yes" option
+                    System.out.println("User clicked 'Yes'");
+                }
+            } else {
+                SelectAssignmentGUI.this.dispose();
+                new SubmissionGUI(user, assignmentDao.getAssignmentByAssignmentName(selectedAssignment));
+            }
         });
 
         backButton.addActionListener(e -> {
@@ -75,7 +97,7 @@ public class SelectAssignmentGUI extends JFrame{
         });
 
         setContentPane(panel);
-        setTitle("Welcome");
+        setTitle("Select your assignment");
         setSize(500, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
