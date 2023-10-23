@@ -3,11 +3,10 @@ package gui;
 import domain.Assignment;
 import domain.User;
 import dao.impl.SubmissionDao;
-import lombok.extern.slf4j.Slf4j;
+import util.FrameUtil;
 
 import javax.swing.*;
 
-@Slf4j
 public class SubmissionGUI extends JFrame {
     private final User user;
     private final SubmissionDao submissionDao = new SubmissionDao();
@@ -35,15 +34,15 @@ public class SubmissionGUI extends JFrame {
 
         clearButton.addActionListener(e -> {
             submissionContent.setText("");
-            log.info("Clear Button clicked...");
         });
 
         submitButton.addActionListener(e -> {
             submissionDao.insertSubmission(submissionContent.getText(), assignment, user);
+            FrameUtil.showConfirmation(SubmissionGUI.this, user, "Submit successfully!");
         });
 
         setContentPane(panel1);
-        setTitle("Submission Page");
+        setTitle("Welcome");
         setSize(500, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);

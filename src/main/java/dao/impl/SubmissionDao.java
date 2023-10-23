@@ -3,11 +3,15 @@ package dao.impl;
 import dao.SubmissionDaoInterface;
 import domain.Assignment;
 import domain.User;
+import lombok.extern.slf4j.Slf4j;
 import manager.DatabaseConnectionManager;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.sql.*;
 
-public class SubmissionDao implements SubmissionDaoInterface {
+@Slf4j
+public class SubmissionDao implements SubmissionDaoInterface, Closeable{
 
     private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
@@ -76,5 +80,15 @@ public class SubmissionDao implements SubmissionDaoInterface {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public void close() throws IOException {
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            log.error("Error when closing connection");
+            throw new IOException(e);
+        }
     }
 }

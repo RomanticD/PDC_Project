@@ -119,6 +119,16 @@ public class CourseDao implements CourseDaoInterface, Closeable {
         return courseID;
     }
 
+    public List<String> getCourseNames(List<Course> courseList){
+        List<String> courseNames = new ArrayList<>();
+
+        for (Course course : courseList) {
+            courseNames.add(course.getCourseName());
+        }
+
+        return courseNames;
+    }
+
     @Override
     public void close() throws IOException {
         try {

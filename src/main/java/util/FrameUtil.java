@@ -1,5 +1,7 @@
 package util;
 
+import domain.User;
+import gui.SelectAssignmentGUI;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
@@ -54,7 +56,7 @@ public class FrameUtil {
     public static void showDialog(String message){
         Object[] options = {"OK"};
         JOptionPane.showOptionDialog(null, message,
-                "Account Exists", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
+                "Warning", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
                 null, options, options[0]);
     }
 
@@ -108,5 +110,25 @@ public class FrameUtil {
         layout.putConstraint(SpringLayout.NORTH, backButton, 5, SpringLayout.NORTH, containerPanel);
         backButton.addActionListener(customAction);
         containerPanel.add(backButton);
+    }
+
+    public static void showConfirmation(JFrame GUI, User user, String message){
+        int option = JOptionPane.showOptionDialog(
+                GUI,   // Parent component (this JFrame)
+                message, // Message
+                "Confirmation",  // Title
+                JOptionPane.YES_NO_OPTION,  // Option type
+                JOptionPane.QUESTION_MESSAGE, // Message type
+                null,  // Icon (null for default)
+                new String[] {"OK"}, // Custom button text
+                "OK" // Default button text
+        );
+
+        if (option == 0) {
+            // User clicked "Yes"
+            log.info("User clicked Yes");
+            GUI.dispose();
+            new SelectAssignmentGUI(user);
+        }
     }
 }
