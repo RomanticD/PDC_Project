@@ -91,7 +91,7 @@ public class AssignmentDao implements AssignmentDaoInterface, Closeable{
             preparedStatement.setString(3, assignment.getAssignmentName());
             preparedStatement.executeUpdate();
 
-            log.info("Executing SQL query: " + preparedStatement);
+            log.info("Executing SQL query - updateAssignment: " + preparedStatement);
 
         } catch (SQLException e) {
             log.error("Error when updating assignment: "  + e.getMessage());
@@ -103,6 +103,10 @@ public class AssignmentDao implements AssignmentDaoInterface, Closeable{
 
     @Override
     public boolean deleteAssignment(Assignment assignment) {
+        if(!doesAssignmentExist(assignment)){
+            return false;
+        }
+
         String query = "DELETE FROM assignments WHERE assignmentName = ? AND COURSEID = ?";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {

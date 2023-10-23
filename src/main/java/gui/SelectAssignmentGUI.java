@@ -98,7 +98,7 @@ public class SelectAssignmentGUI extends JFrame{
             String selectedCourse = courseList.getSelectedValue();
             String selectedAssignment = assignmentList.getSelectedValue();
             if(Objects.equals(selectedAssignment, null)){
-                FrameUtil.showConfirmation(SelectAssignmentGUI.this, user, "You haven't selected any assignment");
+                FrameUtil.showConfirmation(SelectAssignmentGUI.this, user, "You haven't selected any assignment!");
             } else {
                 if (user.isAdmin()){
                     SelectAssignmentGUI.this.dispose();

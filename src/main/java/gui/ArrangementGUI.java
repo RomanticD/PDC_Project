@@ -30,6 +30,8 @@ public class ArrangementGUI extends JFrame{
         nameText.setText(assignment.getAssignmentName());
 
         arrangeButton.addActionListener(e -> {
+            assignment.setAssignmentContent(contentText.getText());
+
             if(assignmentDao.updateAssignment(assignment)){
                 FrameUtil.showConfirmation(ArrangementGUI.this, user, "Arrange successfully!");
             } else {
@@ -71,6 +73,7 @@ public class ArrangementGUI extends JFrame{
                     .assignmentName(nameText.getText())
                     .courseID(courseDao.getCourseIDByName(courseList.getSelectedValue()))
                     .build();
+
             if(assignmentDao.insertAssignment(newAssignment)){
                 FrameUtil.showConfirmation(ArrangementGUI.this, user, "Create successfully!");
             }else {
@@ -84,7 +87,7 @@ public class ArrangementGUI extends JFrame{
         });
 
         setContentPane(mainPanel);
-        setTitle("Create an assignment");
+        setTitle("Arrange an assignment");
         setSize(600, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
