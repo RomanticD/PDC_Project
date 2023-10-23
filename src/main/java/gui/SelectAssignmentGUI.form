@@ -23,9 +23,15 @@
               <text value="Back"/>
             </properties>
           </component>
-          <vspacer id="67d71">
+          <hspacer id="115ba">
             <constraints/>
-          </vspacer>
+          </hspacer>
+          <component id="4e916" class="javax.swing.JButton" binding="deleteButton">
+            <constraints/>
+            <properties>
+              <text value="Delete"/>
+            </properties>
+          </component>
           <component id="c44a4" class="javax.swing.JButton" binding="createNewButton">
             <constraints/>
             <properties>

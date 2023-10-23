@@ -112,7 +112,7 @@ public class CourseDao implements CourseDaoInterface, Closeable {
                 courseID = resultSet.getInt("courseID");
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately in your application
+            e.printStackTrace();
         }
 
         return courseID;

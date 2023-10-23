@@ -134,12 +134,12 @@ public class ChangeInfoGUI extends JFrame {
             springLayout.putConstraint(SpringLayout.EAST, repeatPasswordField, -35, SpringLayout.EAST, panel);
             springLayout.putConstraint(SpringLayout.NORTH, repeatPasswordField, 10, SpringLayout.SOUTH, repeatNewPasswordLabel);
 
-            JButton comfirmButton = new JButton("Confirm Modify");
-            comfirmButton.setFont(new Font("Dialog", Font.BOLD, 18));
-            springLayout.putConstraint(SpringLayout.WEST, comfirmButton, 100, SpringLayout.WEST, panel);
-            springLayout.putConstraint(SpringLayout.EAST, comfirmButton, -100, SpringLayout.EAST, panel);
-            springLayout.putConstraint(SpringLayout.NORTH, comfirmButton, 50, SpringLayout.NORTH, repeatPasswordField);
-            comfirmButton.addActionListener(e -> {
+            JButton confirmButton = new JButton("Confirm Modify");
+            confirmButton.setFont(new Font("Dialog", Font.BOLD, 18));
+            springLayout.putConstraint(SpringLayout.WEST, confirmButton, 100, SpringLayout.WEST, panel);
+            springLayout.putConstraint(SpringLayout.EAST, confirmButton, -100, SpringLayout.EAST, panel);
+            springLayout.putConstraint(SpringLayout.NORTH, confirmButton, 50, SpringLayout.NORTH, repeatPasswordField);
+            confirmButton.addActionListener(e -> {
                 log.info("Changing " + user.getName() + "'s " + infoToModify);
                 if (validateUserInput(oldPasswordField, newPasswordField, repeatPasswordField)){
                     ModifyPassword(String.valueOf(newPasswordField.getPassword()));
@@ -152,7 +152,7 @@ public class ChangeInfoGUI extends JFrame {
             panel.add(newPasswordField);
             panel.add(repeatNewPasswordLabel);
             panel.add(repeatPasswordField);
-            panel.add(comfirmButton);
+            panel.add(confirmButton);
         }
 
         this.getContentPane().add(panel);

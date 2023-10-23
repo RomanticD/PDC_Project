@@ -9,8 +9,6 @@ import domain.User;
 import util.FrameUtil;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.util.List;
 
 public class ArrangementGUI extends JFrame{
@@ -29,12 +27,14 @@ public class ArrangementGUI extends JFrame{
     public ArrangementGUI(User user, Assignment assignment){
         nameText.setEditable(false);
         courseList.setVisible(false);
-        arrangeButton.setVisible(true);
         nameText.setText(assignment.getAssignmentName());
 
         arrangeButton.addActionListener(e -> {
-            assignmentDao.updateAssignment(assignment.getAssignmentName(), assignment.getCourseID(),contentText.getText());
-            FrameUtil.showConfirmation(ArrangementGUI.this, user, "Arrange successfully!");
+            if(assignmentDao.updateAssignment(assignment)){
+                FrameUtil.showConfirmation(ArrangementGUI.this, user, "Arrange successfully!");
+            } else {
+                FrameUtil.showConfirmation(ArrangementGUI.this, user, "Something wrong!");
+            }
         });
 
         backButton.addActionListener(e -> {
@@ -52,8 +52,6 @@ public class ArrangementGUI extends JFrame{
 
     // Click the new button
     public ArrangementGUI(User user){
-        arrangeButton.setVisible(true);
-
         AssignmentDaoInterface assignmentDao = new AssignmentDao();
         CourseDaoInterface courseDao = new CourseDao();
         DefaultListModel<String> courseListModel = new DefaultListModel<>();
@@ -68,8 +66,16 @@ public class ArrangementGUI extends JFrame{
         courseList.setModel(courseListModel);
 
         arrangeButton.addActionListener(e -> {
-            assignmentDao.insertAssignment(nameText.getText(), courseDao.getCourseIDByName(courseList.getSelectedValue()), contentText.getText());
-            FrameUtil.showConfirmation(ArrangementGUI.this, user, "Create successfully!");
+            Assignment newAssignment = Assignment.builder()
+                    .assignmentContent(contentText.getText())
+                    .assignmentName(nameText.getText())
+                    .courseID(courseDao.getCourseIDByName(courseList.getSelectedValue()))
+                    .build();
+            if(assignmentDao.insertAssignment(newAssignment)){
+                FrameUtil.showConfirmation(ArrangementGUI.this, user, "Create successfully!");
+            }else {
+                FrameUtil.showConfirmation(ArrangementGUI.this, user, "Something wrong or the assignment has already existed");
+            }
         });
 
         backButton.addActionListener(e -> {

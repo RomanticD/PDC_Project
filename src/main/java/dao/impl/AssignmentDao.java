@@ -27,80 +27,100 @@ public class AssignmentDao implements AssignmentDaoInterface, Closeable{
         conn = databaseConnectionManager.getConnection();
     }
 
+    // Definition: every course can't have two same assignment names.
+    // Usually, we make sure about every course can't have two same assignment names.
+    // But two different courses can have the same assignment name.
     @Override
-    public boolean doesAssignmentExist(int assignmentID) {
-        String query = "SELECT COUNT(*) FROM assignments WHERE assignmentID = ?";
+    public boolean doesAssignmentExist(Assignment assignment) {
+        String query = "SELECT COUNT(*) FROM assignments WHERE courseID = ? AND assignmentName = ?";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
-            preparedStatement.setInt(1, assignmentID);
+            preparedStatement.setInt(1, assignment.getCourseID());
+            preparedStatement.setString(2, assignment.getAssignmentName());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     int count = resultSet.getInt(1);
-                    return count > 0; // If count > 0, the assignment exists
+                    return count > 0; // If count == 0, the assignment doesn't exist
                 }
             }
 
             log.info("Executing SQL query: " + preparedStatement);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Error when checking if assignment exists: "  + e.getMessage());
         }
 
-        return false; // An error occurred or no matching assignment found
+        return false; // Error occurred, consider the assignment name as unique
     }
 
     @Override
-    public void insertAssignment(String assignmentName, int courseID, String assignmentContent) {
+    public boolean insertAssignment(Assignment assignment) {
+        if(doesAssignmentExist(assignment)){
+            return false;
+        }
+
         String query = "INSERT INTO assignments (ASSIGNMENTNAME, COURSEID, ASSIGNMENTCONTENT) VALUES (?, ?, ?)";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
-            preparedStatement.setString(1, assignmentName);
-            preparedStatement.setInt(2, courseID);
-            preparedStatement.setString(3, assignmentContent);
+            preparedStatement.setString(1, assignment.getAssignmentName());
+            preparedStatement.setInt(2, assignment.getCourseID());
+            preparedStatement.setString(3, assignment.getAssignmentContent());
             preparedStatement.executeUpdate();
 
             log.info("Executing SQL query: " + preparedStatement);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Error when inserting assignment: "  + e.getMessage());
+            return false;
         }
+
+        return true;
     }
 
     @Override
-    public void updateAssignment(String assignmentName, int courseID, String assignmentContent) {
+    public boolean updateAssignment(Assignment assignment) {
+        if(!doesAssignmentExist(assignment)){
+            return false;
+        }
+
         String query = "UPDATE assignments SET ASSIGNMENTCONTENT = ?, COURSEID = ? WHERE ASSIGNMENTNAME = ?";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
-            preparedStatement.setString(1, assignmentContent);
-            preparedStatement.setInt(2, courseID);
-            preparedStatement.setString(3, assignmentName);
+            preparedStatement.setString(1, assignment.getAssignmentContent());
+            preparedStatement.setInt(2, assignment.getCourseID());
+            preparedStatement.setString(3, assignment.getAssignmentName());
             preparedStatement.executeUpdate();
 
             log.info("Executing SQL query: " + preparedStatement);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Error when updating assignment: "  + e.getMessage());
+            return false;
         }
+
+        return true;
     }
 
     @Override
-    public boolean deleteAssignment(String assignmentName) {
-        String query = "DELETE FROM assignments WHERE assignmentName = ?";
+    public boolean deleteAssignment(Assignment assignment) {
+        String query = "DELETE FROM assignments WHERE assignmentName = ? AND COURSEID = ?";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
-            preparedStatement.setString(1, assignmentName);
+            preparedStatement.setString(1, assignment.getAssignmentName());
+            preparedStatement.setInt(2, assignment.getCourseID());
             preparedStatement.executeUpdate();
 
             log.info("Executing SQL query: " + preparedStatement);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Error when deleting assignment: "  + e.getMessage());
+            return false;
         }
-        return false;
+        return true;
     }
 
     @Override
-    public List<String> getAssignmentNameByCourseID(int courseID) {
+    public List<String> getAssignmentNamesByCourseID(int courseID) {
         List<String> assignmentNames = new ArrayList<>();
         String query = "SELECT assignmentName FROM assignments WHERE courseID = ?";
 
@@ -115,17 +135,19 @@ public class AssignmentDao implements AssignmentDaoInterface, Closeable{
                 assignmentNames.add(assignmentName);
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately in your application
+            log.error("Error when getting assignmentNames by courseID: "  + e.getMessage());
         }
 
         return assignmentNames;
     }
 
-    public Assignment getAssignmentByAssignmentName(String assignmentName) {
-        String query = "SELECT * FROM assignments WHERE ASSIGNMENTNAME = ? ";
+    //
+    public Assignment getAssignmentByAssignmentAndCourseName(String assignmentName, String courseName) {
+        String query = "SELECT * FROM assignments WHERE ASSIGNMENTNAME = ? AND COURSEID = ?";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setString(1, assignmentName);
+            preparedStatement.setInt(2, courseDao.getCourseIDByName(courseName));
 
             log.info("Executing SQL query: " + preparedStatement);
 
@@ -144,7 +166,7 @@ public class AssignmentDao implements AssignmentDaoInterface, Closeable{
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("Error when getting assignment by assignment and course name: "  + e.getMessage());
         }
 
         return null;
