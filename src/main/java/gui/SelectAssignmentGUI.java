@@ -31,7 +31,7 @@ public class SelectAssignmentGUI extends JFrame{
         if(user.isAdmin()){
             explainLabel.setText("Alter, New or Delete an assignment.");
         } else {
-            explainLabel.setText("Select an assignment, completing and submit it. Let's go!");
+            explainLabel.setText("Select an assignment, completing and submitting it. Let's go!");
             alterButton.setText("Select");
             createNewButton.setVisible(false);
             deleteButton.setVisible(false);
