@@ -2,6 +2,8 @@ package gui;
 
 
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -15,7 +17,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 
 import static constants.ExportConstants.UPLOADED_TO_PATH;
 
-
+@Slf4j
 public class UploadGUI extends JFrame {
     private JButton chooseSourceButton, copyButton;
     private JTextField sourceField, targetField;
@@ -42,59 +44,50 @@ public class UploadGUI extends JFrame {
         copyButton = new JButton("Upload");
 
         fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        FileFilter filter = new FileNameExtensionFilter("Text and Word Documents", "txt", "docx", "pdf");
+        fileChooser.setFileSelectionMode(JFileChooser.APPROVE_OPTION);
+        FileFilter filter = new FileNameExtensionFilter("Text and Word Documents", "txt", "docx", "pdf", "pptx", "xlsx");
         fileChooser.setFileFilter(filter);
 
-        chooseSourceButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int returnValue = fileChooser.showOpenDialog(UploadGUI.this);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = fileChooser.getSelectedFile();
-                    if (selectedFile.isDirectory()) {
-                        sourceField.setText(selectedFile.getPath()); // 用户选择了目录
-                    } else {
-                        sourceField.setText(selectedFile.getParent()); // 用户选择了文件，获取其所在目录
-                    }
+        chooseSourceButton.addActionListener(e -> {
+            int returnValue = fileChooser.showOpenDialog(UploadGUI.this);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                if (selectedFile.isDirectory()) {
+                    sourceField.setText(selectedFile.getPath());
+                } else {
+                    sourceField.setText(selectedFile.getParent());
                 }
             }
         });
 
 
-        copyButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String sourcePath = sourceField.getText();
-                String targetPath = targetField.getText();
+        copyButton.addActionListener(e -> {
+            String sourcePath = sourceField.getText();
+            String targetPath = targetField.getText();
 
-                try {
-                    Path sourceFile = Paths.get(sourcePath);
+            try {
+                Path sourceFile = Paths.get(sourcePath);
 
-                    long fileSize = Files.size(sourceFile);
-                    long maxFileSize = 100 * 1024 * 1024; // 100MB
+                long fileSize = Files.size(sourceFile);
+                long maxFileSize = 100 * 1024 * 1024; // 100MB
 
-                    if (fileSize > maxFileSize) {
-                        JOptionPane.showMessageDialog(UploadGUI.this, "File size exceeds the limit (100MB). Please choose a smaller file.", "Error", JOptionPane.ERROR_MESSAGE);
+                if (fileSize > maxFileSize) {
+                    JOptionPane.showMessageDialog(UploadGUI.this, "File size exceeds the limit (100MB). Please choose a smaller file.", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    if (Files.isDirectory(sourceFile)) {
+                        copyDirectory(sourcePath, targetPath);
                     } else {
-                        if (Files.isDirectory(sourceFile)) {
-                            copyDirectory(sourcePath, targetPath);
-                        } else {
-                            Path targetFile = Paths.get(targetPath);
-                            Files.copy(sourceFile, targetFile, StandardCopyOption.REPLACE_EXISTING);
-                        }
-                        JOptionPane.showMessageDialog(UploadGUI.this, "Upload Success!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        Path targetFile = Paths.get(targetPath);
+                        Files.copy(sourceFile, targetFile, StandardCopyOption.REPLACE_EXISTING);
                     }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(UploadGUI.this, "Upload Failed: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(UploadGUI.this, "Upload Success!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                log.error(ex.getMessage());
+                JOptionPane.showMessageDialog(UploadGUI.this, "Upload Failed: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
-
-
-
-
         add(sourceField);
         add(chooseSourceButton);
         add(targetField);
@@ -125,13 +118,10 @@ public class UploadGUI extends JFrame {
                     return FileVisitResult.CONTINUE;
                 }
             });
-
-//            JOptionPane.showMessageDialog(this, "Upload Success!", "success", JOptionPane.INFORMATION_MESSAGE);
+            log.info("copy success....");
         } catch (IOException e) {
-//            JOptionPane.showMessageDialog(this, "Upload Failed!" + e.getMessage(), "error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
-
 }
 
