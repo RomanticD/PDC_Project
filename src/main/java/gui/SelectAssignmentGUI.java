@@ -111,7 +111,7 @@ public class SelectAssignmentGUI extends JFrame{
         });
 
         setContentPane(panel);
-        setTitle("Select your assignment");
+        setTitle("Select your assignment.");
         setSize(500, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);

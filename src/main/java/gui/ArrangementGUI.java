@@ -55,7 +55,7 @@ public class ArrangementGUI extends JFrame{
         formerContentArea.setText(assignment.getAssignmentContent());
 
         setContentPane(mainPanel);
-        setTitle("Arrange your assignment");
+        setTitle("Arrange your assignment.");
         setSize(600, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -101,7 +101,7 @@ public class ArrangementGUI extends JFrame{
         cardLayout.show(cardPanel, "courseListCard");
 
         setContentPane(mainPanel);
-        setTitle("Create an assignment");
+        setTitle("Create an assignment.");
         setSize(600, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);

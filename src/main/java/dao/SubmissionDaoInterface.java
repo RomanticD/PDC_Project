@@ -1,14 +1,19 @@
 package dao;
 
-import domain.Assignment;
-import domain.User;
+import domain.Submission;
+
+import java.util.List;
 
 public interface SubmissionDaoInterface {
-    boolean doesSubmissionExist(int assignmentID, int userID);
+    boolean doesSubmissionExist(Submission submission);
 
-    void insertSubmission(String assignmentText, Assignment assignment, User user);
+    boolean insertSubmission(Submission submission);
 
-    void updateSubmission(String assignmentText, Assignment assignment, User user);
+    boolean updateSubmission(Submission submission);
 
-    boolean deleteSubmission(int assignmentID, int userID);
+    boolean deleteSubmission(Submission submission);
+
+    boolean reorderSubmissions(int assignmentID, int userID);
+
+    List<Submission> getSubmissionsOfOneAssignmentAndStudent(int assignmentID, int userID);
 }

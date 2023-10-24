@@ -2,7 +2,6 @@ package dao.impl;
 
 import dao.AssignmentDaoInterface;
 import domain.Assignment;
-import domain.Course;
 import lombok.extern.slf4j.Slf4j;
 import manager.DatabaseConnectionManager;
 
@@ -10,20 +9,15 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import domain.User;
 
 @Slf4j
 public class AssignmentDao implements AssignmentDaoInterface, Closeable{
-
-    private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
     private final CourseDao courseDao = new CourseDao();
 
     public AssignmentDao() {
-        databaseConnectionManager = new DatabaseConnectionManager();
+        DatabaseConnectionManager databaseConnectionManager = new DatabaseConnectionManager();
         conn = databaseConnectionManager.getConnection();
     }
 
@@ -44,10 +38,10 @@ public class AssignmentDao implements AssignmentDaoInterface, Closeable{
                 }
             }
 
-            log.info("Executing SQL query: " + preparedStatement);
+            log.info("Executing SQL query: doesAssignmentExist");
 
         } catch (SQLException e) {
-            log.error("Error when checking if assignment exists: "  + e.getMessage());
+            log.error("Error when checkIfAssignmentExists: "  + e.getMessage());
         }
 
         return false; // Error occurred, consider the assignment name as unique
@@ -67,10 +61,10 @@ public class AssignmentDao implements AssignmentDaoInterface, Closeable{
             preparedStatement.setString(3, assignment.getAssignmentContent());
             preparedStatement.executeUpdate();
 
-            log.info("Executing SQL query: " + preparedStatement);
+            log.info("Executing SQL query: insertAssignment");
 
         } catch (SQLException e) {
-            log.error("Error when inserting assignment: "  + e.getMessage());
+            log.error("Error when insertAssignment: "  + e.getMessage());
             return false;
         }
 
@@ -91,10 +85,10 @@ public class AssignmentDao implements AssignmentDaoInterface, Closeable{
             preparedStatement.setString(3, assignment.getAssignmentName());
             preparedStatement.executeUpdate();
 
-            log.info("Executing SQL query - updateAssignment: " + preparedStatement);
+            log.info("Executing SQL query - updateAssignment: updateAssignment");
 
         } catch (SQLException e) {
-            log.error("Error when updating assignment: "  + e.getMessage());
+            log.error("Error when updateAssignment: "  + e.getMessage());
             return false;
         }
 
@@ -114,10 +108,10 @@ public class AssignmentDao implements AssignmentDaoInterface, Closeable{
             preparedStatement.setInt(2, assignment.getCourseID());
             preparedStatement.executeUpdate();
 
-            log.info("Executing SQL query: " + preparedStatement);
+            log.info("Executing SQL query: deleteAssignment");
 
         } catch (SQLException e) {
-            log.error("Error when deleting assignment: "  + e.getMessage());
+            log.error("Error when deleteAssignment: "  + e.getMessage());
             return false;
         }
         return true;
@@ -132,14 +126,15 @@ public class AssignmentDao implements AssignmentDaoInterface, Closeable{
             preparedStatement.setInt(1, courseID);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            log.info("Executing SQL query: " + preparedStatement);
+            log.info("Executing SQL query: getAssignmentNamesByCourseID");
 
             while (resultSet.next()) {
                 String assignmentName = resultSet.getString("assignmentName");
                 assignmentNames.add(assignmentName);
             }
+
         } catch (SQLException e) {
-            log.error("Error when getting assignmentNames by courseID: "  + e.getMessage());
+            log.error("Error when getAssignmentNamesByCourseID: "  + e.getMessage());
         }
 
         return assignmentNames;
@@ -153,13 +148,13 @@ public class AssignmentDao implements AssignmentDaoInterface, Closeable{
             preparedStatement.setString(1, assignmentName);
             preparedStatement.setInt(2, courseDao.getCourseIDByName(courseName));
 
-            log.info("Executing SQL query: " + preparedStatement);
+            log.info("Executing SQL query: getAssignmentByAssignmentAndCourseName");
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                int courseId = resultSet.getInt("COURSEID");
-                int assignmentID = resultSet.getInt("ASSIGNMENTID");
-                String assignmentContent = resultSet.getString("ASSIGNMENTCONTENT");
+                int courseId = resultSet.getInt("courseID");
+                int assignmentID = resultSet.getInt("assignmentID");
+                String assignmentContent = resultSet.getString("assignmentContent");
 
                 return Assignment.builder()
                         .assignmentContent(assignmentContent)
@@ -170,7 +165,7 @@ public class AssignmentDao implements AssignmentDaoInterface, Closeable{
             }
 
         } catch (SQLException e) {
-            log.error("Error when getting assignment by assignment and course name: "  + e.getMessage());
+            log.error("Error when getAssignmentByAssignmentAndCourseName: "  + e.getMessage());
         }
 
         return null;
