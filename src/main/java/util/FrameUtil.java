@@ -51,13 +51,24 @@ public class FrameUtil {
     }
 
     /**
-     * Displays a dialog with the specified message.
+     * Displays a dialog with the specified ERROR message.
      * @param message Message to be displayed in the dialog.
      */
-    public static void showDialog(String message){
+    public static void showErrorDialog(String message){
         Object[] options = {"OK"};
         JOptionPane.showOptionDialog(null, message,
                 "Warning", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
+                null, options, options[0]);
+    }
+
+    /**
+     * Displays a dialog with the specified SUCCESS message.
+     * @param message Message to be displayed in the dialog.
+     */
+    public static void showSuccessDialog(String message){
+        Object[] options = {"OK"};
+        JOptionPane.showOptionDialog(null, message,
+                "Success", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE ,
                 null, options, options[0]);
     }
 

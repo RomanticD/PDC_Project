@@ -66,7 +66,7 @@ public class UserCoursesGUI extends JFrame{
 
     private void performExport() {
         MethodUtil.exportCoursesToExcel(courseList, user);
-        FrameUtil.showDialog("Export successfully! Please check the " + ExportConstants.EXPORT_COURSE_TO_PATH + " directory.");
+        FrameUtil.showSuccessDialog("Export successfully! Please check the " + ExportConstants.EXPORT_COURSE_TO_PATH + " directory.");
     }
 
     public JPanel addCourseList(List<Course> courseList) {

@@ -99,7 +99,7 @@ public class RegisterGUI extends JPanel {
                             new RegisterSuccessGUI(new JFrame());
                         }
                     } else {
-                        FrameUtil.showDialog("The account has existed!");
+                        FrameUtil.showErrorDialog("The account has existed!");
 
                         log.warn("Account Existed!");
                         FrameUtil.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
@@ -136,7 +136,7 @@ public class RegisterGUI extends JPanel {
 
     private boolean validateInput(String username, String password, String repeatedPassword) throws SQLException, ClassNotFoundException {
         if (username.trim().isEmpty()) {
-            FrameUtil.showDialog("username is empty!");
+            FrameUtil.showErrorDialog("username is empty!");
             log.warn("Invalid Input Username");
             FrameUtil.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
             return false;
@@ -144,14 +144,14 @@ public class RegisterGUI extends JPanel {
 
         if (password.trim().isEmpty()) {
             log.warn("Password is empty!");
-            FrameUtil.showDialog("Invalid Input Password");
+            FrameUtil.showErrorDialog("Invalid Input Password");
             FrameUtil.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
             return false;
         }
 
         if (!password.equals(repeatedPassword)) {
             log.warn("Passwords do not match！");
-            FrameUtil.showDialog("Password No Match!");
+            FrameUtil.showErrorDialog("Password No Match!");
             FrameUtil.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
             return false;
         }
