@@ -113,6 +113,12 @@ public class FrameUtil {
         containerPanel.add(backButton);
     }
 
+    /**
+     * Display a confirmation dialog with a custom message and handle user's response.
+     * @param GUI The JFrame on which the confirmation dialog will be displayed.
+     * @param user The User object associated with the current session.
+     * @param message The message to be displayed in the confirmation dialog.
+     */
     public static void showConfirmation(JFrame GUI, User user, String message){
         int option = JOptionPane.showOptionDialog(
                 GUI,   // Parent component (this JFrame)
@@ -133,13 +139,17 @@ public class FrameUtil {
         }
     }
 
-    public static JButton addUploadedButton(JPanel containerPanel){
-        JButton uploadButton = new JButton("Back");
+    /**
+     * Create and configure a JButton for uploading files, and attach an ActionListener to it.
+     * When the button is clicked, it opens a DirectoryCopyUI for file uploading.
+     * @return The configured JButton for file uploading.
+     */
+    public static JButton addUploadedButton(){
+        JButton uploadButton = new JButton("upload");
         uploadButton.setFont(new Font("Dialog", Font.BOLD, 15));
         uploadButton.addActionListener(e -> {
             new DirectoryCopyUI().setVisible(true);
         });
-        containerPanel.add(uploadButton);
         return uploadButton;
     }
 }

@@ -2,8 +2,6 @@ package gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -17,43 +15,38 @@ public class DirectoryCopyUI extends JFrame {
 
 
     public DirectoryCopyUI() {
-        setTitle("目录拷贝");
+        setTitle("Upload your file");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 150);
+        setSize(400, 180);
         setLocationRelativeTo(null);
         setLayout(new GridLayout(4, 1));
 
         sourceField = new JTextField();
-        sourceField.setBorder(BorderFactory.createTitledBorder("源目录"));
+        sourceField.setBorder(BorderFactory.createTitledBorder("Your file path"));
         sourceField.setEditable(false);
 
         targetField = new JTextField();
-        targetField.setBorder(BorderFactory.createTitledBorder("目标目录"));
+        targetField.setBorder(BorderFactory.createTitledBorder("File will be uploaded to"));
         targetField.setText(UPLOADED_TO_PATH);
+        targetField.setEditable(false);
 
-        chooseSourceButton = new JButton("选择源目录");
-        copyButton = new JButton("开始拷贝");
+        chooseSourceButton = new JButton("Choose Your File");
+        copyButton = new JButton("Upload");
 
         fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-        chooseSourceButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int returnValue = fileChooser.showOpenDialog(DirectoryCopyUI.this);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    sourceField.setText(fileChooser.getSelectedFile().getPath());
-                }
+        chooseSourceButton.addActionListener(e -> {
+            int returnValue = fileChooser.showOpenDialog(DirectoryCopyUI.this);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                sourceField.setText(fileChooser.getSelectedFile().getPath());
             }
         });
 
-        copyButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String sourcePath = sourceField.getText();
-                String targetPath = targetField.getText();
-                copyDirectory(sourcePath, targetPath);
-            }
+        copyButton.addActionListener(e -> {
+            String sourcePath = sourceField.getText();
+            String targetPath = targetField.getText();
+            copyDirectory(sourcePath, targetPath);
         });
 
         add(sourceField);
@@ -67,12 +60,10 @@ public class DirectoryCopyUI extends JFrame {
         Path targetDirectory = Paths.get(targetPath);
 
         try {
-            // 创建目标目录（如果不存在）
             if (!Files.exists(targetDirectory)) {
                 Files.createDirectories(targetDirectory);
             }
 
-            // 复制目录及其内容
             Files.walkFileTree(sourceDirectory, new SimpleFileVisitor<Path>() {
                 @Override
                 public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
@@ -89,9 +80,9 @@ public class DirectoryCopyUI extends JFrame {
                 }
             });
 
-            JOptionPane.showMessageDialog(this, "目录复制完成！", "成功", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Upload Success!", "success", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "目录复制失败: " + e.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Upload Failed!" + e.getMessage(), "error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
