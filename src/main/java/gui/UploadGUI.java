@@ -1,20 +1,26 @@
 package gui;
 
+
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 
 import static constants.ExportConstants.UPLOADED_TO_PATH;
 
-public class DirectoryCopyUI extends JFrame {
+
+public class UploadGUI extends JFrame {
     private JButton chooseSourceButton, copyButton;
     private JTextField sourceField, targetField;
     private JFileChooser fileChooser;
 
 
-    public DirectoryCopyUI() {
+    public UploadGUI() {
         setTitle("Upload your file");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 180);
@@ -34,20 +40,56 @@ public class DirectoryCopyUI extends JFrame {
         copyButton = new JButton("Upload");
 
         fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
-        chooseSourceButton.addActionListener(e -> {
-            int returnValue = fileChooser.showOpenDialog(DirectoryCopyUI.this);
-            if (returnValue == JFileChooser.APPROVE_OPTION) {
-                sourceField.setText(fileChooser.getSelectedFile().getPath());
+        chooseSourceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int returnValue = fileChooser.showOpenDialog(UploadGUI.this);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    if (selectedFile.isDirectory()) {
+                        sourceField.setText(selectedFile.getPath()); // 用户选择了目录
+                    } else {
+                        sourceField.setText(selectedFile.getParent()); // 用户选择了文件，获取其所在目录
+                    }
+                }
             }
         });
 
-        copyButton.addActionListener(e -> {
-            String sourcePath = sourceField.getText();
-            String targetPath = targetField.getText();
-            copyDirectory(sourcePath, targetPath);
+
+        copyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String sourcePath = sourceField.getText();
+                String targetPath = targetField.getText();
+
+                try {
+                    Path sourceFile = Paths.get(sourcePath);
+
+                    long fileSize = Files.size(sourceFile);
+                    long maxFileSize = 100 * 1024 * 1024; // 100MB
+
+                    if (fileSize > maxFileSize) {
+                        JOptionPane.showMessageDialog(UploadGUI.this, "File size exceeds the limit (100MB). Please choose a smaller file.", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        if (Files.isDirectory(sourceFile)) {
+                            copyDirectory(sourcePath, targetPath);
+                        } else {
+                            Path targetFile = Paths.get(targetPath);
+                            Files.copy(sourceFile, targetFile, StandardCopyOption.REPLACE_EXISTING);
+                        }
+                        JOptionPane.showMessageDialog(UploadGUI.this, "Upload Success!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(UploadGUI.this, "Upload Failed: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         });
+
+
+
 
         add(sourceField);
         add(chooseSourceButton);
@@ -87,11 +129,5 @@ public class DirectoryCopyUI extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            DirectoryCopyUI ui = new DirectoryCopyUI();
-            ui.setVisible(true);
-        });
-    }
 }
 
