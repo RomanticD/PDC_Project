@@ -1,5 +1,6 @@
 package util;
 
+import gui.DirectoryCopyUI;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
@@ -108,5 +109,15 @@ public class FrameUtil {
         layout.putConstraint(SpringLayout.NORTH, backButton, 5, SpringLayout.NORTH, containerPanel);
         backButton.addActionListener(customAction);
         containerPanel.add(backButton);
+    }
+
+    public static JButton addUploadButton(JPanel containerPanel){
+        JButton uploadButton = new JButton("Upload");
+        uploadButton.setFont(new Font("Dialog", Font.BOLD, 15));
+        uploadButton.addActionListener(e -> {
+            new DirectoryCopyUI().setVisible(true);
+            containerPanel.add(uploadButton);
+        });
+        return uploadButton;
     }
 }
