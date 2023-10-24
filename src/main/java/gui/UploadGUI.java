@@ -3,6 +3,8 @@ package gui;
 
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,6 +43,8 @@ public class UploadGUI extends JFrame {
 
         fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        FileFilter filter = new FileNameExtensionFilter("Text and Word Documents", "txt", "docx", "pdf");
+        fileChooser.setFileFilter(filter);
 
         chooseSourceButton.addActionListener(new ActionListener() {
             @Override
@@ -122,9 +126,9 @@ public class UploadGUI extends JFrame {
                 }
             });
 
-            JOptionPane.showMessageDialog(this, "Upload Success!", "success", JOptionPane.INFORMATION_MESSAGE);
+//            JOptionPane.showMessageDialog(this, "Upload Success!", "success", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Upload Failed!" + e.getMessage(), "error", JOptionPane.ERROR_MESSAGE);
+//            JOptionPane.showMessageDialog(this, "Upload Failed!" + e.getMessage(), "error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }

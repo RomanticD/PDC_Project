@@ -1,7 +1,6 @@
-package main;
+package test;
 
 import javax.swing.*;
-import util.FrameUtil.*;
 
 import static util.FrameUtil.addUploadedButton;
 
