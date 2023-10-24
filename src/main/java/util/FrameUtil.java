@@ -116,8 +116,8 @@ public class FrameUtil {
         uploadButton.setFont(new Font("Dialog", Font.BOLD, 15));
         uploadButton.addActionListener(e -> {
             new DirectoryCopyUI().setVisible(true);
-            containerPanel.add(uploadButton);
         });
+        containerPanel.add(uploadButton);
         return uploadButton;
     }
 }
