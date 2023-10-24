@@ -37,7 +37,7 @@ public class CourseGUI extends JFrame {
         this.courseDao = new CourseDao();
         this.courseList = courseDao.getAllCourses();
 
-        // Create a main panel to hold everything
+        // Create a test panel to hold everything
         JPanel mainPanel = new JPanel();
         JPanel topPanel = new JPanel();
         JPanel bottomPanel = new JPanel();

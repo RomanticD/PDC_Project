@@ -1,7 +1,7 @@
 package util;
 
 import domain.User;
-import gui.DirectoryCopyUI;
+import gui.UploadGUI;
 import gui.SelectAssignmentGUI;
 import lombok.extern.slf4j.Slf4j;
 
@@ -152,14 +152,14 @@ public class FrameUtil {
 
     /**
      * Create and configure a JButton for uploading files, and attach an ActionListener to it.
-     * When the button is clicked, it opens a DirectoryCopyUI for file uploading.
+     * When the button is clicked, it opens a UploadGUI for file uploading.
      * @return The configured JButton for file uploading.
      */
     public static JButton addUploadedButton(){
         JButton uploadButton = new JButton("upload");
         uploadButton.setFont(new Font("Dialog", Font.BOLD, 15));
         uploadButton.addActionListener(e -> {
-            new DirectoryCopyUI().setVisible(true);
+            new UploadGUI().setVisible(true);
         });
         return uploadButton;
     }
