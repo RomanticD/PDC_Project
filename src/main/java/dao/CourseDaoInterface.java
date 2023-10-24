@@ -11,4 +11,6 @@ public interface CourseDaoInterface {
     List<Course> getCourseByUser(User user);
 
     int getCourseIDByName(String courseName);
+
+    List<String> getCourseNames(List<Course> courseList);
 }

@@ -1,21 +1,19 @@
 package dao;
 
 import domain.Assignment;
-import domain.Course;
-import domain.User;
 
 import java.util.List;
 
 public interface AssignmentDaoInterface {
-    boolean doesAssignmentExist(int assignmentID);
+    boolean doesAssignmentExist(Assignment assignment);
 
-    void insertAssignment(String assignmentName, int courseID, String assignmentContent);
+    boolean insertAssignment(Assignment assignment);
 
-    void updateAssignment(String assignmentName, int courseID, String assignmentContent);
+    boolean updateAssignment(Assignment assignment);
 
-    boolean deleteAssignment(String assignmentName);
+    boolean deleteAssignment(Assignment assignment);
 
-    List<String> getAssignmentNameByCourseID(int courseID);
+    List<String> getAssignmentNamesByCourseID(int courseID);
 
-    public Assignment getAssignmentByAssignmentName(String assignmentName);
+    Assignment getAssignmentByAssignmentAndCourseName(String assignmentName, String courseName);
 }

@@ -106,16 +106,27 @@ public class CourseDao implements CourseDaoInterface, Closeable {
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setString(1, courseName);
+            log.info("Executing SQL query: " + preparedStatement);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
                 courseID = resultSet.getInt("courseID");
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately in your application
+            e.printStackTrace();
         }
 
         return courseID;
+    }
+
+    public List<String> getCourseNames(List<Course> courseList){
+        List<String> courseNames = new ArrayList<>();
+
+        for (Course course : courseList) {
+            courseNames.add(course.getCourseName());
+        }
+
+        return courseNames;
     }
 
     @Override

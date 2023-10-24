@@ -3,6 +3,7 @@ package gui;
 import domain.Assignment;
 import domain.User;
 import dao.impl.SubmissionDao;
+import util.FrameUtil;
 
 import javax.swing.*;
 
@@ -37,6 +38,7 @@ public class SubmissionGUI extends JFrame {
 
         submitButton.addActionListener(e -> {
             submissionDao.insertSubmission(submissionContent.getText(), assignment, user);
+            FrameUtil.showConfirmation(SubmissionGUI.this, user, "Submit successfully!");
         });
 
         setContentPane(panel1);

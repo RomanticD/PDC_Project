@@ -1,3 +1,4 @@
+import dao.UserDaoInterface;
 import dao.impl.UserDao;
 import domain.User;
 import org.junit.After;
@@ -12,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserDaoTest {
-    private UserDao userDao;
+    private UserDaoInterface userDao;
 
     @Before
     public void setUp() {

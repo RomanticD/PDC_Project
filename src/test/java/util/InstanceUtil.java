@@ -1,5 +1,6 @@
 package util;
 
+import domain.Assignment;
 import domain.Course;
 import domain.User;
 import domain.enums.Role;
@@ -26,6 +27,15 @@ public class InstanceUtil {
                 .courseName("Course Instance")
                 .instructor("Test Instructor")
                 .deadLine(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2025-10-20 18:00:00"))
+                .build();
+    }
+
+    public static Assignment getTestAssignmentInstance(){
+        return Assignment.builder()
+                .assignmentName("Assignment Instance")
+                .courseID(1)
+                .assignmentID(-1)
+                .assignmentContent("Test Description")
                 .build();
     }
 }
