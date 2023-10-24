@@ -19,7 +19,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Slf4j
@@ -138,7 +137,7 @@ public class CourseDetailGUI extends JFrame {
             new SelectOrQuitCourseSuccessGUI(new JFrame(), user, course, courseDetailPageFrom);
             log.info("Successfully quit course. Course name:  " + course.getCourseName());
         } else {
-            FrameUtil.showDialog("Failed to quit!");
+            FrameUtil.showErrorDialog("Failed to quit!");
             log.error("quit course:  " + course.getCourseName() + " Failed!");
         }
     }
@@ -151,7 +150,7 @@ public class CourseDetailGUI extends JFrame {
                 new SelectOrQuitCourseSuccessGUI(new JFrame(), user, course, courseDetailPageFrom);
                 log.info("Successfully re-enrolled user in course. Course name:  " + course.getCourseName());
             } else {
-                FrameUtil.showDialog("Failed to re-enrolled!");
+                FrameUtil.showErrorDialog("Failed to re-enrolled!");
                 log.error("Re-enrolled user in course. Course name:  " + course.getCourseName() + " Failed!");
             }
         } else {
@@ -161,7 +160,7 @@ public class CourseDetailGUI extends JFrame {
                 new SelectOrQuitCourseSuccessGUI(new JFrame(), user, course, courseDetailPageFrom);
                 log.info("Successfully selecting course. Course name: " + course.getCourseName());
             } else {
-                FrameUtil.showDialog("Failed to select!");
+                FrameUtil.showErrorDialog("Failed to select!");
                 log.error("Selecting course. Course name:  " + course.getCourseName() + " Failed!");
             }
         }

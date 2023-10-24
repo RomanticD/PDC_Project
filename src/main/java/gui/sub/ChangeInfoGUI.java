@@ -160,7 +160,7 @@ public class ChangeInfoGUI extends JFrame {
 
     private void ModifyPassword(String newPassword) {
         this.user = userDao.updateUserPassword(user, newPassword);
-        FrameUtil.showDialog("Successfully Changed Your Password!");
+        FrameUtil.showSuccessDialog("Successfully Changed Your Password!");
         ChangeInfoGUI.this.dispose();
         FrameUtil.disposeCurrentFrameAndCreateNewFrame("PDC Project Group 18", ChangeInfoGUI.this, new LoginGUI(user));
     }
@@ -171,12 +171,12 @@ public class ChangeInfoGUI extends JFrame {
         String repeatedNewPassword = String.valueOf(repeatPasswordField.getPassword());
 
         if (!user.getPassword().equals(oldPassword)) {
-            FrameUtil.showDialog("Current password is incorrect!");
+            FrameUtil.showErrorDialog("Current password is incorrect!");
             ChangeInfoGUI.this.dispose();
             new ChangeInfoGUI("Password", user).setVisible(true);
             return false;
         } else if (!newPassword.equals(repeatedNewPassword)){
-            FrameUtil.showDialog("New passwords and repeated one do not match!");
+            FrameUtil.showErrorDialog("New passwords and repeated one do not match!");
             ChangeInfoGUI.this.dispose();
             new ChangeInfoGUI("Password", user).setVisible(true);
             return false;
@@ -190,7 +190,7 @@ public class ChangeInfoGUI extends JFrame {
             ChangeInfoGUI.this.dispose();
             new UpdateSuccessGUI(updatedUser);
         }else{
-            FrameUtil.showDialog("Invalid Input!");
+            FrameUtil.showErrorDialog("Invalid Input!");
         }
     }
 
@@ -200,9 +200,9 @@ public class ChangeInfoGUI extends JFrame {
             ChangeInfoGUI.this.dispose();
             new UpdateSuccessGUI(updatedUser);
         }else if (userDao.isUserExists(newUsername)){
-            FrameUtil.showDialog("Username Exists, Please Change a New One!");
+            FrameUtil.showErrorDialog("Username Exists, Please Change a New One!");
         } else {
-            FrameUtil.showDialog("Invalid Input!");
+            FrameUtil.showErrorDialog("Invalid Input!");
         }
     }
 
@@ -212,7 +212,7 @@ public class ChangeInfoGUI extends JFrame {
             ChangeInfoGUI.this.dispose();
             new UpdateSuccessGUI(updatedUser);
         }else{
-            FrameUtil.showDialog("Invalid Input!");
+            FrameUtil.showErrorDialog("Invalid Input!");
         }
     }
 

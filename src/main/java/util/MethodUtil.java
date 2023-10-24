@@ -128,7 +128,9 @@ public class MethodUtil {
         // save file
         try {
             String filePath = ExportConstants.EXPORT_COURSE_TO_PATH + "/user_" + user.getUserId() + "_ExportedCourses.xlsx";
-            FileOutputStream outputStream = new FileOutputStream(filePath);
+            File file = new File(filePath);
+            file.getParentFile().mkdirs();// if path does not exist, then create one
+            FileOutputStream outputStream = new FileOutputStream(file);
             workbook.write(outputStream);
             workbook.close();
             log.info("Excel file exported successfully at: " + filePath);
@@ -137,6 +139,7 @@ public class MethodUtil {
             log.error("Error exporting");
             return false;
         }
+
     }
 
     /**

@@ -106,7 +106,7 @@ public class LoginGUI extends JPanel {
 
         this.user = userDao.getUserByUsername(username);
         if (user == null) {
-            FrameUtil.showDialog("Account Do Not Exist!");
+            FrameUtil.showErrorDialog("Account Do Not Exist!");
             usernameField.setText("");
             passwordField.setText("");
         }
@@ -139,7 +139,7 @@ public class LoginGUI extends JPanel {
                 log.info("SUCCESSFULLY LOGIN! Current User: " + currentUser.getName());
             } else {
                 log.error("LOGIN FAILED(check your password and username))");
-                FrameUtil.showDialog("Username or password is incorrect!");
+                FrameUtil.showErrorDialog("Username or password is incorrect!");
             }
         } catch (SQLException ex) {
             ex.printStackTrace();

@@ -1,6 +1,7 @@
 package util;
 
 import domain.User;
+import gui.UploadGUI;
 import gui.SelectAssignmentGUI;
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,13 +51,24 @@ public class FrameUtil {
     }
 
     /**
-     * Displays a dialog with the specified message.
+     * Displays a dialog with the specified ERROR message.
      * @param message Message to be displayed in the dialog.
      */
-    public static void showDialog(String message){
+    public static void showErrorDialog(String message){
         Object[] options = {"OK"};
         JOptionPane.showOptionDialog(null, message,
                 "Warning", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
+                null, options, options[0]);
+    }
+
+    /**
+     * Displays a dialog with the specified SUCCESS message.
+     * @param message Message to be displayed in the dialog.
+     */
+    public static void showSuccessDialog(String message){
+        Object[] options = {"OK"};
+        JOptionPane.showOptionDialog(null, message,
+                "Success", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE ,
                 null, options, options[0]);
     }
 
@@ -112,6 +124,12 @@ public class FrameUtil {
         containerPanel.add(backButton);
     }
 
+    /**
+     * Display a confirmation dialog with a custom message and handle user's response.
+     * @param GUI The JFrame on which the confirmation dialog will be displayed.
+     * @param user The User object associated with the current session.
+     * @param message The message to be displayed in the confirmation dialog.
+     */
     public static void showConfirmation(JFrame GUI, User user, String message){
         int option = JOptionPane.showOptionDialog(
                 GUI,   // Parent component (this JFrame)
@@ -130,5 +148,19 @@ public class FrameUtil {
             GUI.dispose();
             new SelectAssignmentGUI(user);
         }
+    }
+
+    /**
+     * Create and configure a JButton for uploading files, and attach an ActionListener to it.
+     * When the button is clicked, it opens a UploadGUI for file uploading.
+     * @return The configured JButton for file uploading.
+     */
+    public static JButton addUploadedButton(){
+        JButton uploadButton = new JButton("upload");
+        uploadButton.setFont(new Font("Dialog", Font.BOLD, 15));
+        uploadButton.addActionListener(e -> {
+            new UploadGUI().setVisible(true);
+        });
+        return uploadButton;
     }
 }

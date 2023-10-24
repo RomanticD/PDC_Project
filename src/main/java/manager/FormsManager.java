@@ -1,7 +1,7 @@
 package manager;
 
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
-import main.PDC_App;
+import app.PDC_App;
 
 import javax.swing.*;
 import java.awt.*;
