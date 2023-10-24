@@ -8,14 +8,13 @@ import dao.impl.CourseDao;
 import util.FrameUtil;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Objects;
 
 public class SelectAssignmentGUI extends JFrame{
     private JPanel panel;
     private JButton backButton;
-    private JButton selectButton;
+    private JButton alterButton;
     private JList<String> courseList;
     private JList<String> assignmentList;
     private JScrollPane coursePane;
@@ -25,6 +24,7 @@ public class SelectAssignmentGUI extends JFrame{
     private JLabel assignments;
     private JButton createNewButton;
     private JButton deleteButton;
+    private JLabel explainLabel;
 
     public SelectAssignmentGUI(User user){
         // In this GUI, you can select an assignment from selected courses to submit or arrange.
@@ -94,7 +94,7 @@ public class SelectAssignmentGUI extends JFrame{
             new ArrangementGUI(user);
         });
 
-        selectButton.addActionListener(e -> {
+        alterButton.addActionListener(e -> {
             String selectedCourse = courseList.getSelectedValue();
             String selectedAssignment = assignmentList.getSelectedValue();
             if(Objects.equals(selectedAssignment, null)){

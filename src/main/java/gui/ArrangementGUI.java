@@ -9,6 +9,7 @@ import domain.User;
 import util.FrameUtil;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
 public class ArrangementGUI extends JFrame{
@@ -20,12 +21,17 @@ public class ArrangementGUI extends JFrame{
     private JLabel assignmentContent;
     private JPanel mainPanel;
     private JList<String> courseList;
+    private JTextArea formerContentArea;
+    private JLabel cardContent;
+    private JPanel cardPanel;
+    private final CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
 
     AssignmentDaoInterface assignmentDao =  new AssignmentDao();
 
-    // Click the select button
+    // Click the Select button
     public ArrangementGUI(User user, Assignment assignment){
         nameText.setEditable(false);
+        formerContentArea.setEditable(false);
         courseList.setVisible(false);
         nameText.setText(assignment.getAssignmentName());
 
@@ -44,6 +50,10 @@ public class ArrangementGUI extends JFrame{
             new SelectAssignmentGUI(user);
         });
 
+        cardContent.setText("Former assignment content:");
+        cardLayout.show(cardPanel, "formerContentCard");
+        formerContentArea.setText(assignment.getAssignmentContent());
+
         setContentPane(mainPanel);
         setTitle("Arrange your assignment");
         setSize(600, 500);
@@ -52,19 +62,16 @@ public class ArrangementGUI extends JFrame{
         setLocationRelativeTo(null);
     }
 
-    // Click the new button
+    // Click the New button
     public ArrangementGUI(User user){
         AssignmentDaoInterface assignmentDao = new AssignmentDao();
         CourseDaoInterface courseDao = new CourseDao();
         DefaultListModel<String> courseListModel = new DefaultListModel<>();
 
         List<String> CourseNames = courseDao.getCourseNames(courseDao.getCourseByUser(user));
-
         for (String assignmentName : CourseNames) {
             courseListModel.addElement(assignmentName);
         }
-
-        // Set the model for the lists
         courseList.setModel(courseListModel);
 
         arrangeButton.addActionListener(e -> {
@@ -74,10 +81,14 @@ public class ArrangementGUI extends JFrame{
                     .courseID(courseDao.getCourseIDByName(courseList.getSelectedValue()))
                     .build();
 
-            if(assignmentDao.insertAssignment(newAssignment)){
-                FrameUtil.showConfirmation(ArrangementGUI.this, user, "Create successfully!");
-            }else {
-                FrameUtil.showConfirmation(ArrangementGUI.this, user, "Something wrong or the assignment has already existed");
+            if(newAssignment.getAssignmentName() == null || newAssignment.getAssignmentName().isEmpty()){
+                FrameUtil.showConfirmation(ArrangementGUI.this, user, "Assignment name can't be null");
+            } else {
+                if(assignmentDao.insertAssignment(newAssignment)){
+                    FrameUtil.showConfirmation(ArrangementGUI.this, user, "Create successfully!");
+                } else {
+                    FrameUtil.showConfirmation(ArrangementGUI.this, user, "The assignment hasn't been selected or already existed");
+                }
             }
         });
 
@@ -86,8 +97,11 @@ public class ArrangementGUI extends JFrame{
             new SelectAssignmentGUI(user);
         });
 
+        cardContent.setText("Your selected courses:");
+        cardLayout.show(cardPanel, "courseListCard");
+
         setContentPane(mainPanel);
-        setTitle("Arrange an assignment");
+        setTitle("Create an assignment");
         setSize(600, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
