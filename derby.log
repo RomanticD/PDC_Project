@@ -1,10 +1,15 @@
 ----------------------------------------------------------------
-Tue Oct 24 15:15:01 UTC 2023:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-018b-6240-e188-000007313e80 
-on database directory /Users/sunyuliang/Desktop/Astin/PDC_Project/pdc_project with class loader com.intellij.database.remote.jdbc.impl.JdbcClassLoader$JdbcClassLoaderImpl@1d251891 
-Loaded from file:/Users/sunyuliang/Library/Application%20Support/JetBrains/IntelliJIdea2023.2/jdbc-drivers/Apache%20Derby/10.16.1.1/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
-java.vendor=JetBrains s.r.o.
-java.runtime.version=17.0.8.1+7-b1000.32
+Wed Oct 25 00:11:19 CST 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-018b-6274-6f91-0000003d8ed0 
+on database directory /Users/sunyuliang/Desktop/Astin/PDC_Project/pdc_project with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@b08ff8e4 
+Loaded from file:/Users/sunyuliang/.m2/repository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar
+java.vendor=IBM Corporation
+java.runtime.version=11.0.21+5
+java.fullversion=11.0.21+5
+JRE 11 Mac OS X aarch64-64-Bit 20230905_408 (JIT enabled, AOT enabled)
+OpenJ9   - 87d042a68
+OMR      - fa7b6ddc7
+JCL      - 32a436870a based on jdk-11.0.21+5
 user.dir=/Users/sunyuliang/Desktop/Astin/PDC_Project
 os.name=Mac OS X
 os.arch=aarch64
