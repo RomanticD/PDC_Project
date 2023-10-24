@@ -1,6 +1,7 @@
 package util;
 
 import domain.User;
+import gui.DirectoryCopyUI;
 import gui.SelectAssignmentGUI;
 import lombok.extern.slf4j.Slf4j;
 
@@ -130,5 +131,15 @@ public class FrameUtil {
             GUI.dispose();
             new SelectAssignmentGUI(user);
         }
+    }
+
+    public static JButton addUploadedButton(JPanel containerPanel){
+        JButton uploadButton = new JButton("Back");
+        uploadButton.setFont(new Font("Dialog", Font.BOLD, 15));
+        uploadButton.addActionListener(e -> {
+            new DirectoryCopyUI().setVisible(true);
+        });
+        containerPanel.add(uploadButton);
+        return uploadButton;
     }
 }
