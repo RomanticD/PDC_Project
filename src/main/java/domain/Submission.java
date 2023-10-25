@@ -16,6 +16,7 @@ public class Submission {
     private int studentID;
     private int assignmentID;
     private Date submissionTime;
-    private String submissionFileOrLink;
+    private String submissionContent;
+    private int submissionOrder;
     private String submissionStatus;
 }
