@@ -58,35 +58,39 @@ public class UploadGUI extends JFrame {
         });
 
 
-        copyButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String sourcePath = sourceField.getText();
-                String targetPath = targetField.getText();
+        copyButton.addActionListener(e -> {
+            String sourcePath = sourceField.getText();
+            String targetPath = targetField.getText();
 
-                try {
-                    Path sourceFile = Paths.get(sourcePath);
+            try {
+                Path sourceFile = Paths.get(sourcePath);
 
-                    long fileSize = Files.size(sourceFile);
-                    long maxFileSize = 100 * 1024 * 1024; // 100MB
+                long fileSize = Files.size(sourceFile);
+                long maxFileSize = 100 * 1024 * 1024; // 100MB
 
-                    if (fileSize > maxFileSize) {
-                        JOptionPane.showMessageDialog(UploadGUI.this, "File size exceeds the limit (100MB). Please choose a smaller file.", "Error", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        if (Files.isDirectory(sourceFile)) {
-                            copyDirectory(sourcePath, targetPath);
-                        } else {
-                            Path targetFile = Paths.get(targetPath);
-                            Files.copy(sourceFile, targetFile, StandardCopyOption.REPLACE_EXISTING);
-                        }
-                        JOptionPane.showMessageDialog(UploadGUI.this, "Upload Success!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                if (fileSize > maxFileSize) {
+                    JOptionPane.showMessageDialog(UploadGUI.this, "File size exceeds the limit (100MB). Please choose a smaller file.", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    Path target = Paths.get(targetPath);
+                    // 检查目标是否是目录，如果是目录，则使用源文件的文件名构建目标路径
+                    if (Files.isDirectory(target)) {
+                        String fileName = sourceFile.getFileName().toString();
+                        target = target.resolve(fileName);
                     }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(UploadGUI.this, "Upload Failed: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+                    if (Files.isDirectory(sourceFile)) {
+                        copyDirectory(sourcePath, target.toString());
+                    } else {
+                        Files.copy(sourceFile, target, StandardCopyOption.REPLACE_EXISTING);
+                    }
+                    JOptionPane.showMessageDialog(UploadGUI.this, "Upload Success!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(UploadGUI.this, "Upload Failed: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
+
 
 
 
