@@ -24,11 +24,13 @@ public class ArrangementGUI extends JFrame{
     private JTextArea formerContentArea;
     private JLabel cardContent;
     private JPanel cardPanel;
+    private JLabel nullLabel;
+    private JScrollPane courseListPane;
     private final CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
 
     AssignmentDaoInterface assignmentDao =  new AssignmentDao();
 
-    // Click the Select button
+    // Click the Alter button
     public ArrangementGUI(User user, Assignment assignment){
         nameText.setEditable(false);
         formerContentArea.setEditable(false);
@@ -52,10 +54,14 @@ public class ArrangementGUI extends JFrame{
 
         cardContent.setText("Former assignment content:");
         cardLayout.show(cardPanel, "formerContentCard");
-        formerContentArea.setText(assignment.getAssignmentContent());
+        if(assignment.getAssignmentContent() == null || assignment.getAssignmentContent().isEmpty()){
+            cardLayout.show(cardPanel, "nullLabelCard");
+        } else {
+            formerContentArea.setText(assignment.getAssignmentContent());
+        }
 
         setContentPane(mainPanel);
-        setTitle("Arrange your assignment.");
+        setTitle("Alter your assignment content");
         setSize(600, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
@@ -101,7 +107,7 @@ public class ArrangementGUI extends JFrame{
         cardLayout.show(cardPanel, "courseListCard");
 
         setContentPane(mainPanel);
-        setTitle("Create an assignment.");
+        setTitle("Create an assignment");
         setSize(600, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);

@@ -20,6 +20,7 @@
           <component id="cbdc6" class="javax.swing.JButton" binding="backButton" default-binding="true">
             <constraints/>
             <properties>
+              <background color="-16777216"/>
               <text value="Back"/>
             </properties>
           </component>
@@ -35,6 +36,8 @@
           <component id="4e916" class="javax.swing.JButton" binding="deleteButton">
             <constraints/>
             <properties>
+              <background color="-15526864"/>
+              <foreground color="-11517211"/>
               <horizontalAlignment value="0"/>
               <text value="Delete"/>
             </properties>
@@ -52,6 +55,12 @@
               <text value="Alter"/>
               <verticalAlignment value="0"/>
               <verticalTextPosition value="0"/>
+            </properties>
+          </component>
+          <component id="d642f" class="javax.swing.JButton" binding="correctButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Correct"/>
             </properties>
           </component>
         </children>
