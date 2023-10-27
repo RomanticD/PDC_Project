@@ -16,4 +16,6 @@ public interface SubmissionDaoInterface {
     boolean reorderSubmissions(int assignmentID, int userID);
 
     List<Submission> getSubmissionsOfOneAssignmentAndStudent(int assignmentID, int userID);
+
+    Submission getSubmissionFromTwoIDsAndOrder(int assignmentID, int userID, int order);
 }

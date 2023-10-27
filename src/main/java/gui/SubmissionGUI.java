@@ -67,10 +67,11 @@ public class SubmissionGUI extends JFrame {
                     .build();
 
             if(submissionDao.insertSubmission(newSubmission)){
-                FrameUtil.showConfirmation(SubmissionGUI.this, user, "Submit successfully!");
+                FrameUtil.showConfirmation(SubmissionGUI.this, "Submit successfully!");
             } else {
-                FrameUtil.showConfirmation(SubmissionGUI.this, user, "Something wrong!");
+                FrameUtil.showConfirmation(SubmissionGUI.this, "Something wrong!");
             }
+            new SubmissionGUI(user, assignment);
         });
 
         DefaultTableModel tableModel = new DefaultTableModel();
@@ -103,6 +104,17 @@ public class SubmissionGUI extends JFrame {
         TableColumn timeColumn = submissionTable.getColumnModel().getColumn(1);
         timeColumn.setCellRenderer(new TimestampRenderer());
 
+        checkHistoryButton.addActionListener(e -> {
+            int selectedRow = submissionTable.getSelectedRow();
+            if (selectedRow >= 1) {
+                int submissionOrder = (int)tableModel.getValueAt(selectedRow, 0);
+                new CorrectOrCheckGUI(user, assignment, submissionOrder);
+            } else {
+                FrameUtil.showConfirmation(SubmissionGUI.this, "You haven't select any submission!");
+                new SubmissionGUI(user, assignment);
+            }
+        });
+
         setContentPane(submissionPanel);
         setTitle("Submit your assignment or manage your history");
         setSize(750, 600);
@@ -111,7 +123,7 @@ public class SubmissionGUI extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    private static class TimestampRenderer extends DefaultTableCellRenderer {
+    public static class TimestampRenderer extends DefaultTableCellRenderer {
         private final SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
 
         @Override

@@ -1,6 +1,7 @@
 package dao.impl;
 
 import dao.SubmissionDaoInterface;
+import domain.Assignment;
 import domain.Submission;
 import lombok.extern.slf4j.Slf4j;
 import manager.DatabaseConnectionManager;
@@ -131,8 +132,8 @@ public class SubmissionDao implements SubmissionDaoInterface, Closeable{
 
     @Override
     public List<Submission> getSubmissionsOfOneAssignmentAndStudent(int assignmentID, int userID) {
-        String query = "SELECT * FROM submissions WHERE assignmentID = ? AND studentID = ? ORDER BY submissionOrder ASC";
         List<Submission> submissionList = new ArrayList<>();
+        String query = "SELECT * FROM submissions WHERE assignmentID = ? AND studentID = ? ORDER BY submissionOrder ASC";
 
         try (PreparedStatement statement = conn.prepareStatement(query)) {
             statement.setInt(1, assignmentID);
@@ -140,8 +141,8 @@ public class SubmissionDao implements SubmissionDaoInterface, Closeable{
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     int submissionID = resultSet.getInt("submissionID");
-                    String  submissionContent = resultSet.getString("submissionContent");
                     Timestamp submissionTime = resultSet.getTimestamp("submissionTIME");
+                    String  submissionContent = resultSet.getString("submissionContent");
                     String submissionStatus = resultSet.getString("submissionStatus");
                     int order = resultSet.getInt("submissionOrder");
 
@@ -164,6 +165,40 @@ public class SubmissionDao implements SubmissionDaoInterface, Closeable{
 
         return submissionList;
     }
+
+    @Override
+    public Submission getSubmissionFromTwoIDsAndOrder(int assignmentID, int userID, int order) {
+        String query = "SELECT * FROM submissions WHERE assignmentID = ? AND studentID = ? AND submissionOrder = ?";
+
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, assignmentID);
+            statement.setInt(2, userID);
+            statement.setInt(3, order);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                int submissionID = resultSet.getInt("submissionID");
+                Timestamp submissionTime = resultSet.getTimestamp("submissionTIME");
+                String  submissionContent = resultSet.getString("submissionContent");
+                String submissionStatus = resultSet.getString("submissionStatus");
+
+                return  Submission.builder()
+                        .assignmentID(assignmentID)
+                        .studentID(userID)
+                        .submissionID(submissionID)
+                        .submissionContent(submissionContent)
+                        .submissionTime(submissionTime)
+                        .submissionStatus(submissionStatus)
+                        .submissionOrder(order)
+                        .build();
+            }
+        } catch (SQLException e) {
+            log.error("Error when getSubmissionFromTwoIDsAndOrder: "  + e.getMessage());
+        }
+
+        return null;
+    }
+
 
     @Override
     public void close() throws IOException {

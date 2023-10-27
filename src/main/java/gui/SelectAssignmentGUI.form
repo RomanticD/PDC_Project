@@ -48,11 +48,11 @@
               <text value="New"/>
             </properties>
           </component>
-          <component id="1aa5f" class="javax.swing.JButton" binding="alterButton">
+          <component id="1aa5f" class="javax.swing.JButton" binding="checkButton">
             <constraints/>
             <properties>
               <horizontalAlignment value="0"/>
-              <text value="Alter"/>
+              <text value="Check"/>
               <verticalAlignment value="0"/>
               <verticalTextPosition value="0"/>
             </properties>

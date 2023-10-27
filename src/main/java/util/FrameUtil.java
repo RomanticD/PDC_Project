@@ -127,10 +127,9 @@ public class FrameUtil {
     /**
      * Display a confirmation dialog with a custom message and handle user's response.
      * @param GUI The JFrame on which the confirmation dialog will be displayed.
-     * @param user The User object associated with the current session.
      * @param message The message to be displayed in the confirmation dialog.
      */
-    public static void showConfirmation(JFrame GUI, User user, String message){
+    public static void showConfirmation(JFrame GUI, String message){
         int option = JOptionPane.showOptionDialog(
                 GUI,   // Parent component (this JFrame)
                 message, // Message
@@ -146,7 +145,6 @@ public class FrameUtil {
             // User clicked "Yes"
             log.info("User clicked Yes");
             GUI.dispose();
-            new SelectAssignmentGUI(user);
         }
     }
 
