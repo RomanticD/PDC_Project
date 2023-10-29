@@ -8,14 +8,13 @@ import dao.impl.CourseDao;
 import util.FrameUtil;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Objects;
 
 public class SelectAssignmentGUI extends JFrame{
     private JPanel panel;
     private JButton backButton;
-    private JButton selectButton;
+    private JButton alterButton;
     private JList<String> courseList;
     private JList<String> assignmentList;
     private JScrollPane coursePane;
@@ -25,10 +24,15 @@ public class SelectAssignmentGUI extends JFrame{
     private JLabel assignments;
     private JButton createNewButton;
     private JButton deleteButton;
+    private JLabel explainLabel;
 
     public SelectAssignmentGUI(User user){
         // In this GUI, you can select an assignment from selected courses to submit or arrange.
-        if(!user.isAdmin()){
+        if(user.isAdmin()){
+            explainLabel.setText("Alter, New or Delete an assignment.");
+        } else {
+            explainLabel.setText("Select an assignment, completing and submitting it. Let's go!");
+            alterButton.setText("Select");
             createNewButton.setVisible(false);
             deleteButton.setVisible(false);
         }
@@ -94,7 +98,7 @@ public class SelectAssignmentGUI extends JFrame{
             new ArrangementGUI(user);
         });
 
-        selectButton.addActionListener(e -> {
+        alterButton.addActionListener(e -> {
             String selectedCourse = courseList.getSelectedValue();
             String selectedAssignment = assignmentList.getSelectedValue();
             if(Objects.equals(selectedAssignment, null)){
@@ -111,7 +115,7 @@ public class SelectAssignmentGUI extends JFrame{
         });
 
         setContentPane(panel);
-        setTitle("Select your assignment");
+        setTitle("Select your assignment.");
         setSize(500, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
