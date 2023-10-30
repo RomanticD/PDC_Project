@@ -57,7 +57,6 @@ public class MainGUI extends JFrame {
             new ProfileGUI(user);
         });
 
-        
         if (user.isAdmin()){
             //Admin Button if user is admin
             JButton adminButton = addButton("Admin", panel, myProfileButton, 105, springLayout);

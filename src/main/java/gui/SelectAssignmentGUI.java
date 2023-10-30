@@ -14,7 +14,7 @@ import java.util.Objects;
 public class SelectAssignmentGUI extends JFrame{
     private JPanel panel;
     private JButton backButton;
-    private JButton alterButton;
+    private JButton checkButton;
     private JList<String> courseList;
     private JList<String> assignmentList;
     private JScrollPane coursePane;
@@ -25,14 +25,16 @@ public class SelectAssignmentGUI extends JFrame{
     private JButton createNewButton;
     private JButton deleteButton;
     private JLabel explainLabel;
+    private JButton correctButton;
 
     public SelectAssignmentGUI(User user){
         // In this GUI, you can select an assignment from selected courses to submit or arrange.
         if(user.isAdmin()){
-            explainLabel.setText("Alter, New or Delete an assignment.");
+            explainLabel.setText("Correct, Alter, New or Delete assignments.");
         } else {
             explainLabel.setText("Select an assignment, completing and submitting it. Let's go!");
-            alterButton.setText("Select");
+            correctButton.setText("Select");
+            checkButton.setVisible(false);
             createNewButton.setVisible(false);
             deleteButton.setVisible(false);
         }
@@ -82,31 +84,48 @@ public class SelectAssignmentGUI extends JFrame{
         deleteButton.addActionListener(e -> {
             String selectedCourse = courseList.getSelectedValue();
             String selectedAssignment = assignmentList.getSelectedValue();
+
             if(Objects.equals(selectedAssignment, null)){
-                FrameUtil.showConfirmation(SelectAssignmentGUI.this, user, "You haven't selected any assignment!");
+                FrameUtil.showConfirmation(SelectAssignmentGUI.this, "You haven't selected any assignment!");
             } else {
                 if(assignmentDao.deleteAssignment(assignmentDao.getAssignmentByAssignmentAndCourseName(selectedAssignment, selectedCourse))){
-                    FrameUtil.showConfirmation(SelectAssignmentGUI.this, user, "Delete successfully!");
+                    FrameUtil.showConfirmation(SelectAssignmentGUI.this, "Delete successfully!");
                 } else {
-                    FrameUtil.showConfirmation(SelectAssignmentGUI.this, user, "Something wrong or the assignment doesn't exist");
+                    FrameUtil.showConfirmation(SelectAssignmentGUI.this, "Something wrong or the assignment doesn't exist");
                 }
             }
+            new SelectAssignmentGUI(user);
         });
 
         createNewButton.addActionListener(e -> {
             SelectAssignmentGUI.this.dispose();
-            new ArrangementGUI(user);
+            new ManageAssignmentGUI(user);
         });
 
-        alterButton.addActionListener(e -> {
+        checkButton.addActionListener(e -> {
             String selectedCourse = courseList.getSelectedValue();
             String selectedAssignment = assignmentList.getSelectedValue();
+
             if(Objects.equals(selectedAssignment, null)){
-                FrameUtil.showConfirmation(SelectAssignmentGUI.this, user, "You haven't selected any assignment!");
+                FrameUtil.showConfirmation(SelectAssignmentGUI.this, "You haven't selected any assignment!");
+                new SelectAssignmentGUI(user);
+            } else {
+                SelectAssignmentGUI.this.dispose();
+                new ManageAssignmentGUI(user, assignmentDao.getAssignmentByAssignmentAndCourseName(selectedAssignment, selectedCourse));
+            }
+        });
+
+        correctButton.addActionListener(e -> {
+            String selectedCourse = courseList.getSelectedValue();
+            String selectedAssignment = assignmentList.getSelectedValue();
+
+            if(Objects.equals(selectedAssignment, null)){
+                FrameUtil.showConfirmation(SelectAssignmentGUI.this, "You haven't selected any assignment!");
+                new SelectAssignmentGUI(user);
             } else {
                 if (user.isAdmin()){
                     SelectAssignmentGUI.this.dispose();
-                    new ArrangementGUI(user, assignmentDao.getAssignmentByAssignmentAndCourseName(selectedAssignment, selectedCourse));
+                    new CorrectOrCheckGUI(user, assignmentDao.getAssignmentByAssignmentAndCourseName(selectedAssignment, selectedCourse));
                 } else {
                     SelectAssignmentGUI.this.dispose();
                     new SubmissionGUI(user, assignmentDao.getAssignmentByAssignmentAndCourseName(selectedAssignment, selectedCourse));
@@ -115,8 +134,8 @@ public class SelectAssignmentGUI extends JFrame{
         });
 
         setContentPane(panel);
-        setTitle("Select your assignment.");
-        setSize(500, 500);
+        setTitle("Select your assignment");
+        setSize(600, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
