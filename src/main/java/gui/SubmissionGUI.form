@@ -32,9 +32,11 @@
           <hspacer id="9c4d7">
             <constraints/>
           </hspacer>
-          <component id="3684b" class="javax.swing.JComboBox" binding="comboBox">
+          <component id="d641b" class="javax.swing.JButton" binding="uploadButton">
             <constraints/>
-            <properties/>
+            <properties>
+              <text value="Upload"/>
+            </properties>
           </component>
           <component id="46f8a" class="javax.swing.JButton" binding="clearButton" default-binding="true">
             <constraints/>

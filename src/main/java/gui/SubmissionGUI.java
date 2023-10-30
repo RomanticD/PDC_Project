@@ -17,11 +17,10 @@ import java.util.List;
 import java.util.Date;
 
 public class SubmissionGUI extends JFrame {
-    private final SubmissionDao submissionDao = new SubmissionDao();
+    private final SubmissionDaoInterface submissionDao = new SubmissionDao();
     private JPanel submissionPanel;
     private JToolBar toolBar1;
     private JButton backButton;
-    private JComboBox<String> comboBox;
     private JButton clearButton;
     private JButton submitButton;
     private JPanel mainPanel;
@@ -35,6 +34,7 @@ public class SubmissionGUI extends JFrame {
     private JPanel assignmentCard;
     private JLabel nullContentLabel;
     private JButton checkHistoryButton;
+    private JButton uploadButton;
 
     public SubmissionGUI(User user, Assignment assignment) {
         SubmissionDaoInterface submissionDao = new SubmissionDao();
@@ -114,6 +114,8 @@ public class SubmissionGUI extends JFrame {
                 new SubmissionGUI(user, assignment);
             }
         });
+
+        uploadButton.addActionListener(FrameUtil.uploadAction());
 
         setContentPane(submissionPanel);
         setTitle("Submit your assignment or manage your history");

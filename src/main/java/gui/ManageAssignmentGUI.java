@@ -1,5 +1,6 @@
 package gui;
 
+import com.toedter.calendar.JDateChooser;
 import dao.AssignmentDaoInterface;
 import dao.CourseDaoInterface;
 import dao.impl.AssignmentDao;
@@ -9,8 +10,16 @@ import domain.User;
 import util.FrameUtil;
 
 import javax.swing.*;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+
+import java.util.Date;
 
 public class ManageAssignmentGUI extends JFrame{
     private JTextArea nameText;
@@ -26,6 +35,9 @@ public class ManageAssignmentGUI extends JFrame{
     private JPanel cardPanel;
     private JLabel nullLabel;
     private JScrollPane courseListPane;
+    private JSpinner deadlineSpinner;
+    private JLabel deadlineLabel;
+    private JDateChooser dateChooser;
     private final CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
 
     AssignmentDaoInterface assignmentDao =  new AssignmentDao();
@@ -82,7 +94,22 @@ public class ManageAssignmentGUI extends JFrame{
         }
         courseList.setModel(courseListModel);
 
+        dateChooser.setDateFormatString("yy-MM-dd");
+        // Create a SpinnerDateModel for the time spinner
+        SpinnerDateModel timeModel = new SpinnerDateModel(new Date(), null, null, Calendar.MINUTE);
+
+        deadlineSpinner.setModel(timeModel);
+        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(deadlineSpinner, "HH:mm");
+        deadlineSpinner.setEditor(timeEditor);
+
         arrangeButton.addActionListener(e -> {
+            // Get the selected date
+            Date selectedDate = dateChooser.getDate();
+            // Get the selected time
+            Date selectedTime = (Date) deadlineSpinner.getValue();
+            // Combine the date and time to create the deadline
+            Date deadline = combineDateAndTime(selectedDate, selectedTime);
+
             Assignment newAssignment = Assignment.builder()
                     .assignmentContent(contentText.getText())
                     .assignmentName(nameText.getText())
@@ -117,5 +144,22 @@ public class ManageAssignmentGUI extends JFrame{
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
+    }
+
+    private Date combineDateAndTime(Date date, Date time) {
+        Calendar calendarDate = Calendar.getInstance();
+        calendarDate.setTime(date);
+
+        Calendar calendarTime = Calendar.getInstance();
+        calendarTime.setTime(time);
+
+        calendarDate.set(Calendar.HOUR_OF_DAY, calendarTime.get(Calendar.HOUR_OF_DAY));
+        calendarDate.set(Calendar.MINUTE, calendarTime.get(Calendar.MINUTE));
+
+        return calendarDate.getTime();
+    }
+
+    private void createUIComponents(){
+        this.dateChooser = new JDateChooser();
     }
 }

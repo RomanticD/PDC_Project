@@ -6,11 +6,16 @@ import gui.SelectAssignmentGUI;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 @Slf4j
 public class FrameUtil {
@@ -160,5 +165,33 @@ public class FrameUtil {
             new UploadGUI().setVisible(true);
         });
         return uploadButton;
+    }
+
+
+    /**
+     * Creates an ActionListener that opens the UploadGUI when an action is performed.
+     *
+     * @return An ActionListener for opening the UploadGUI.
+     */
+    public static ActionListener uploadAction() {
+        return e -> new UploadGUI().setVisible(true);
+    }
+
+    public static boolean checkFormattedTimeSpinner(JSpinner timeSpinner) {
+        MaskFormatter maskFormatter;
+
+        try {
+            maskFormatter = new MaskFormatter("##:##");
+            maskFormatter.setPlaceholderCharacter('0');
+            NumberFormatter numberFormatter = new NumberFormatter(new SimpleDateFormat("HH:mm").getNumberFormat());
+            DefaultFormatterFactory formatterFactory = new DefaultFormatterFactory(maskFormatter);
+            JFormattedTextField timeField = new JFormattedTextField(formatterFactory);
+            timeSpinner.setEditor(new JSpinner.DefaultEditor(timeSpinner));
+            timeSpinner.setEditor(timeField);
+        } catch (ParseException e) {
+            return false;
+        }
+
+        return true;
     }
 }
