@@ -68,7 +68,6 @@ public class UploadGUI extends JFrame {
 
             try {
                 Path sourceFile = Paths.get(sourcePath);
-
                 long fileSize = Files.size(sourceFile);
                 long maxFileSize = 100 * 1024 * 1024; // 100MB
 
