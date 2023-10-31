@@ -12,6 +12,8 @@ import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
@@ -177,21 +179,30 @@ public class FrameUtil {
         return e -> new UploadGUI().setVisible(true);
     }
 
-    public static boolean checkFormattedTimeSpinner(JSpinner timeSpinner) {
-        MaskFormatter maskFormatter;
+    /**
+     * This method ensures that only numeric input is allowed in the provided JFormattedTextField.
+     *
+     * @param textField The JFormattedTextField in which numeric input is enforced.
+     */
+    public static void numericInputListener(JFormattedTextField textField) {
+        KeyListener numericInputListener = new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c)) {
+                    e.consume();
+                }
+            }
 
-        try {
-            maskFormatter = new MaskFormatter("##:##");
-            maskFormatter.setPlaceholderCharacter('0');
-            NumberFormatter numberFormatter = new NumberFormatter(new SimpleDateFormat("HH:mm").getNumberFormat());
-            DefaultFormatterFactory formatterFactory = new DefaultFormatterFactory(maskFormatter);
-            JFormattedTextField timeField = new JFormattedTextField(formatterFactory);
-            timeSpinner.setEditor(new JSpinner.DefaultEditor(timeSpinner));
-            timeSpinner.setEditor(timeField);
-        } catch (ParseException e) {
-            return false;
-        }
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
 
-        return true;
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        };
+
+        textField.addKeyListener(numericInputListener);
     }
 }

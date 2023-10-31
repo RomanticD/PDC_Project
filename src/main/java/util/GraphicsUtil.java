@@ -73,7 +73,7 @@ public class GraphicsUtil {
             return (int[]) raster.getDataElements(x, y, w, h, pixels);
         }
 
-        // Unmanages the image
+        // Manage the image
         return img.getRGB(x, y, w, h, pixels, 0, w);
     }
 

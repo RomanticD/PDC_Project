@@ -131,6 +131,26 @@ public class SubmissionDao implements SubmissionDaoInterface, Closeable{
     }
 
     @Override
+    public boolean correctSubmission(Submission submission) {
+        String query = "UPDATE submissions set evaluation = ?, scores = ?, submissionStatus = ? WHERE assignmentID = ? AND studentID = ? AND submissionOrder = ?";
+
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setString(1, submission.getEvaluation());
+            statement.setInt(2, submission.getScores());
+            statement.setString(3, "Already corrected");
+            statement.setInt(4, submission.getAssignmentID());
+            statement.setInt(5, submission.getStudentID());
+            statement.setInt(6, submission.getSubmissionOrder());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            log.error("Error when correctSubmission: "  + e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
     public List<Submission> getSubmissionsOfOneAssignmentAndStudent(int assignmentID, int userID) {
         List<Submission> submissionList = new ArrayList<>();
         String query = "SELECT * FROM submissions WHERE assignmentID = ? AND studentID = ? ORDER BY submissionOrder ASC";
@@ -160,7 +180,43 @@ public class SubmissionDao implements SubmissionDaoInterface, Closeable{
                 }
             }
         } catch (SQLException e) {
-            log.error("Error when getSubmissionNumberOfOneAssignmentAndStudent: "  + e.getMessage());
+            log.error("Error when getSubmissionsOfOneAssignmentAndStudent: "  + e.getMessage());
+        }
+
+        return submissionList;
+    }
+
+    @Override
+    public List<Submission> getSubmissionsFromAssignment(Assignment assignment) {
+        List<Submission> submissionList = new ArrayList<>();
+        String query = "SELECT * FROM submissions WHERE assignmentID = ? ORDER BY studentID, submissionOrder";
+
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, assignment.getAssignmentID());
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    int submissionID = resultSet.getInt("submissionID");
+                    int studentID = resultSet.getInt("studentID");
+                    Timestamp submissionTime = resultSet.getTimestamp("submissionTIME");
+                    String  submissionContent = resultSet.getString("submissionContent");
+                    String submissionStatus = resultSet.getString("submissionStatus");
+                    int order = resultSet.getInt("submissionOrder");
+
+                    Submission submission = Submission.builder()
+                            .assignmentID(assignment.getAssignmentID())
+                            .studentID(studentID)
+                            .submissionID(submissionID)
+                            .submissionContent(submissionContent)
+                            .submissionTime(submissionTime)
+                            .submissionStatus(submissionStatus)
+                            .submissionOrder(order)
+                            .build();
+
+                    submissionList.add(submission);
+                }
+            }
+        } catch (SQLException e){
+            log.error("Error when getSubmissionsFromAssignment: "  + e.getMessage());
         }
 
         return submissionList;
@@ -181,6 +237,12 @@ public class SubmissionDao implements SubmissionDaoInterface, Closeable{
                 Timestamp submissionTime = resultSet.getTimestamp("submissionTIME");
                 String  submissionContent = resultSet.getString("submissionContent");
                 String submissionStatus = resultSet.getString("submissionStatus");
+                String evaluation = resultSet.getString("EVALUATION");
+                int scores;
+                scores = resultSet.getInt("SCORES");
+                if (resultSet.wasNull()) {
+                    scores = -1;
+                }
 
                 return  Submission.builder()
                         .assignmentID(assignmentID)
@@ -190,6 +252,8 @@ public class SubmissionDao implements SubmissionDaoInterface, Closeable{
                         .submissionTime(submissionTime)
                         .submissionStatus(submissionStatus)
                         .submissionOrder(order)
+                        .evaluation(evaluation)
+                        .scores(scores)
                         .build();
             }
         } catch (SQLException e) {

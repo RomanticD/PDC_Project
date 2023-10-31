@@ -9,6 +9,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -53,12 +54,13 @@ public class AssignmentDao implements AssignmentDaoInterface, Closeable{
             return false;
         }
 
-        String query = "INSERT INTO assignments (ASSIGNMENTNAME, COURSEID, ASSIGNMENTCONTENT) VALUES (?, ?, ?)";
+        String query = "INSERT INTO assignments (ASSIGNMENTNAME, COURSEID, ASSIGNMENTCONTENT, DEADLINE) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setString(1, assignment.getAssignmentName());
             preparedStatement.setInt(2, assignment.getCourseID());
             preparedStatement.setString(3, assignment.getAssignmentContent());
+            preparedStatement.setTimestamp(4, new java.sql.Timestamp(assignment.getDeadLine().getTime()));
             preparedStatement.executeUpdate();
 
             log.info("Executing SQL query: insertAssignment");
@@ -77,12 +79,13 @@ public class AssignmentDao implements AssignmentDaoInterface, Closeable{
             return false;
         }
 
-        String query = "UPDATE assignments SET ASSIGNMENTCONTENT = ?, COURSEID = ? WHERE ASSIGNMENTNAME = ?";
+        String query = "UPDATE assignments SET ASSIGNMENTCONTENT = ?, COURSEID = ?, DEADLINE = ? WHERE ASSIGNMENTNAME = ?";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setString(1, assignment.getAssignmentContent());
             preparedStatement.setInt(2, assignment.getCourseID());
-            preparedStatement.setString(3, assignment.getAssignmentName());
+            preparedStatement.setTimestamp(3, new java.sql.Timestamp(assignment.getDeadLine().getTime()));
+            preparedStatement.setString(4, assignment.getAssignmentName());
             preparedStatement.executeUpdate();
 
             log.info("Executing SQL query - updateAssignment: updateAssignment");
@@ -155,12 +158,14 @@ public class AssignmentDao implements AssignmentDaoInterface, Closeable{
                 int courseId = resultSet.getInt("courseID");
                 int assignmentID = resultSet.getInt("assignmentID");
                 String assignmentContent = resultSet.getString("assignmentContent");
+                Date deadline = resultSet.getDate("deadline");
 
                 return Assignment.builder()
                         .assignmentContent(assignmentContent)
                         .assignmentName(assignmentName)
                         .assignmentID(assignmentID)
                         .courseID(courseId)
+                        .deadLine(deadline)
                         .build();
             }
 
