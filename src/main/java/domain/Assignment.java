@@ -16,4 +16,5 @@ public class Assignment {
     private String assignmentName;
     private int courseID;
     private String assignmentContent;
+    private Date deadLine;
 }

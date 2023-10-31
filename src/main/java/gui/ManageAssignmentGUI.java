@@ -13,16 +13,17 @@ import domain.User;
 import util.FrameUtil;
 
 import javax.swing.*;
-import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
-import javax.swing.text.NumberFormatter;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
 import java.util.Date;
+
+import static util.FrameUtil.numericInputListener;
 
 public class ManageAssignmentGUI extends JFrame {
     private JTextArea nameText;
@@ -38,23 +39,43 @@ public class ManageAssignmentGUI extends JFrame {
     private JPanel cardPanel;
     private JLabel nullLabel;
     private JScrollPane courseListPane;
-    private JSpinner deadlineSpinner;
+    private JSpinner hourSpinner;
     private JLabel deadlineLabel;
     private JDateChooser dateChooser;
+    private JSpinner minuteSpinner;
+    private JLabel timeLabel;
+    private JLabel hourLabel;
+    private JLabel minuteLabel;
+    private JLabel dateLabel;
     private final CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
 
     AssignmentDaoInterface assignmentDao = new AssignmentDao();
 
     // Click the Check button in SelectAssignmentGui
     public ManageAssignmentGUI(User user, Assignment assignment) {
-        $$$setupUI$$$();
         nameText.setEditable(false);
         formerContentArea.setEditable(false);
         courseList.setVisible(false);
         nameText.setText(assignment.getAssignmentName());
 
+        dateChooser.setDateFormatString("yyyy-MM-dd");
+        createTimeSpinner(hourSpinner, minuteSpinner);
+
         arrangeButton.addActionListener(e -> {
+            Date selectedDate = dateChooser.getDate();
+            int selectedHour = (int) hourSpinner.getValue();
+            int selectedMinute = (int) minuteSpinner.getValue();
+
+            Date selectedTime = getTime(selectedHour, selectedMinute);
+            if (selectedDate == null) {
+                FrameUtil.showConfirmation(ManageAssignmentGUI.this, "The date is not selected");
+                new ManageAssignmentGUI(user);
+                return;
+            }
+            Date deadline = combineDateAndTime(selectedDate, selectedTime);
+
             assignment.setAssignmentContent(contentText.getText());
+            assignment.setDeadLine(deadline);
 
             if (assignmentDao.updateAssignment(assignment)) {
                 FrameUtil.showConfirmation(ManageAssignmentGUI.this, "Arrange successfully!");
@@ -92,33 +113,34 @@ public class ManageAssignmentGUI extends JFrame {
         CourseDaoInterface courseDao = new CourseDao();
         DefaultListModel<String> courseListModel = new DefaultListModel<>();
 
-        $$$setupUI$$$();
         List<String> CourseNames = courseDao.getCourseNames(courseDao.getCourseByUser(user));
         for (String assignmentName : CourseNames) {
             courseListModel.addElement(assignmentName);
         }
         courseList.setModel(courseListModel);
 
-        dateChooser.setDateFormatString("yy-MM-dd");
-        // Create a SpinnerDateModel for the time spinner
-        SpinnerDateModel timeModel = new SpinnerDateModel(new Date(), null, null, Calendar.MINUTE);
-
-        deadlineSpinner.setModel(timeModel);
-        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(deadlineSpinner, "HH:mm");
-        deadlineSpinner.setEditor(timeEditor);
+        dateChooser.setDateFormatString("yyyy-MM-dd");
+        createTimeSpinner(hourSpinner, minuteSpinner);
 
         arrangeButton.addActionListener(e -> {
             // Get the selected date
             Date selectedDate = dateChooser.getDate();
-            // Get the selected time
-            Date selectedTime = (Date) deadlineSpinner.getValue();
-            // Combine the date and time to create the deadline
+            int selectedHour = (int) hourSpinner.getValue();
+            int selectedMinute = (int) minuteSpinner.getValue();
+
+            Date selectedTime = getTime(selectedHour, selectedMinute);
+            if (selectedDate == null) {
+                FrameUtil.showConfirmation(ManageAssignmentGUI.this, "The date is not selected");
+                new ManageAssignmentGUI(user);
+                return;
+            }
             Date deadline = combineDateAndTime(selectedDate, selectedTime);
 
             Assignment newAssignment = Assignment.builder()
                     .assignmentContent(contentText.getText())
                     .assignmentName(nameText.getText())
                     .courseID(courseDao.getCourseIDByName(courseList.getSelectedValue()))
+                    .deadLine(deadline)
                     .build();
 
             if (newAssignment.getAssignmentName() == null || newAssignment.getAssignmentName().isEmpty()) {
@@ -151,6 +173,16 @@ public class ManageAssignmentGUI extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    public static Date getTime(int selectedHour, int selectedMinute) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
+        calendar.set(Calendar.MINUTE, selectedMinute);
+        calendar.set(Calendar.SECOND, 0); // Optional, set to 0 if you want to clear seconds
+        calendar.set(Calendar.MILLISECOND, 0); // Optional, set to 0 if you want to clear milliseconds
+
+        return calendar.getTime();
+    }
+
     private Date combineDateAndTime(Date date, Date time) {
         Calendar calendarDate = Calendar.getInstance();
         calendarDate.setTime(date);
@@ -166,77 +198,24 @@ public class ManageAssignmentGUI extends JFrame {
 
     private void createUIComponents() {
         this.dateChooser = new JDateChooser();
+        dateChooser.setMinSelectableDate(new Date());
+        dateChooser.setDateFormatString("yyyy-MM-dd");
     }
 
-    /**
-     * Method generated by IntelliJ IDEA GUI Designer
-     * >>> IMPORTANT!! <<<
-     * DO NOT edit this method OR call it in your code!
-     *
-     * @noinspection ALL
-     */
-    private void $$$setupUI$$$() {
-        createUIComponents();
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
-        final JToolBar toolBar1 = new JToolBar();
-        mainPanel.add(toolBar1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 20), null, 0, false));
-        backButton = new JButton();
-        backButton.setText("Back");
-        toolBar1.add(backButton);
-        final Spacer spacer1 = new Spacer();
-        toolBar1.add(spacer1);
-        arrangeButton = new JButton();
-        arrangeButton.setEnabled(true);
-        arrangeButton.setText("Arrange");
-        toolBar1.add(arrangeButton);
-        final JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(6, 3, new Insets(0, 0, 0, 0), -1, -1));
-        mainPanel.add(panel1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(225, -1), null, null, 0, false));
-        assignmentName = new JLabel();
-        assignmentName.setText("Assignment name:");
-        panel1.add(assignmentName, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(225, 17), null, 0, false));
-        assignmentContent = new JLabel();
-        assignmentContent.setText("Write the assignment content:");
-        panel1.add(assignmentContent, new GridConstraints(0, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(250, 17), null, 0, false));
-        cardPanel = new JPanel();
-        cardPanel.setLayout(new CardLayout(0, 0));
-        panel1.add(cardPanel, new GridConstraints(3, 0, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(225, 250), new Dimension(-1, 100), new Dimension(-1, 250), 0, false));
-        formerContentArea = new JTextArea();
-        cardPanel.add(formerContentArea, "formerContentCard");
-        nullLabel = new JLabel();
-        nullLabel.setHorizontalAlignment(0);
-        nullLabel.setHorizontalTextPosition(0);
-        nullLabel.setText("No content");
-        cardPanel.add(nullLabel, "nullLabelCard");
-        courseListPane = new JScrollPane();
-        cardPanel.add(courseListPane, "courseListCard");
-        courseList = new JList();
-        courseList.putClientProperty("List.isFileList", Boolean.FALSE);
-        courseListPane.setViewportView(courseList);
-        final JToolBar toolBar2 = new JToolBar();
-        cardPanel.add(toolBar2, "Card1");
-        nameText = new JTextArea();
-        panel1.add(nameText, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, new Dimension(-1, 50), new Dimension(225, 137), new Dimension(-1, 150), 0, false));
-        cardContent = new JLabel();
-        cardContent.setText("Card content");
-        panel1.add(cardContent, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        deadlineSpinner = new JSpinner();
-        panel1.add(deadlineSpinner, new GridConstraints(5, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(50, -1), null, 0, false));
-        contentText = new JTextArea();
-        contentText.setText("");
-        panel1.add(contentText, new GridConstraints(1, 1, 3, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(250, 150), null, 0, false));
-        deadlineLabel = new JLabel();
-        deadlineLabel.setText("Choose your deadline:");
-        panel1.add(deadlineLabel, new GridConstraints(4, 1, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        panel1.add(dateChooser, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(125, -1), null, 0, false));
-    }
+    private void createTimeSpinner(JSpinner hourSpinner, JSpinner minuteSpinner) {
+        // Create a spinner for hours (00-23)
+        SpinnerModel hourModel = new SpinnerNumberModel(0, 0, 23, 1);
+        hourSpinner.setModel(hourModel);
+        JFormattedTextField hourTextField = ((JSpinner.DefaultEditor) hourSpinner.getEditor()).getTextField();
 
-    /**
-     * @noinspection ALL
-     */
-    public JComponent $$$getRootComponent$$$() {
-        return mainPanel;
+        // Create a spinner for minutes (00-59)
+        SpinnerModel minuteModel = new SpinnerNumberModel(0, 0, 59, 1);
+        minuteSpinner.setModel(minuteModel);
+        JFormattedTextField minuteTextField = ((JSpinner.DefaultEditor) minuteSpinner.getEditor()).getTextField();
+
+        // Restrict input to numeric values only for hours and minutes
+        numericInputListener(hourTextField);
+        numericInputListener(minuteTextField);
     }
 
 }

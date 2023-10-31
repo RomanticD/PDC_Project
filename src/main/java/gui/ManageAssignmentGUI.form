@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="524" height="520"/>
+      <xy x="20" y="20" width="622" height="520"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -35,7 +35,7 @@
           </component>
         </children>
       </toolbar>
-      <grid id="13884" layout-manager="GridLayoutManager" row-count="6" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="13884" layout-manager="GridLayoutManager" row-count="7" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -57,7 +57,7 @@
           </component>
           <component id="3641" class="javax.swing.JLabel" binding="assignmentContent">
             <constraints>
-              <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
+              <grid row="0" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <preferred-size width="250" height="17"/>
               </grid>
             </constraints>
@@ -67,7 +67,7 @@
           </component>
           <grid id="28d7d" binding="cardPanel" layout-manager="CardLayout" hgap="0" vgap="0">
             <constraints>
-              <grid row="3" column="0" row-span="3" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+              <grid row="3" column="0" row-span="4" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <minimum-size width="225" height="250"/>
                 <preferred-size width="-1" height="100"/>
                 <maximum-size width="-1" height="250"/>
@@ -136,17 +136,17 @@
               <text value="Card content"/>
             </properties>
           </component>
-          <component id="8bc90" class="javax.swing.JSpinner" binding="deadlineSpinner">
+          <component id="8bc90" class="javax.swing.JSpinner" binding="hourSpinner">
             <constraints>
-              <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="50" height="-1"/>
+              <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="80" height="30"/>
               </grid>
             </constraints>
             <properties/>
           </component>
           <component id="83a97" class="javax.swing.JTextArea" binding="contentText">
             <constraints>
-              <grid row="1" column="1" row-span="3" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+              <grid row="1" column="1" row-span="3" col-span="4" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <preferred-size width="250" height="150"/>
               </grid>
             </constraints>
@@ -154,20 +154,62 @@
               <text value=""/>
             </properties>
           </component>
+          <component id="3bb5d" class="com.toedter.calendar.JDateChooser" binding="dateChooser" custom-create="true">
+            <constraints>
+              <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="30"/>
+              </grid>
+            </constraints>
+          </component>
+          <component id="88d9a" class="javax.swing.JSpinner" binding="minuteSpinner">
+            <constraints>
+              <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="80" height="30"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="77df1" class="javax.swing.JLabel" binding="timeLabel">
+            <constraints>
+              <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                <maximum-size width="5" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <text value=":"/>
+            </properties>
+          </component>
+          <component id="1ad37" class="javax.swing.JLabel" binding="hourLabel">
+            <constraints>
+              <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="hour(0-23h):"/>
+            </properties>
+          </component>
+          <component id="41c7a" class="javax.swing.JLabel" binding="minuteLabel">
+            <constraints>
+              <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="minute(0-59m):"/>
+            </properties>
+          </component>
           <component id="694f2" class="javax.swing.JLabel" binding="deadlineLabel">
             <constraints>
-              <grid row="4" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Choose your deadline:"/>
             </properties>
           </component>
-          <component id="3bb5d" class="com.toedter.calendar.JDateChooser" binding="dateChooser" custom-create="true">
+          <component id="deb71" class="javax.swing.JLabel" binding="dateLabel">
             <constraints>
-              <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="125" height="-1"/>
-              </grid>
+              <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
+            <properties>
+              <text value="date:"/>
+            </properties>
           </component>
         </children>
       </grid>

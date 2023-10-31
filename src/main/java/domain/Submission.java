@@ -20,4 +20,5 @@ public class Submission {
     private int submissionOrder;
     private String submissionStatus;
     private String evaluation;
+    private int scores;
 }

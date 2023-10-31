@@ -33,7 +33,6 @@ public class SubmissionGUI extends JFrame {
     private JTextArea assignmentContent;
     private JTable submissionTable;
     private JLabel historyLabel;
-    private JButton deleteButton;
     private JPanel assignmentCard;
     private JLabel nullContentLabel;
     private JButton checkHistoryButton;
@@ -110,6 +109,7 @@ public class SubmissionGUI extends JFrame {
         checkHistoryButton.addActionListener(e -> {
             int selectedRow = submissionTable.getSelectedRow();
             if (selectedRow >= 1) {
+                SubmissionGUI.this.dispose();
                 int submissionOrder = (int) tableModel.getValueAt(selectedRow, 0);
                 new CorrectOrCheckGUI(user, assignment, submissionOrder);
             } else {
@@ -166,25 +166,25 @@ public class SubmissionGUI extends JFrame {
         submitButton.setText("Submit");
         toolBar1.add(submitButton);
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayoutManager(4, 5, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel.setLayout(new GridLayoutManager(4, 4, new Insets(0, 0, 0, 0), -1, -1));
         submissionPanel.add(mainPanel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         assignmentLabel = new JLabel();
         assignmentLabel.setText("Assignment");
-        mainPanel.add(assignmentLabel, new GridConstraints(0, 0, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(assignmentLabel, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         programmeLabel = new JLabel();
         programmeLabel.setText("Submission");
-        mainPanel.add(programmeLabel, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(290, 17), null, 0, false));
+        mainPanel.add(programmeLabel, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(225, 17), null, 0, false));
         submissionTable = new JTable();
-        mainPanel.add(submissionTable, new GridConstraints(3, 0, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 150), null, 0, false));
+        mainPanel.add(submissionTable, new GridConstraints(3, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 150), null, 0, false));
         submissionContent = new JTextArea();
         submissionContent.setText("");
-        mainPanel.add(submissionContent, new GridConstraints(1, 4, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(290, 17), new Dimension(290, -1), 0, false));
+        mainPanel.add(submissionContent, new GridConstraints(1, 3, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(225, 17), new Dimension(290, -1), 0, false));
         historyLabel = new JLabel();
         historyLabel.setText("Your history:");
         mainPanel.add(historyLabel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         assignmentCard = new JPanel();
         assignmentCard.setLayout(new CardLayout(0, 0));
-        mainPanel.add(assignmentCard, new GridConstraints(1, 0, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(150, 250), new Dimension(-1, 250), 0, false));
+        mainPanel.add(assignmentCard, new GridConstraints(1, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(150, 250), new Dimension(-1, 250), 0, false));
         nullContentLabel = new JLabel();
         nullContentLabel.setHorizontalAlignment(0);
         nullContentLabel.setHorizontalTextPosition(0);
@@ -196,12 +196,9 @@ public class SubmissionGUI extends JFrame {
         checkHistoryButton.setHorizontalAlignment(0);
         checkHistoryButton.setHorizontalTextPosition(0);
         checkHistoryButton.setText("Check");
-        mainPanel.add(checkHistoryButton, new GridConstraints(2, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(checkHistoryButton, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer4 = new Spacer();
         mainPanel.add(spacer4, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        deleteButton = new JButton();
-        deleteButton.setText("Delete");
-        mainPanel.add(deleteButton, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
     }
 
     /**
