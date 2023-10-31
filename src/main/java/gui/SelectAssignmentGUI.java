@@ -72,6 +72,7 @@ public class SelectAssignmentGUI extends JFrame{
 
                 // Clear the assignmentListModel
                 assignmentListModel.clear();
+                concreteTime.setText("No deadline");
 
                 for (String assignmentName : assignmentNames) {
                     assignmentListModel.addElement(assignmentName);
