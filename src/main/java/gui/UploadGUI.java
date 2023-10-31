@@ -2,6 +2,8 @@ package gui;
 
 
 
+import util.FrameUtil;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -89,11 +91,11 @@ public class UploadGUI extends JFrame {
                         }
                         Files.copy(sourceFile, target, StandardCopyOption.REPLACE_EXISTING);
                     }
-                    JOptionPane.showMessageDialog(UploadGUI.this, "Upload Success!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    FrameUtil.showSuccessDialog("Upload Success!");
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(UploadGUI.this, "Upload Failed: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                FrameUtil.showErrorDialog("Upload Failed: " + ex.getMessage());
             }
         });
 
