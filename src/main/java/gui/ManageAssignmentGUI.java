@@ -58,6 +58,7 @@ public class ManageAssignmentGUI extends JFrame {
         courseList.setVisible(false);
         nameText.setText(assignment.getAssignmentName());
 
+        dateChooser.setDateFormatString("yyyy-MM-dd");
         createTimeSpinner(hourSpinner, minuteSpinner);
 
         arrangeButton.addActionListener(e -> {
@@ -119,13 +120,7 @@ public class ManageAssignmentGUI extends JFrame {
         courseList.setModel(courseListModel);
 
         dateChooser.setDateFormatString("yyyy-MM-dd");
-
-        // Create a SpinnerDateModel for the time spinner
-        SpinnerDateModel timeModel = new SpinnerDateModel(new Date(), null, null, Calendar.MINUTE);
-
-        hourSpinner.setModel(timeModel);
-        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(hourSpinner, "HH:mm");
-        hourSpinner.setEditor(timeEditor);
+        createTimeSpinner(hourSpinner, minuteSpinner);
 
         arrangeButton.addActionListener(e -> {
             // Get the selected date
