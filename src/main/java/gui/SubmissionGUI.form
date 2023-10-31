@@ -71,7 +71,7 @@
           <component id="b56c3" class="javax.swing.JLabel" binding="programmeLabel">
             <constraints>
               <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="290" height="17"/>
+                <preferred-size width="225" height="17"/>
               </grid>
             </constraints>
             <properties>
@@ -89,7 +89,7 @@
           <component id="bb2bc" class="javax.swing.JTextArea" binding="submissionContent">
             <constraints>
               <grid row="1" column="3" row-span="3" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="290" height="17"/>
+                <preferred-size width="225" height="17"/>
                 <maximum-size width="290" height="-1"/>
               </grid>
             </constraints>
