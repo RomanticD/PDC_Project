@@ -62,7 +62,7 @@ public class MainGUI extends JFrame {
             JButton adminButton = addButton("Admin", panel, myProfileButton, 105, springLayout);
             adminButton.addActionListener(e -> {
                 MainGUI.this.dispose();
-                new SelectAssignmentGUI(user);
+                new AdminGUI(user);
             });
         }else{
             //Assignment Button if user is student
