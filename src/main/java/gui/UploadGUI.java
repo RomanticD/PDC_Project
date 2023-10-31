@@ -75,15 +75,18 @@ public class UploadGUI extends JFrame {
                     JOptionPane.showMessageDialog(UploadGUI.this, "File size exceeds the limit (100MB). Please choose a smaller file.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     Path target = Paths.get(targetPath);
-                    // 检查目标是否是目录，如果是目录，则使用源文件的文件名构建目标路径
-                    //if (Files.isDirectory(target)) {
-                        String fileName = sourceFile.getFileName().toString();
-                        target = target.resolve(fileName);
-                    //}
-
+                    String fileName = sourceFile.getFileName().toString();
+                    target = target.resolve(fileName);
                     if (Files.isDirectory(sourceFile)) {
                         copyDirectory(sourcePath, target.toString());
                     } else {
+                        try {
+                            if (!Files.exists(target)) {
+                                Files.createDirectories(target);
+                            }
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                         Files.copy(sourceFile, target, StandardCopyOption.REPLACE_EXISTING);
                     }
                     JOptionPane.showMessageDialog(UploadGUI.this, "Upload Success!", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -93,10 +96,6 @@ public class UploadGUI extends JFrame {
                 JOptionPane.showMessageDialog(UploadGUI.this, "Upload Failed: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
-
-
-
-
 
         add(sourceField);
         add(chooseSourceButton);
@@ -135,6 +134,5 @@ public class UploadGUI extends JFrame {
             e.printStackTrace();
         }
     }
-
 }
 
