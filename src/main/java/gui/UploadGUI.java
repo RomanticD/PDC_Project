@@ -51,7 +51,11 @@ public class UploadGUI extends JFrame {
                     if (selectedFile.isDirectory()) {
                         sourceField.setText(selectedFile.getPath()); // 用户选择了目录
                     } else {
-                        sourceField.setText(selectedFile.getParent()); // 用户选择了文件，获取其所在目录
+                        try {
+                            sourceField.setText(selectedFile.getCanonicalPath()); // 用户选择了文件
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
                 }
             }
@@ -73,10 +77,10 @@ public class UploadGUI extends JFrame {
                 } else {
                     Path target = Paths.get(targetPath);
                     // 检查目标是否是目录，如果是目录，则使用源文件的文件名构建目标路径
-                    if (Files.isDirectory(target)) {
+                    //if (Files.isDirectory(target)) {
                         String fileName = sourceFile.getFileName().toString();
                         target = target.resolve(fileName);
-                    }
+                    //}
 
                     if (Files.isDirectory(sourceFile)) {
                         copyDirectory(sourcePath, target.toString());
