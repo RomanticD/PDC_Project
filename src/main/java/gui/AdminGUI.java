@@ -48,30 +48,31 @@ public class AdminGUI extends JFrame {
         SpringLayout springLayout = new SpringLayout();
         panel.setLayout(springLayout);
 
-        ActionListener backToLoginGUI = e -> backToLoginGUI();
+        ActionListener backToLoginGUI = e -> backToMainGUI();
         FrameUtil.addBackButtonWithCustomAction(panel, springLayout, backToLoginGUI);
 
         //Assignment Manage Button
-        JButton myProfileButton = addButton("", panel, panel, 105, springLayout);
+        JButton myProfileButton = addButton("Manage Assignment", panel, panel, 30, springLayout);
         myProfileButton.addActionListener(e -> {
-            log.info("Going to Profile GUI");
+            log.info("Going to Assignment GUI");
             AdminGUI.this.dispose();
             new ProfileGUI(user);
         });
 
 
         //Course Manage Button
-        JButton adminButton = addButton("Admin", panel, myProfileButton, 105, springLayout);
+        JButton adminButton = addButton("Manage Course", panel, myProfileButton, 90, springLayout);
         adminButton.addActionListener(e -> {
+            log.info("Going to Manage Course GUI");
             AdminGUI.this.dispose();
             new SelectAssignmentGUI(user);
         });
 
 
         //Course Button
-        JButton coursesButton = addButton("Course", panel, myProfileButton, 210, springLayout);
+        JButton coursesButton = addButton("Manage Course Selection", panel, myProfileButton, 150, springLayout);
         coursesButton.addActionListener(e -> {
-            log.info("Going to Course GUI");
+            log.info("Going to Manage Course Selection");
             AdminGUI.this.dispose();
             new CourseGUI(user);
         });
@@ -85,13 +86,13 @@ public class AdminGUI extends JFrame {
         this.getContentPane().add(panel);
     }
 
-    private void backToLoginGUI() {
-        FrameUtil.disposeCurrentFrameAndCreateNewFrame(UIConstants.APP_NAME, AdminGUI.this, new LoginGUI(user));
+    private void backToMainGUI() {
     }
+
 
     private JButton addButton(String name, JComponent container, JComponent verticalRelatedComponent, int topPaddingToVerticalComponent, SpringLayout springLayout){
         JButton button = new JButton(name);
-        button.setFont(new Font("Dialog", Font.BOLD, 20));
+        button.setFont(new Font("Dialog", Font.BOLD, 12));
         springLayout.putConstraint(SpringLayout.WEST, button, UIConstants.MAIN_PAGE_BUTTON_LEADING_PADDING, SpringLayout.WEST, container);
         springLayout.putConstraint(SpringLayout.EAST, button, UIConstants.MAIN_PAGE_BUTTON_BOTTOM_PADDING, SpringLayout.EAST, container);
         springLayout.putConstraint(SpringLayout.NORTH, button, topPaddingToVerticalComponent, SpringLayout.NORTH, verticalRelatedComponent);
