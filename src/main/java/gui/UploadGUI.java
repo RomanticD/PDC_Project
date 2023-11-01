@@ -1,8 +1,7 @@
 package gui;
-
-
-
+import lombok.extern.slf4j.Slf4j;
 import util.FrameUtil;
+import util.MethodUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,12 +14,11 @@ import java.nio.file.attribute.BasicFileAttributes;
 
 import static constants.ExportConstants.UPLOADED_TO_PATH;
 
-
+@Slf4j
 public class UploadGUI extends JFrame {
     private JButton chooseSourceButton, copyButton;
     private JTextField sourceField, targetField;
     private JFileChooser fileChooser;
-
 
     public UploadGUI() {
         setTitle("Upload your file");
@@ -44,20 +42,17 @@ public class UploadGUI extends JFrame {
         fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
-        chooseSourceButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int returnValue = fileChooser.showOpenDialog(UploadGUI.this);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = fileChooser.getSelectedFile();
-                    if (selectedFile.isDirectory()) {
-                        sourceField.setText(selectedFile.getPath()); // 用户选择了目录
-                    } else {
-                        try {
-                            sourceField.setText(selectedFile.getCanonicalPath()); // 用户选择了文件
-                        } catch (IOException ex) {
-                            throw new RuntimeException(ex);
-                        }
+        chooseSourceButton.addActionListener(e -> {
+            int returnValue = fileChooser.showOpenDialog(UploadGUI.this);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                if (selectedFile.isDirectory()) {
+                    sourceField.setText(selectedFile.getPath());
+                } else {
+                    try {
+                        sourceField.setText(selectedFile.getCanonicalPath());
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
                     }
                 }
             }
@@ -74,13 +69,13 @@ public class UploadGUI extends JFrame {
                 long maxFileSize = 100 * 1024 * 1024; // 100MB
 
                 if (fileSize > maxFileSize) {
-                    JOptionPane.showMessageDialog(UploadGUI.this, "File size exceeds the limit (100MB). Please choose a smaller file.", "Error", JOptionPane.ERROR_MESSAGE);
+                    FrameUtil.showErrorDialog("File size exceeds the limit (100MB). Please choose a smaller file.");
                 } else {
                     Path target = Paths.get(targetPath);
                     String fileName = sourceFile.getFileName().toString();
                     target = target.resolve(fileName);
                     if (Files.isDirectory(sourceFile)) {
-                        copyDirectory(sourcePath, target.toString());
+                        MethodUtil.copyDirectory(sourcePath, target.toString());
                     } else {
                         try {
                             if (!Files.exists(target)) {
@@ -94,7 +89,7 @@ public class UploadGUI extends JFrame {
                     FrameUtil.showSuccessDialog("Upload Success!");
                 }
             } catch (IOException ex) {
-                ex.printStackTrace();
+                log.error("Upload Failed");
                 FrameUtil.showErrorDialog("Upload Failed: " + ex.getMessage());
             }
         });
@@ -103,38 +98,6 @@ public class UploadGUI extends JFrame {
         add(chooseSourceButton);
         add(targetField);
         add(copyButton);
-    }
-
-    public void copyDirectory(String sourcePath, String targetPath) {
-        Path sourceDirectory = Paths.get(sourcePath);
-        Path targetDirectory = Paths.get(targetPath);
-
-        try {
-            if (!Files.exists(targetDirectory)) {
-                Files.createDirectories(targetDirectory);
-            }
-
-            Files.walkFileTree(sourceDirectory, new SimpleFileVisitor<Path>() {
-                @Override
-                public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-                    Path targetDir = targetDirectory.resolve(sourceDirectory.relativize(dir));
-                    Files.createDirectories(targetDir);
-                    return FileVisitResult.CONTINUE;
-                }
-
-                @Override
-                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    Path targetFile = targetDirectory.resolve(sourceDirectory.relativize(file));
-                    Files.copy(file, targetFile, StandardCopyOption.REPLACE_EXISTING);
-                    return FileVisitResult.CONTINUE;
-                }
-            });
-
-            JOptionPane.showMessageDialog(this, "Upload Success!", "success", JOptionPane.INFORMATION_MESSAGE);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Upload Failed!" + e.getMessage(), "error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
     }
 }
 

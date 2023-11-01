@@ -7,6 +7,7 @@ import domain.enums.Role;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class InstanceUtil {
     public static User getTestUserInstance(){
@@ -36,6 +37,7 @@ public class InstanceUtil {
                 .courseID(1)
                 .assignmentID(-1)
                 .assignmentContent("Test Description")
+                .deadLine(new Date())
                 .build();
     }
 }

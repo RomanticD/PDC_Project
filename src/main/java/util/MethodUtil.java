@@ -10,6 +10,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 
 @Slf4j
@@ -161,6 +163,45 @@ public class MethodUtil {
         } else {
             log.warn("File does not exist.");
             return false;
+        }
+    }
+
+    /**
+     * Copies a directory from the source path to the target path. This method recursively copies all the files and directories
+     * within the source directory to the target directory.
+     *
+     * @param sourcePath the source directory path to be copied
+     * @param targetPath the target directory path where the source directory will be copied
+     */
+    public static void copyDirectory(String sourcePath, String targetPath) {
+        Path sourceDirectory = Paths.get(sourcePath);
+        Path targetDirectory = Paths.get(targetPath);
+
+        try {
+            if (!Files.exists(targetDirectory)) {
+                Files.createDirectories(targetDirectory);
+            }
+
+            Files.walkFileTree(sourceDirectory, new SimpleFileVisitor<Path>() {
+                @Override
+                public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                    Path targetDir = targetDirectory.resolve(sourceDirectory.relativize(dir));
+                    Files.createDirectories(targetDir);
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    Path targetFile = targetDirectory.resolve(sourceDirectory.relativize(file));
+                    Files.copy(file, targetFile, StandardCopyOption.REPLACE_EXISTING);
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+
+            FrameUtil.showSuccessDialog("Upload Success!");
+        } catch (IOException e) {
+            FrameUtil.showErrorDialog("Upload Failed: " + e.getMessage());
+            log.error("Upload Failed");
         }
     }
 }
