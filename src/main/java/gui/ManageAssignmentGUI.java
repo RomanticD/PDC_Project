@@ -110,7 +110,7 @@ public class ManageAssignmentGUI extends JFrame {
 
         setContentPane(mainPanel);
         setTitle("Alter your assignment content");
-        setSize(700, 525);
+        setSize(750, 525);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
@@ -132,6 +132,9 @@ public class ManageAssignmentGUI extends JFrame {
         courseList.setModel(courseListModel);
 
         dateChooser.setDateFormatString("yyyy-MM-dd");
+        Font customFont = new Font("Droid Sans Mono", Font.BOLD, 16);
+        dateChooser.setFont(customFont);
+        dateChooser.setForeground(Color.WHITE);
         createTimeSpinner(hourSpinner, minuteSpinner);
 
         arrangeButton.addActionListener(e -> {
@@ -179,7 +182,7 @@ public class ManageAssignmentGUI extends JFrame {
 
         setContentPane(mainPanel);
         setTitle("Create an assignment");
-        setSize(625, 500);
+        setSize(675, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);

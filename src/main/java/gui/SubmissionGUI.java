@@ -210,6 +210,8 @@ public class SubmissionGUI extends JFrame {
         mainPanel.add(programmeLabel, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(305, 17), null, 0, false));
         submissionTable = new JTable();
         submissionTable.setBackground(new Color(-11482559));
+        Font submissionTableFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 14, submissionTable.getFont());
+        if (submissionTableFont != null) submissionTable.setFont(submissionTableFont);
         submissionTable.setForeground(new Color(-15526864));
         mainPanel.add(submissionTable, new GridConstraints(3, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 150), null, 0, false));
         historyLabel = new JLabel();
@@ -246,9 +248,10 @@ public class SubmissionGUI extends JFrame {
         final Spacer spacer2 = new Spacer();
         mainPanel.add(spacer2, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         submissionContent = new JTextArea();
-        submissionContent.setBackground(new Color(-2238126));
+        submissionContent.setBackground(new Color(-11737629));
         Font submissionContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, submissionContent.getFont());
         if (submissionContentFont != null) submissionContent.setFont(submissionContentFont);
+        submissionContent.setForeground(new Color(-15526864));
         submissionContent.setText("");
         mainPanel.add(submissionContent, new GridConstraints(1, 3, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(225, 17), null, 0, false));
     }
