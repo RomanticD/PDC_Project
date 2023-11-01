@@ -12,10 +12,17 @@ import domain.User;
 import util.FrameUtil;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.util.List;
+import java.util.Locale;
+
+import static util.FrameUtil.getRoundedBorder;
 
 public class CorrectOrCheckGUI extends JFrame {
     private JButton backButton;
@@ -32,14 +39,17 @@ public class CorrectOrCheckGUI extends JFrame {
     private JLabel submissionLabel;
     private JPanel evaluationPanel;
     private JPanel cardPanel;
-    private JScrollPane submissionPanel;
+    private JScrollPane submissionsPanel;
     private JPanel mainPanel;
     private JSpinner scoresSpinner;
     private JPanel scoresPanel;
     private JButton clearButton;
+    private JButton checkButton;
+    private JPanel mainScoresPanel;
+    private JButton downloadButton;
+    private JPanel submissionPanel;
 
     SubmissionDao submissionDao = new SubmissionDao();
-
 
     // Click the Correct button in ManageAssignmentGUI
     public CorrectOrCheckGUI(User user, Assignment assignment) {
@@ -50,6 +60,10 @@ public class CorrectOrCheckGUI extends JFrame {
         cardLabel.setText("Submissions:");
         cardLayout.show(cardPanel, "submissionCard");
         UserDaoInterface userDao = new UserDao();
+        submissionContent.setEditable(false);
+
+        submissionPanel.setBorder(getRoundedBorder());
+        evaluationPanel.setBorder(getRoundedBorder());
 
         DefaultTableModel tableModel = new DefaultTableModel();
         submissionTable.setModel(tableModel);
@@ -73,8 +87,18 @@ public class CorrectOrCheckGUI extends JFrame {
         TableColumn timeColumn = submissionTable.getColumnModel().getColumn(2);
         timeColumn.setCellRenderer(new SubmissionGUI.TimestampRenderer());
 
-        submissionContent.setEditable(false);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        submissionTable.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        submissionTable.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
+        submissionTable.getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
 
+        TableColumn column = submissionTable.getColumnModel().getColumn(0);
+        column.setPreferredWidth(25);
+        column = submissionTable.getColumnModel().getColumn(1);
+        column.setPreferredWidth(50);
+        column = submissionTable.getColumnModel().getColumn(3);
+        column.setPreferredWidth(25);
 
         submissionTable.getSelectionModel().addListSelectionListener(e -> {
             int selectedRow = submissionTable.getSelectedRow();
@@ -114,9 +138,23 @@ public class CorrectOrCheckGUI extends JFrame {
             new SelectAssignmentGUI(user);
         });
 
-        clearButton.addActionListener(e -> {
-            evaluationContent.setText("");
+        checkButton.addActionListener(e -> {
+            int selectedRow = submissionTable.getSelectedRow();
+
+            if (selectedRow >= 0) {
+                CorrectOrCheckGUI.this.dispose();
+                int studentID = (int) tableModel.getValueAt(selectedRow, 0);
+                int submissionOrder = (int) tableModel.getValueAt(selectedRow, 3);
+                Submission submission = submissionDao.getSubmissionFromTwoIDsAndOrder(assignment.getAssignmentID(), studentID, submissionOrder);
+
+                new CorrectOrCheckGUI(user, assignment, submission);
+            } else {
+                FrameUtil.showConfirmation(CorrectOrCheckGUI.this, "You haven't select any submission!");
+                new CorrectOrCheckGUI(user, assignment);
+            }
         });
+
+        clearButton.addActionListener(e -> evaluationContent.setText(""));
 
         scoresLayout.show(scoresPanel, "selectScoresCard");
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel(0, 0, 100, 1);
@@ -124,15 +162,23 @@ public class CorrectOrCheckGUI extends JFrame {
         JFormattedTextField scoresField = ((JSpinner.DefaultEditor) scoresSpinner.getEditor()).getTextField();
         FrameUtil.numericInputListener(scoresField);
 
+        Dimension preferredSize = scoresSpinner.getPreferredSize();
+        preferredSize.height += 50; // Increase the height as needed
+        scoresSpinner.setPreferredSize(preferredSize);
+
         setContentPane(mainPanel);
-        setSize(800, 500);
+        setSize(755, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
     }
 
     // Click the Check button in SubmissionGUI
-    public CorrectOrCheckGUI(User user, Assignment assignment, int submissionOrder) {
+    public CorrectOrCheckGUI(User user, Assignment assignment, Submission submission) {
+        if (user.isAdmin()) {
+            operationButton.setVisible(false);
+        }
+
         CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
         CardLayout evaluationLayout = (CardLayout) evaluationPanel.getLayout();
         CardLayout scoresLayout = (CardLayout) scoresPanel.getLayout();
@@ -142,9 +188,9 @@ public class CorrectOrCheckGUI extends JFrame {
         cardLayout.show(cardPanel, "assignmentCard");
         assignmentContent.setText(assignment.getAssignmentContent());
         assignmentContent.setEditable(false);
+        checkButton.setVisible(false);
         clearButton.setVisible(false);
 
-        Submission submission = submissionDao.getSubmissionFromTwoIDsAndOrder(assignment.getAssignmentID(), user.getUserId(), submissionOrder);
         submissionContent.setText(submission.getSubmissionContent());
         submissionContent.setEditable(false);
 
@@ -170,8 +216,13 @@ public class CorrectOrCheckGUI extends JFrame {
         }
 
         backButton.addActionListener(e -> {
-            CorrectOrCheckGUI.this.dispose();
-            new SubmissionGUI(user, assignment);
+            if (user.isAdmin()) {
+                CorrectOrCheckGUI.this.dispose();
+                new CorrectOrCheckGUI(user, assignment);
+            } else {
+                CorrectOrCheckGUI.this.dispose();
+                new SubmissionGUI(user, assignment);
+            }
         });
 
         scoresLayout.show(scoresPanel, "concreteScoresCard");
@@ -182,7 +233,7 @@ public class CorrectOrCheckGUI extends JFrame {
         }
 
         setContentPane(mainPanel);
-        setSize(600, 500);
+        setSize(675, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
@@ -204,62 +255,172 @@ public class CorrectOrCheckGUI extends JFrame {
      */
     private void $$$setupUI$$$() {
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayoutManager(6, 3, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel.setLayout(new GridLayoutManager(7, 4, new Insets(0, 0, 0, 0), -1, -1));
         final JToolBar toolBar1 = new JToolBar();
-        mainPanel.add(toolBar1, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 20), null, 0, false));
+        mainPanel.add(toolBar1, new GridConstraints(0, 0, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 20), null, 0, false));
         backButton = new JButton();
+        backButton.setBackground(new Color(-2104859));
+        backButton.setEnabled(true);
+        Font backButtonFont = this.$$$getFont$$$("JetBrains Mono", Font.BOLD, 18, backButton.getFont());
+        if (backButtonFont != null) backButton.setFont(backButtonFont);
+        backButton.setForeground(new Color(-15526864));
         backButton.setText("Back");
         toolBar1.add(backButton);
         final Spacer spacer1 = new Spacer();
         toolBar1.add(spacer1);
         clearButton = new JButton();
+        clearButton.setBackground(new Color(-2104859));
+        Font clearButtonFont = this.$$$getFont$$$("JetBrains Mono", Font.BOLD, 16, clearButton.getFont());
+        if (clearButtonFont != null) clearButton.setFont(clearButtonFont);
+        clearButton.setForeground(new Color(-15526864));
         clearButton.setText("Clear");
         toolBar1.add(clearButton);
         operationButton = new JButton();
+        operationButton.setBackground(new Color(-2104859));
+        Font operationButtonFont = this.$$$getFont$$$("JetBrains Mono", Font.BOLD, 16, operationButton.getFont());
+        if (operationButtonFont != null) operationButton.setFont(operationButtonFont);
+        operationButton.setForeground(new Color(-15526864));
         operationButton.setText("Operate");
         toolBar1.add(operationButton);
         submissionContentLabel = new JLabel();
+        Font submissionContentLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 16, submissionContentLabel.getFont());
+        if (submissionContentLabelFont != null) submissionContentLabel.setFont(submissionContentLabelFont);
         submissionContentLabel.setText("Evaluation:");
-        mainPanel.add(submissionContentLabel, new GridConstraints(1, 1, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        scoresLabel = new JLabel();
-        scoresLabel.setText("Scores:");
-        mainPanel.add(scoresLabel, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(50, 17), null, 0, false));
+        mainPanel.add(submissionContentLabel, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         cardPanel = new JPanel();
         cardPanel.setLayout(new CardLayout(0, 0));
-        mainPanel.add(cardPanel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(200, -1), new Dimension(250, 24), null, 0, false));
+        mainPanel.add(cardPanel, new GridConstraints(2, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(-1, 150), new Dimension(150, 150), new Dimension(-1, 200), 0, false));
         assignmentContent = new JTextArea();
+        assignmentContent.setBackground(new Color(-4563611));
+        Font assignmentContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, assignmentContent.getFont());
+        if (assignmentContentFont != null) assignmentContent.setFont(assignmentContentFont);
         assignmentContent.setText("");
         cardPanel.add(assignmentContent, "assignmentCard");
-        submissionPanel = new JScrollPane();
-        cardPanel.add(submissionPanel, "submissionCard");
+        submissionsPanel = new JScrollPane();
+        cardPanel.add(submissionsPanel, "submissionCard");
         submissionTable = new JTable();
-        submissionPanel.setViewportView(submissionTable);
+        submissionTable.setBackground(new Color(-4563611));
+        submissionsPanel.setViewportView(submissionTable);
         cardLabel = new JLabel();
+        Font cardLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 16, cardLabel.getFont());
+        if (cardLabelFont != null) cardLabel.setFont(cardLabelFont);
         cardLabel.setText("Card content");
-        mainPanel.add(cardLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(cardLabel, new GridConstraints(1, 0, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         evaluationPanel = new JPanel();
         evaluationPanel.setLayout(new CardLayout(0, 0));
-        mainPanel.add(evaluationPanel, new GridConstraints(2, 1, 3, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(200, -1), new Dimension(225, 200), null, 0, false));
+        evaluationPanel.setBackground(new Color(-15526864));
+        evaluationPanel.setForeground(new Color(-6253482));
+        mainPanel.add(evaluationPanel, new GridConstraints(2, 3, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(250, 300), new Dimension(300, 350), null, 0, false));
         evaluationContent = new JTextArea();
-        evaluationPanel.add(evaluationContent, "evaluationCard");
+        evaluationContent.setBackground(new Color(-6253482));
+        Font evaluationContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, evaluationContent.getFont());
+        if (evaluationContentFont != null) evaluationContent.setFont(evaluationContentFont);
+        evaluationContent.setForeground(new Color(-15526864));
+        evaluationPanel.add(evaluationContent, "Card1");
         nullLabel = new JLabel();
+        nullLabel.setBackground(new Color(-4474633));
+        Font nullLabelFont = this.$$$getFont$$$("Droid Sans Mono Slashed", Font.BOLD | Font.ITALIC, 20, nullLabel.getFont());
+        if (nullLabelFont != null) nullLabel.setFont(nullLabelFont);
+        nullLabel.setForeground(new Color(-16777216));
         nullLabel.setHorizontalAlignment(0);
         nullLabel.setHorizontalTextPosition(0);
         nullLabel.setText("No content");
-        evaluationPanel.add(nullLabel, "nullCard");
-        submissionContent = new JTextArea();
-        mainPanel.add(submissionContent, new GridConstraints(4, 0, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 50), null, 0, false));
+        evaluationPanel.add(nullLabel, "Card2");
         submissionLabel = new JLabel();
+        Font submissionLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 16, submissionLabel.getFont());
+        if (submissionLabelFont != null) submissionLabel.setFont(submissionLabelFont);
         submissionLabel.setText("Submission content:");
-        mainPanel.add(submissionLabel, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        mainPanel.add(submissionLabel, new GridConstraints(3, 0, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(125, 13), null, 0, false));
+        mainScoresPanel = new JPanel();
+        mainScoresPanel.setLayout(new GridLayoutManager(1, 3, new Insets(10, 10, 10, 10), -1, -1));
+        mainScoresPanel.setBackground(new Color(-2238126));
+        mainScoresPanel.setForeground(new Color(-1727412));
+        mainPanel.add(mainScoresPanel, new GridConstraints(5, 3, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, new Dimension(-1, 40), 0, false));
+        scoresLabel = new JLabel();
+        scoresLabel.setBackground(new Color(-6837066));
+        Font scoresLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 18, scoresLabel.getFont());
+        if (scoresLabelFont != null) scoresLabel.setFont(scoresLabelFont);
+        scoresLabel.setForeground(new Color(-15526864));
+        scoresLabel.setHorizontalAlignment(0);
+        scoresLabel.setHorizontalTextPosition(0);
+        scoresLabel.setText("Scores:");
+        mainScoresPanel.add(scoresLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(50, -1), null, 0, false));
         scoresPanel = new JPanel();
         scoresPanel.setLayout(new CardLayout(0, 0));
-        mainPanel.add(scoresPanel, new GridConstraints(5, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, new Dimension(-1, 20), 0, false));
+        scoresPanel.setForeground(new Color(-2238126));
+        mainScoresPanel.add(scoresPanel, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, new Dimension(-1, 50), 0, false));
+        scoresSpinner = new JSpinner();
+        Font scoresSpinnerFont = this.$$$getFont$$$("Droid Sans Mono", Font.BOLD, 16, scoresSpinner.getFont());
+        if (scoresSpinnerFont != null) scoresSpinner.setFont(scoresSpinnerFont);
+        scoresSpinner.setInheritsPopupMenu(true);
+        scoresSpinner.setMaximumSize(new Dimension(120, 75));
+        scoresSpinner.setMinimumSize(new Dimension(100, 25));
+        scoresSpinner.setPreferredSize(new Dimension(100, 50));
+        scoresSpinner.setRequestFocusEnabled(true);
+        scoresPanel.add(scoresSpinner, "selectedScoresCard");
         concreteScores = new JLabel();
+        concreteScores.setEnabled(true);
+        Font concreteScoresFont = this.$$$getFont$$$("Droid Sans Mono", Font.BOLD, 16, concreteScores.getFont());
+        if (concreteScoresFont != null) concreteScores.setFont(concreteScoresFont);
+        concreteScores.setHorizontalAlignment(0);
+        concreteScores.setHorizontalTextPosition(0);
         concreteScores.setText("");
         scoresPanel.add(concreteScores, "concreteScoresCard");
-        scoresSpinner = new JSpinner();
-        scoresPanel.add(scoresSpinner, "selectScoresCard");
+        final Spacer spacer2 = new Spacer();
+        mainScoresPanel.add(spacer2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        downloadButton = new JButton();
+        downloadButton.setBackground(new Color(-2104859));
+        Font downloadButtonFont = this.$$$getFont$$$("JetBrains Mono", Font.BOLD, 16, downloadButton.getFont());
+        if (downloadButtonFont != null) downloadButton.setFont(downloadButtonFont);
+        downloadButton.setForeground(new Color(-15526864));
+        downloadButton.setText("Download");
+        mainPanel.add(downloadButton, new GridConstraints(6, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer3 = new Spacer();
+        mainPanel.add(spacer3, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        submissionPanel = new JPanel();
+        submissionPanel.setLayout(new BorderLayout(0, 0));
+        submissionPanel.setBackground(new Color(-13947600));
+        submissionPanel.setForeground(new Color(-4474633));
+        mainPanel.add(submissionPanel, new GridConstraints(4, 0, 2, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(-1, 150), null, 0, false));
+        submissionPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
+        submissionContent = new JTextArea();
+        submissionContent.setBackground(new Color(-4474633));
+        submissionContent.setFocusCycleRoot(true);
+        Font submissionContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, submissionContent.getFont());
+        if (submissionContentFont != null) submissionContent.setFont(submissionContentFont);
+        submissionContent.setForeground(new Color(-15526864));
+        submissionContent.setLineWrap(true);
+        submissionContent.setWrapStyleWord(true);
+        submissionPanel.add(submissionContent, BorderLayout.CENTER);
+        checkButton = new JButton();
+        checkButton.setBackground(new Color(-2104859));
+        Font checkButtonFont = this.$$$getFont$$$("JetBrains Mono", Font.BOLD, 16, checkButton.getFont());
+        if (checkButtonFont != null) checkButton.setFont(checkButtonFont);
+        checkButton.setForeground(new Color(-15526864));
+        checkButton.setText("Check");
+        mainPanel.add(checkButton, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
+        if (currentFont == null) return null;
+        String resultName;
+        if (fontName == null) {
+            resultName = currentFont.getName();
+        } else {
+            Font testFont = new Font(fontName, Font.PLAIN, 10);
+            if (testFont.canDisplay('a') && testFont.canDisplay('1')) {
+                resultName = fontName;
+            } else {
+                resultName = currentFont.getName();
+            }
+        }
+        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
+        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
+        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
     }
 
     /**
@@ -268,4 +429,5 @@ public class CorrectOrCheckGUI extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return mainPanel;
     }
+
 }
