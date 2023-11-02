@@ -12,9 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 public class CourseDao implements CourseDaoInterface, Closeable {
@@ -127,6 +125,168 @@ public class CourseDao implements CourseDaoInterface, Closeable {
         }
 
         return courseNames;
+    }
+
+    @Override
+    public Course updateCourseNames(Course course, String newCourseName) {
+        String sql = "UPDATE courses SET COURSENAME = ? WHERE COUESEID = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, newCourseName);
+            ps.setInt(2, course.getCourseID());
+            log.info("Executing SQL query: " + ps);
+            int updatedRows = ps.executeUpdate();
+
+            if (updatedRows > 0) {
+                course.setCourseName(newCourseName);
+                return course;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Course updataCourseDescriptions(Course course, String newCourseDescription) {
+        String sql = "UPDATE courses SET COURSEDESCRIPTION = ? WHERE COUESEID = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, newCourseDescription);
+            ps.setInt(2, course.getCourseID());
+            log.info("Executing SQL query: " + ps);
+            int updatedRows = ps.executeUpdate();
+
+            if (updatedRows > 0) {
+                course.setCourseDescription(newCourseDescription);
+                return course;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Course updateInstructor(Course course, String newInstructor) {
+        String sql = "UPDATE courses SET INSTRUCTOR = ? WHERE COUESEID = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, newInstructor);
+            ps.setInt(2,course.getCourseID());
+            log.info("Executing SQL query: " + ps);
+            int updatedRows = ps.executeUpdate();
+
+            if (updatedRows > 0) {
+                course.setInstructor(newInstructor);
+                return course;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Course updateDeadline(Course course, Date newDeadline) {
+        String sql = "UPDATE courses SET DEADLINE = ? WHERE COUESEID = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setDate(1, (java.sql.Date) newDeadline);
+            ps.setInt(2, course.getCourseID());
+            log.info("Executing SQL query: " + ps);
+            int updatedRows = ps.executeUpdate();
+
+            if (updatedRows > 0) {
+                course.setDeadLine(newDeadline);
+                return course;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean newCourse(Course newcourse) {
+        String sql = "insert into course (COURSEID,COURSENAME,COURSEDESCRIPTON,INSTRUCTOR,DEADLINE) values (?,?,?,?,?)";
+        PreparedStatement ps = null;
+
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, newcourse.getCourseID());
+            ps.setString(2, newcourse.getCourseName());
+            ps.setString(3, newcourse.getCourseDescription());
+            ps.setString(4, newcourse.getInstructor());
+            ps.setDate(5, (java.sql.Date) newcourse.getDeadLine());
+            log.info("Executing SQL query: " + ps);
+            ps.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean deleteCourse(Course course) {
+        if(!doesCourseExist(course)){
+            return false;
+        }
+
+        String query = "DELETE FROM course WHERE COURSEID = ? AND COURSENAME";
+
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setInt(1, course.getCourseID());
+            preparedStatement.setString(2, course.getCourseName());
+            preparedStatement.executeUpdate();
+
+            log.info("Executing SQL query: deleteCourse");
+
+        } catch (SQLException e) {
+            log.error("Error when deleteCourse: "  + e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean doesCourseExist(Course course) {
+        String query = "SELECT COUNT(*) FROM course WHERE COURSEID = ? OR COURSENAME = ?";
+
+        try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+            preparedStatement.setInt(1, course.getCourseID());
+            preparedStatement.setString(2, course.getCourseName());
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int count = resultSet.getInt(1);
+                    return count > 0; // If count == 0, the assignment doesn't exist
+                }
+            }
+
+            log.info("Executing SQL query: doesCourseExist");
+
+        } catch (SQLException e) {
+            log.error("Error when checkIfCourseExists: "  + e.getMessage());
+        }
+
+        return false;
+    }
+
+    @Override
+    public int FindMinUnusedCourseID() {
+        String query = "SELECT COURSEID FROM COURSE";
+        int muID = 0;
+        try{
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery(query);
+
+            Set<Integer> existingCourseIDs = new HashSet<>();
+            while (resultSet.next()) {
+                existingCourseIDs.add(resultSet.getInt("COURSEID"));
+            }
+            while (existingCourseIDs.contains(muID)) {
+                muID++;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return muID;
     }
 
     @Override
