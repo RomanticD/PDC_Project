@@ -7,17 +7,24 @@ import dao.AssignmentDaoInterface;
 import dao.CourseDaoInterface;
 import dao.impl.AssignmentDao;
 import domain.Assignment;
+import domain.Course;
 import domain.User;
 import dao.impl.CourseDao;
 import util.FrameUtil;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
+import java.awt.event.ActionEvent;
+
+import static util.FrameUtil.getRoundedBorder;
 
 public class SelectAssignmentGUI extends JFrame {
     private JPanel panel;
@@ -36,17 +43,19 @@ public class SelectAssignmentGUI extends JFrame {
     private JButton correctButton;
     private JLabel deadLineLabel;
     private JLabel concreteTime;
+    private JButton showButton;
 
     public SelectAssignmentGUI(User user) {
         // In this GUI, you can select an assignment from selected courses to submit or arrange.
         if (user.isAdmin()) {
-            explainLabel.setText("Correct, Alter, New or Delete assignments.");
+            explainLabel.setText(" Correct, Alter, New or Delete assignments.");
         } else {
-            explainLabel.setText("Select an assignment, completing and submitting it. Let's go!");
+            explainLabel.setText(" Select an assignment, completing and submitting it. Let's go!");
             correctButton.setText("Select");
             checkButton.setVisible(false);
             createNewButton.setVisible(false);
             deleteButton.setVisible(false);
+            showButton.setVisible(false);
         }
 
         AssignmentDaoInterface assignmentDao = new AssignmentDao();
@@ -56,14 +65,15 @@ public class SelectAssignmentGUI extends JFrame {
         DefaultListModel<String> assignmentListModel = new DefaultListModel<>();
 
         // Get the courseList and convert it to courseNameList showed in courseList
-        List<String> CourseNames = courseDao.getCourseNames(courseDao.getCourseByUser(user));
+        List<String> selectedCourseNames = courseDao.getCourseNames(courseDao.getCourseByUser(user));
 
-        for (String assignmentName : CourseNames) {
+        for (String assignmentName : selectedCourseNames) {
             courseListModel.addElement(assignmentName);
         }
 
         // Set the model for the lists
         courseList.setModel(courseListModel);
+        coursePane.setBorder(getRoundedBorder());
         assignmentList.setModel(assignmentListModel);
 
         // According to the selected course, show the assignments of that
@@ -78,6 +88,7 @@ public class SelectAssignmentGUI extends JFrame {
                 // Clear the assignmentListModel
                 assignmentListModel.clear();
                 concreteTime.setText("No deadline");
+                correctButton.setEnabled(false);
 
                 for (String assignmentName : assignmentNames) {
                     assignmentListModel.addElement(assignmentName);
@@ -163,9 +174,29 @@ public class SelectAssignmentGUI extends JFrame {
             }
         });
 
+        showButton.setText("Show All");
+        final boolean[] showAll = {true};
+        showButton.addActionListener(e -> {
+            courseListModel.clear();
+            if (showAll[0]) {
+                for (Course course : courseDao.getAllCourses()) {
+                    courseListModel.addElement(course.getCourseName());
+                }
+                showButton.setText("Show Yours");
+                courses.setText("All courses:");
+            } else {
+                for (String course : selectedCourseNames) {
+                    courseListModel.addElement(course);
+                }
+                showButton.setText("Show All");
+                courses.setText("Your courses:");
+            }
+            showAll[0] = !showAll[0];
+        });
+
         setContentPane(panel);
         setTitle("Select your assignment");
-        setSize(600, 500);
+        setSize(625, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
@@ -191,59 +222,133 @@ public class SelectAssignmentGUI extends JFrame {
         final JToolBar toolBar1 = new JToolBar();
         panel.add(toolBar1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 20), null, 0, false));
         backButton = new JButton();
-        backButton.setBackground(new Color(-16777216));
+        backButton.setBackground(new Color(-2104859));
+        backButton.setEnabled(true);
+        Font backButtonFont = this.$$$getFont$$$("JetBrains Mono", Font.BOLD, 16, backButton.getFont());
+        if (backButtonFont != null) backButton.setFont(backButtonFont);
+        backButton.setForeground(new Color(-15526864));
         backButton.setText("Back");
         toolBar1.add(backButton);
         explainLabel = new JLabel();
+        Font explainLabelFont = this.$$$getFont$$$("Droid Sans Mono Dotted", Font.PLAIN, 14, explainLabel.getFont());
+        if (explainLabelFont != null) explainLabel.setFont(explainLabelFont);
+        explainLabel.setForeground(new Color(-2238126));
         explainLabel.setText("Some explains");
         toolBar1.add(explainLabel);
         final Spacer spacer1 = new Spacer();
         toolBar1.add(spacer1);
         deleteButton = new JButton();
-        deleteButton.setBackground(new Color(-15526864));
-        deleteButton.setForeground(new Color(-11517211));
+        deleteButton.setBackground(new Color(-2104859));
+        Font deleteButtonFont = this.$$$getFont$$$("JetBrains Mono", Font.BOLD, 16, deleteButton.getFont());
+        if (deleteButtonFont != null) deleteButton.setFont(deleteButtonFont);
+        deleteButton.setForeground(new Color(-15526864));
         deleteButton.setHorizontalAlignment(0);
         deleteButton.setText("Delete");
         toolBar1.add(deleteButton);
         createNewButton = new JButton();
+        createNewButton.setBackground(new Color(-2104859));
+        Font createNewButtonFont = this.$$$getFont$$$("JetBrains Mono", Font.BOLD, 16, createNewButton.getFont());
+        if (createNewButtonFont != null) createNewButton.setFont(createNewButtonFont);
+        createNewButton.setForeground(new Color(-15526864));
         createNewButton.setText("New");
         toolBar1.add(createNewButton);
         checkButton = new JButton();
+        checkButton.setBackground(new Color(-2104859));
+        Font checkButtonFont = this.$$$getFont$$$("JetBrains Mono", Font.BOLD, 16, checkButton.getFont());
+        if (checkButtonFont != null) checkButton.setFont(checkButtonFont);
+        checkButton.setForeground(new Color(-15526864));
         checkButton.setHorizontalAlignment(0);
         checkButton.setText("Check");
         checkButton.setVerticalAlignment(0);
         checkButton.setVerticalTextPosition(0);
         toolBar1.add(checkButton);
         correctButton = new JButton();
+        correctButton.setBackground(new Color(-2104859));
+        Font correctButtonFont = this.$$$getFont$$$("JetBrains Mono", Font.BOLD, 16, correctButton.getFont());
+        if (correctButtonFont != null) correctButton.setFont(correctButtonFont);
+        correctButton.setForeground(new Color(-15526864));
         correctButton.setText("Correct");
         toolBar1.add(correctButton);
         pnlList = new JPanel();
-        pnlList.setLayout(new GridLayoutManager(3, 3, new Insets(0, 0, 0, 0), -1, -1));
+        pnlList.setLayout(new GridLayoutManager(3, 5, new Insets(0, 0, 0, 0), -1, -1));
         panel.add(pnlList, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         pnlList.setBorder(BorderFactory.createTitledBorder(null, "", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         coursePane = new JScrollPane();
-        pnlList.add(coursePane, new GridConstraints(1, 0, 2, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_VERTICAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, new Dimension(175, -1), new Dimension(250, -1), null, 0, false));
+        coursePane.setBackground(new Color(-11165332));
+        coursePane.setForeground(new Color(-11165332));
+        pnlList.add(coursePane, new GridConstraints(1, 0, 2, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, new Dimension(175, -1), new Dimension(200, -1), null, 0, false));
         courseList = new JList();
+        courseList.setBackground(new Color(-11165332));
+        Font courseListFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 15, courseList.getFont());
+        if (courseListFont != null) courseList.setFont(courseListFont);
+        courseList.setForeground(new Color(-14540571));
         final DefaultListModel defaultListModel1 = new DefaultListModel();
         courseList.setModel(defaultListModel1);
+        courseList.setSelectionForeground(new Color(-11737629));
         courseList.putClientProperty("List.isFileList", Boolean.FALSE);
         coursePane.setViewportView(courseList);
         assignmentPane = new JScrollPane();
-        pnlList.add(assignmentPane, new GridConstraints(1, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(250, -1), new Dimension(250, -1), 0, false));
+        pnlList.add(assignmentPane, new GridConstraints(1, 3, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(300, -1), null, 0, false));
         assignmentList = new JList();
+        assignmentList.setBackground(new Color(-6253482));
+        Font assignmentListFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 15, assignmentList.getFont());
+        if (assignmentListFont != null) assignmentList.setFont(assignmentListFont);
+        assignmentList.setForeground(new Color(-11517211));
+        assignmentList.setSelectionForeground(new Color(-11737629));
         assignmentPane.setViewportView(assignmentList);
         courses = new JLabel();
-        courses.setText("Your courses");
+        Font coursesFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 16, courses.getFont());
+        if (coursesFont != null) courses.setFont(coursesFont);
+        courses.setText("Your courses:");
         pnlList.add(courses, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         assignments = new JLabel();
-        assignments.setText("Your assignments");
-        pnlList.add(assignments, new GridConstraints(0, 1, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        Font assignmentsFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 16, assignments.getFont());
+        if (assignmentsFont != null) assignments.setFont(assignmentsFont);
+        assignments.setText("Your assignments:");
+        pnlList.add(assignments, new GridConstraints(0, 3, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         deadLineLabel = new JLabel();
+        deadLineLabel.setBackground(new Color(-4474633));
+        Font deadLineLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 18, deadLineLabel.getFont());
+        if (deadLineLabelFont != null) deadLineLabel.setFont(deadLineLabelFont);
+        deadLineLabel.setForeground(new Color(-1727412));
         deadLineLabel.setText("DeadLine:");
-        pnlList.add(deadLineLabel, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(50, -1), null, 0, false));
+        pnlList.add(deadLineLabel, new GridConstraints(2, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(50, 100), null, 0, false));
         concreteTime = new JLabel();
+        Font concreteTimeFont = this.$$$getFont$$$("Droid Sans Mono Dotted", Font.PLAIN, 16, concreteTime.getFont());
+        if (concreteTimeFont != null) concreteTime.setFont(concreteTimeFont);
         concreteTime.setText("No deadline");
-        pnlList.add(concreteTime, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(125, -1), null, 0, false));
+        pnlList.add(concreteTime, new GridConstraints(2, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(125, -1), null, 0, false));
+        showButton = new JButton();
+        showButton.setBackground(new Color(-2104859));
+        Font showButtonFont = this.$$$getFont$$$("JetBrains Mono", Font.BOLD, 16, showButton.getFont());
+        if (showButtonFont != null) showButton.setFont(showButtonFont);
+        showButton.setForeground(new Color(-15526864));
+        showButton.setText("Show");
+        pnlList.add(showButton, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer2 = new Spacer();
+        pnlList.add(spacer2, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
+        if (currentFont == null) return null;
+        String resultName;
+        if (fontName == null) {
+            resultName = currentFont.getName();
+        } else {
+            Font testFont = new Font(fontName, Font.PLAIN, 10);
+            if (testFont.canDisplay('a') && testFont.canDisplay('1')) {
+                resultName = fontName;
+            } else {
+                resultName = currentFont.getName();
+            }
+        }
+        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
+        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
+        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
     }
 
     /**
@@ -252,4 +357,5 @@ public class SelectAssignmentGUI extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return panel;
     }
+
 }

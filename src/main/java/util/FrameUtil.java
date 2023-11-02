@@ -6,6 +6,8 @@ import gui.SelectAssignmentGUI;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
@@ -204,5 +206,24 @@ public class FrameUtil {
         };
 
         textField.addKeyListener(numericInputListener);
+    }
+
+    /**
+     * This code defines a method to obtain a custom CompoundBorder with rounded corners and padding.
+     * The CompoundBorder combines an EmptyBorder for padding and a LineBorder with rounded corners.
+     * <p>
+     * The resulting border can be applied to Swing components for a visually appealing appearance.
+     * @return The custom CompoundBorder with rounded corners and padding.
+     */
+    public static CompoundBorder getRoundedBorder(){
+        return new CompoundBorder(
+                new EmptyBorder(10, 10, 10, 10), // Padding
+                BorderFactory.createLineBorder(Color.BLACK, 1) // Border
+        ) {
+            @Override
+            public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+                g.fillRoundRect(x, y, width - 1, height - 1, 20, 20);
+            }
+        };
     }
 }
