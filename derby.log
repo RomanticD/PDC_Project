@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Thu Nov 02 08:54:51 CST 2023:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-018b-8d86-9b86-00000e3849a8 
-on database directory /Users/romanticd/Desktop/PDC_Project/pdc_project with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@4b85612c 
-Loaded from file:/Users/romanticd/Desktop/PDC_Project/target/PDC_Project_Group18-1.0.0-jar-with-dependencies.jar
+Thu Nov 02 09:16:37 CST 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-018b-8d9a-8c08-00000fb10de8 
+on database directory /Users/wang/IdeaProjects/PDC_Project/pdc_project with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@251a69d7 
+Loaded from file:/Users/wang/.m2/repository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar
 java.vendor=Oracle Corporation
-java.runtime.version=11.0.19+9-LTS-224
-user.dir=/Users/romanticd/Desktop/PDC_Project
+java.runtime.version=19.0.2+7-44
+user.dir=/Users/wang/IdeaProjects/PDC_Project
 os.name=Mac OS X
 os.arch=aarch64
-os.version=14.1
+os.version=14.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
