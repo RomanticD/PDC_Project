@@ -117,8 +117,13 @@ public class SelectAssignmentGUI extends JFrame {
         });
 
         backButton.addActionListener(e -> {
-            SelectAssignmentGUI.this.dispose();
-            new MainGUI(user);
+            if (user.isAdmin()) {
+                SelectAssignmentGUI.this.dispose();
+                new AdminGUI(user);
+            } else {
+                SelectAssignmentGUI.this.dispose();
+                new MainGUI(user);
+            }
         });
 
         deleteButton.addActionListener(e -> {
@@ -281,19 +286,19 @@ public class SelectAssignmentGUI extends JFrame {
         courseList.setBackground(new Color(-6837066));
         Font courseListFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 16, courseList.getFont());
         if (courseListFont != null) courseList.setFont(courseListFont);
-        courseList.setForeground(new Color(-14540571));
+        courseList.setForeground(new Color(-16777216));
         final DefaultListModel defaultListModel1 = new DefaultListModel();
         courseList.setModel(defaultListModel1);
         courseList.setSelectionForeground(new Color(-11737629));
         courseList.putClientProperty("List.isFileList", Boolean.FALSE);
         coursePane.setViewportView(courseList);
         assignmentPane = new JScrollPane();
-        pnlList.add(assignmentPane, new GridConstraints(1, 3, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(350, -1), null, 0, false));
+        pnlList.add(assignmentPane, new GridConstraints(1, 3, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, new Dimension(250, -1), new Dimension(400, -1), null, 0, false));
         assignmentList = new JList();
         assignmentList.setBackground(new Color(-6837066));
         Font assignmentListFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 16, assignmentList.getFont());
         if (assignmentListFont != null) assignmentList.setFont(assignmentListFont);
-        assignmentList.setForeground(new Color(-11517211));
+        assignmentList.setForeground(new Color(-16777216));
         assignmentList.setSelectionForeground(new Color(-11737629));
         assignmentPane.setViewportView(assignmentList);
         courses = new JLabel();

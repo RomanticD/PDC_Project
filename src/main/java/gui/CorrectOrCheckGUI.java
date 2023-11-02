@@ -289,6 +289,7 @@ public class CorrectOrCheckGUI extends JFrame {
         mainPanel.add(submissionContentLabel, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         cardPanel = new JPanel();
         cardPanel.setLayout(new CardLayout(0, 0));
+        cardPanel.setBackground(new Color(-15526864));
         mainPanel.add(cardPanel, new GridConstraints(2, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(-1, 150), new Dimension(150, 150), new Dimension(-1, 200), 0, false));
         assignmentContent = new JTextArea();
         assignmentContent.setBackground(new Color(-6837066));
@@ -299,7 +300,8 @@ public class CorrectOrCheckGUI extends JFrame {
         submissionsPanel = new JScrollPane();
         cardPanel.add(submissionsPanel, "submissionCard");
         submissionTable = new JTable();
-        submissionTable.setBackground(new Color(-4563611));
+        submissionTable.setBackground(new Color(-6837066));
+        submissionTable.setForeground(new Color(-15526864));
         submissionsPanel.setViewportView(submissionTable);
         cardLabel = new JLabel();
         Font cardLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 16, cardLabel.getFont());
@@ -312,7 +314,7 @@ public class CorrectOrCheckGUI extends JFrame {
         evaluationPanel.setForeground(new Color(-6253482));
         mainPanel.add(evaluationPanel, new GridConstraints(2, 3, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(250, 300), new Dimension(300, 350), null, 0, false));
         evaluationContent = new JTextArea();
-        evaluationContent.setBackground(new Color(-6837066));
+        evaluationContent.setBackground(new Color(-3618616));
         Font evaluationContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, evaluationContent.getFont());
         if (evaluationContentFont != null) evaluationContent.setFont(evaluationContentFont);
         evaluationContent.setForeground(new Color(-15526864));
@@ -321,7 +323,7 @@ public class CorrectOrCheckGUI extends JFrame {
         nullLabel.setBackground(new Color(-4474633));
         Font nullLabelFont = this.$$$getFont$$$("Droid Sans Mono Slashed", Font.BOLD | Font.ITALIC, 20, nullLabel.getFont());
         if (nullLabelFont != null) nullLabel.setFont(nullLabelFont);
-        nullLabel.setForeground(new Color(-16777216));
+        nullLabel.setForeground(new Color(-2104859));
         nullLabel.setHorizontalAlignment(0);
         nullLabel.setHorizontalTextPosition(0);
         nullLabel.setText("No content");

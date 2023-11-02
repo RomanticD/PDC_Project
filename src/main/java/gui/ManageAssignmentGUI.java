@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Date;
 import java.util.Locale;
 
+import static util.FrameUtil.getRoundedBorder;
 import static util.FrameUtil.numericInputListener;
 
 public class ManageAssignmentGUI extends JFrame {
@@ -50,6 +51,7 @@ public class ManageAssignmentGUI extends JFrame {
     private JLabel hourLabel;
     private JLabel minuteLabel;
     private JLabel dateLabel;
+    private JPanel contentPanel;
 
 
     AssignmentDaoInterface assignmentDao = new AssignmentDao();
@@ -58,6 +60,7 @@ public class ManageAssignmentGUI extends JFrame {
     public ManageAssignmentGUI(User user, Assignment assignment) {
         $$$setupUI$$$();
         CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+        contentPanel.setBorder(getRoundedBorder());
 
         nameText.setEditable(false);
         formerContentArea.setEditable(false);
@@ -119,6 +122,10 @@ public class ManageAssignmentGUI extends JFrame {
     // Click the New button in SelectAssignmentGui
     public ManageAssignmentGUI(User user) {
         $$$setupUI$$$();
+
+        contentPanel.setBorder(getRoundedBorder());
+        Color customColor = new Color(200, 200, 200);
+        nameText.setBackground(customColor);
 
         AssignmentDaoInterface assignmentDao = new AssignmentDao();
         CourseDaoInterface courseDao = new CourseDao();
@@ -261,7 +268,7 @@ public class ManageAssignmentGUI extends JFrame {
         Font arrangeButtonFont = this.$$$getFont$$$("JetBrains Mono", Font.BOLD, 16, arrangeButton.getFont());
         if (arrangeButtonFont != null) arrangeButton.setFont(arrangeButtonFont);
         arrangeButton.setForeground(new Color(-15526864));
-        arrangeButton.setText("Arrange");
+        arrangeButton.setText("Create");
         toolBar1.add(arrangeButton);
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(7, 5, new Insets(0, 0, 0, 0), -1, -1));
@@ -278,14 +285,14 @@ public class ManageAssignmentGUI extends JFrame {
         panel1.add(assignmentContent, new GridConstraints(0, 1, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(250, 17), null, 0, false));
         cardPanel = new JPanel();
         cardPanel.setLayout(new CardLayout(0, 0));
-        cardPanel.setBackground(new Color(-4563611));
-        cardPanel.setForeground(new Color(-4563611));
+        cardPanel.setBackground(new Color(-16777216));
+        cardPanel.setForeground(new Color(-16777216));
         panel1.add(cardPanel, new GridConstraints(3, 0, 4, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(250, 250), new Dimension(-1, 100), new Dimension(-1, 250), 0, false));
         formerContentArea = new JTextArea();
         formerContentArea.setBackground(new Color(-6837066));
         cardPanel.add(formerContentArea, "formerContentCard");
         nullLabel = new JLabel();
-        nullLabel.setBackground(new Color(-4563611));
+        nullLabel.setBackground(new Color(-16777216));
         Font nullLabelFont = this.$$$getFont$$$("Droid Sans Mono Slashed", Font.BOLD | Font.ITALIC, 20, nullLabel.getFont());
         if (nullLabelFont != null) nullLabel.setFont(nullLabelFont);
         nullLabel.setHorizontalAlignment(0);
@@ -293,15 +300,16 @@ public class ManageAssignmentGUI extends JFrame {
         nullLabel.setText("No content");
         cardPanel.add(nullLabel, "nullLabelCard");
         courseListPane = new JScrollPane();
-        courseListPane.setBackground(new Color(-4563611));
+        courseListPane.setBackground(new Color(-6837066));
         Font courseListPaneFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 15, courseListPane.getFont());
         if (courseListPaneFont != null) courseListPane.setFont(courseListPaneFont);
         courseListPane.setForeground(new Color(-1727412));
         cardPanel.add(courseListPane, "courseListCard");
         courseList = new JList();
-        courseList.setBackground(new Color(-4563611));
+        courseList.setBackground(new Color(-6837066));
         Font courseListFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 15, courseList.getFont());
         if (courseListFont != null) courseList.setFont(courseListFont);
+        courseList.setForeground(new Color(-16777216));
         courseList.putClientProperty("List.isFileList", Boolean.FALSE);
         courseListPane.setViewportView(courseList);
         nameText = new JTextArea();
@@ -319,13 +327,6 @@ public class ManageAssignmentGUI extends JFrame {
         Font hourSpinnerFont = this.$$$getFont$$$("Droid Sans Mono", Font.BOLD, 16, hourSpinner.getFont());
         if (hourSpinnerFont != null) hourSpinner.setFont(hourSpinnerFont);
         panel1.add(hourSpinner, new GridConstraints(6, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(75, 30), null, 0, false));
-        contentText = new JTextArea();
-        contentText.setBackground(new Color(-6837066));
-        Font contentTextFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, contentText.getFont());
-        if (contentTextFont != null) contentText.setFont(contentTextFont);
-        contentText.setForeground(new Color(-15526864));
-        contentText.setText("");
-        panel1.add(contentText, new GridConstraints(1, 1, 3, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(250, 150), null, 0, false));
         panel1.add(dateChooser, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(100, -1), new Dimension(150, 30), null, 0, false));
         minuteSpinner = new JSpinner();
         Font minuteSpinnerFont = this.$$$getFont$$$("Droid Sans Mono", Font.BOLD, 16, minuteSpinner.getFont());
@@ -356,6 +357,17 @@ public class ManageAssignmentGUI extends JFrame {
         if (dateLabelFont != null) dateLabel.setFont(dateLabelFont);
         dateLabel.setText("date:");
         panel1.add(dateLabel, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        contentPanel = new JPanel();
+        contentPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        contentPanel.setBackground(new Color(-15526864));
+        panel1.add(contentPanel, new GridConstraints(1, 1, 3, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        contentText = new JTextArea();
+        contentText.setBackground(new Color(-3618616));
+        Font contentTextFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, contentText.getFont());
+        if (contentTextFont != null) contentText.setFont(contentTextFont);
+        contentText.setForeground(new Color(-15526864));
+        contentText.setText("");
+        contentPanel.add(contentText, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(250, 150), null, 0, false));
     }
 
     /**

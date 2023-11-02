@@ -42,6 +42,7 @@ public class SubmissionGUI extends JFrame {
     private JButton checkHistoryButton;
     private JButton uploadButton;
     private JLabel explainLabel;
+    private JPanel contentPanel;
 
     public SubmissionGUI(User user, Assignment assignment) {
         SubmissionDaoInterface submissionDao = new SubmissionDao();
@@ -132,9 +133,12 @@ public class SubmissionGUI extends JFrame {
         });
 
 
+        contentPanel.setBorder(getRoundedBorder());
+
+
         setContentPane(submissionPanel);
         setTitle("Submit your assignment or manage your history");
-        setSize(750, 600);
+        setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
@@ -221,7 +225,7 @@ public class SubmissionGUI extends JFrame {
         mainPanel.add(historyLabel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         assignmentCard = new JPanel();
         assignmentCard.setLayout(new CardLayout(0, 0));
-        assignmentCard.setForeground(new Color(-4474633));
+        assignmentCard.setForeground(new Color(-15526864));
         mainPanel.add(assignmentCard, new GridConstraints(1, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(150, 250), new Dimension(-1, 250), 0, false));
         nullContentLabel = new JLabel();
         Font nullContentLabelFont = this.$$$getFont$$$("Droid Sans Mono Slashed", Font.BOLD | Font.ITALIC, 20, nullContentLabel.getFont());
@@ -247,13 +251,17 @@ public class SubmissionGUI extends JFrame {
         mainPanel.add(checkHistoryButton, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
         mainPanel.add(spacer2, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        contentPanel = new JPanel();
+        contentPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        contentPanel.setBackground(new Color(-16777216));
+        mainPanel.add(contentPanel, new GridConstraints(1, 3, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         submissionContent = new JTextArea();
-        submissionContent.setBackground(new Color(-6837066));
+        submissionContent.setBackground(new Color(-3618616));
         Font submissionContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, submissionContent.getFont());
         if (submissionContentFont != null) submissionContent.setFont(submissionContentFont);
         submissionContent.setForeground(new Color(-15526864));
         submissionContent.setText("");
-        mainPanel.add(submissionContent, new GridConstraints(1, 3, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(225, 17), null, 0, false));
+        contentPanel.add(submissionContent, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(225, 17), null, 0, false));
     }
 
     /**
