@@ -102,6 +102,7 @@
             </constraints>
             <properties>
               <background color="-11482559"/>
+              <font name="Droid Sans Mono" size="14" style="0"/>
               <foreground color="-15526864"/>
             </properties>
           </component>
