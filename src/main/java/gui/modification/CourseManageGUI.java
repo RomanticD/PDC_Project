@@ -7,15 +7,10 @@ import dao.impl.CourseDao;
 import dao.impl.CourseSelectionDao;
 import domain.Course;
 import domain.User;
-import domain.enums.Role;
 import gui.AdminGUI;
-import gui.CourseGUI;
-import gui.MainGUI;
-import gui.UserCoursesGUI;
 import gui.sub.BackgroundPanel;
 import lombok.extern.slf4j.Slf4j;
 import util.FrameUtil;
-import util.GraphicsUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -206,70 +201,14 @@ public class CourseManageGUI extends JFrame {
 
         nameLabel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 0));
 
-        final Course currentCourse = course;
+        //final Course currentCourse = course;
 
         modifyButton.addActionListener(e -> {
-            JDialog modyfyDialog = new JDialog();
-            modyfyDialog.setSize(400,400);
-            modyfyDialog.setLocationRelativeTo(null);
-            modyfyDialog.setTitle("Choose One to Modify");
-            modyfyDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-            modyfyDialog.setResizable(true);
-
-            JPanel func = new JPanel();
-            func.setLayout(new BoxLayout(func, BoxLayout.Y_AXIS));
-            JPanel textPanle = new JPanel(new BorderLayout());
-            JPanel namePanel = new JPanel(new BorderLayout());
-            JPanel descriptionPanel = new JPanel(new BorderLayout());
-            JPanel InstructorPanel = new JPanel(new BorderLayout());
-            JPanel deadlinePanel = new JPanel(new BorderLayout());
-
-            JTextArea contentArea = new JTextArea(5,20);
-            JButton modifyNameButton = new JButton("CourseName");
-            JButton modifyDescriptionButton = new JButton("Description");
-            JButton modifyInstructorButton = new JButton("Instructor");
-            JButton modifyDeadlineButton = new JButton("Deadline");
-
-            modifyNameButton.addActionListener(e1 -> {
-                modify(modifyNameButton.getText(),currentCourse,contentArea.getText());
-                log.info("modifyNameButton Clicked");
-            });
-
-            modifyDeadlineButton.addActionListener(e1 -> {
-                modify(modifyDeadlineButton.getText(),currentCourse,contentArea.getText());
-            });
-
-            modifyInstructorButton.addActionListener(e1 -> {
-                modify(modifyInstructorButton.getText(),currentCourse,contentArea.getText());
-            });
-
-            modifyDeadlineButton.addActionListener(e1 -> {
-                modify(modifyDeadlineButton.getText(),currentCourse,contentArea.getText());
-            });
-
-
-            textPanle.add(contentArea,BorderLayout.CENTER);
-            namePanel.add(modifyNameButton,BorderLayout.CENTER);
-            descriptionPanel.add(modifyDescriptionButton,BorderLayout.CENTER);
-            InstructorPanel.add(modifyInstructorButton,BorderLayout.CENTER);
-            deadlinePanel.add(modifyDeadlineButton,BorderLayout.CENTER);
-            func.add(textPanle);
-            func.add(namePanel);
-            func.add(descriptionPanel);
-            func.add(InstructorPanel);
-            func.add(deadlinePanel);
-
-            modyfyDialog.add(func);
-
-            modyfyDialog.setVisible(true);
-
-
-
-
+            creatDialog(course);
         });
 
         deleteButton.addActionListener(e -> {
-            courseDao.deleteCourse(currentCourse);
+            courseDao.deleteCourse(course);
         });
 
         JPanel buttonPanel = new JPanel();
@@ -285,6 +224,65 @@ public class CourseManageGUI extends JFrame {
         coursePanel.add(contentPanel, BorderLayout.CENTER);
 
         return coursePanel;
+    }
+
+    private void creatDialog(Course course) {
+        JDialog modifyDialog = new JDialog();
+        modifyDialog.setSize(400,400);
+        modifyDialog.setLocationRelativeTo(null);
+        modifyDialog.setTitle("Choose One to Modify");
+        modifyDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        modifyDialog.setResizable(true);
+        modifyDialog.setModal(true);
+
+        JPanel func = new JPanel();
+        func.setLayout(new BoxLayout(func, BoxLayout.Y_AXIS));
+        JPanel textPanle = new JPanel(new BorderLayout());
+        JPanel namePanel = new JPanel(new BorderLayout());
+        JPanel descriptionPanel = new JPanel(new BorderLayout());
+        JPanel InstructorPanel = new JPanel(new BorderLayout());
+        JPanel deadlinePanel = new JPanel(new BorderLayout());
+
+        JTextArea contentArea = new JTextArea(5,20);
+        JButton modifyNameButton = new JButton("CourseName");
+        JButton modifyDescriptionButton = new JButton("Description");
+        JButton modifyInstructorButton = new JButton("Instructor");
+        JButton modifyDeadlineButton = new JButton("Deadline");
+
+        modifyNameButton.addActionListener(e1 -> {
+            modify(modifyNameButton.getText(),course,contentArea.getText());
+            log.info("modifyNameButton Clicked");
+        });
+
+        modifyDeadlineButton.addActionListener(e1 -> {
+            modify(modifyDeadlineButton.getText(),course,contentArea.getText());
+        });
+
+        modifyInstructorButton.addActionListener(e1 -> {
+            modify(modifyInstructorButton.getText(),course,contentArea.getText());
+        });
+
+        modifyDeadlineButton.addActionListener(e1 -> {
+            modify(modifyDeadlineButton.getText(),course,contentArea.getText());
+        });
+
+
+        textPanle.add(contentArea,BorderLayout.CENTER);
+        namePanel.add(modifyNameButton,BorderLayout.CENTER);
+        descriptionPanel.add(modifyDescriptionButton,BorderLayout.CENTER);
+        InstructorPanel.add(modifyInstructorButton,BorderLayout.CENTER);
+        deadlinePanel.add(modifyDeadlineButton,BorderLayout.CENTER);
+        func.add(textPanle);
+        func.add(namePanel);
+        func.add(descriptionPanel);
+        func.add(InstructorPanel);
+        func.add(deadlinePanel);
+
+        modifyDialog.add(func);
+
+        modifyDialog.setVisible(true);
+
+
     }
 
     private void modify(String funcName,Course course, String content) {
