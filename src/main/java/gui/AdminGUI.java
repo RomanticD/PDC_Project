@@ -2,6 +2,7 @@ package gui;
 
 import constants.UIConstants;
 import domain.User;
+import gui.modification.CourseManageGUI;
 import gui.sub.BackgroundPanel;
 import gui.sub.clock.Clock;
 import lombok.extern.slf4j.Slf4j;
@@ -41,37 +42,34 @@ public class AdminGUI extends JFrame {
         return null;
     }
 
-    private void load(){
-
-    }
     private void addComponents(JPanel panel) {
         SpringLayout springLayout = new SpringLayout();
         panel.setLayout(springLayout);
 
-        ActionListener backToLoginGUI = e -> backToMainGUI();
-        FrameUtil.addBackButtonWithCustomAction(panel, springLayout, backToLoginGUI);
+        ActionListener backToMainGUI = e -> backToMainGUI();
+        FrameUtil.addBackButtonWithCustomAction(panel, springLayout, backToMainGUI);
 
         //Assignment Manage Button
-        JButton myProfileButton = addButton("Manage Assignment", panel, panel, 30, springLayout);
-        myProfileButton.addActionListener(e -> {
+        JButton manageAssignmentButton = addButton("Manage Assignment", panel, panel, 30, springLayout);
+        manageAssignmentButton.addActionListener(e -> {
             log.info("Going to Assignment GUI");
-            AdminGUI.this.dispose();
-            new ProfileGUI(user);
-        });
-
-
-        //Course Manage Button
-        JButton adminButton = addButton("Manage Course", panel, myProfileButton, 90, springLayout);
-        adminButton.addActionListener(e -> {
-            log.info("Going to Manage Course GUI");
             AdminGUI.this.dispose();
             new SelectAssignmentGUI(user);
         });
 
 
-        //Course Button
-        JButton coursesButton = addButton("Manage Course Selection", panel, myProfileButton, 150, springLayout);
-        coursesButton.addActionListener(e -> {
+        //Course Manage Button
+        JButton manageCourseButton = addButton("Manage Course", panel, manageAssignmentButton, 90, springLayout);
+        manageCourseButton.addActionListener(e -> {
+            log.info("Going to Manage Course GUI");
+            AdminGUI.this.dispose();
+            new CourseManageGUI(user);
+        });
+
+
+        //Course Select Button
+        JButton courseSelectionButton = addButton("Manage Course Selection", panel, manageAssignmentButton, 150, springLayout);
+        courseSelectionButton.addActionListener(e -> {
             log.info("Going to Manage Course Selection");
             AdminGUI.this.dispose();
             new CourseGUI(user);
@@ -87,6 +85,8 @@ public class AdminGUI extends JFrame {
     }
 
     private void backToMainGUI() {
+        AdminGUI.this.dispose();
+        new MainGUI(user);
     }
 
 
