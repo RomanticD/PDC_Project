@@ -196,7 +196,7 @@ public class SelectAssignmentGUI extends JFrame {
 
         setContentPane(panel);
         setTitle("Select your assignment");
-        setSize(625, 600);
+        setSize(800, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
@@ -274,12 +274,12 @@ public class SelectAssignmentGUI extends JFrame {
         panel.add(pnlList, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         pnlList.setBorder(BorderFactory.createTitledBorder(null, "", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         coursePane = new JScrollPane();
-        coursePane.setBackground(new Color(-11165332));
-        coursePane.setForeground(new Color(-11165332));
+        coursePane.setBackground(new Color(-2104859));
+        coursePane.setForeground(new Color(-2104859));
         pnlList.add(coursePane, new GridConstraints(1, 0, 2, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, new Dimension(175, -1), new Dimension(200, -1), null, 0, false));
         courseList = new JList();
-        courseList.setBackground(new Color(-11165332));
-        Font courseListFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 15, courseList.getFont());
+        courseList.setBackground(new Color(-6837066));
+        Font courseListFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 16, courseList.getFont());
         if (courseListFont != null) courseList.setFont(courseListFont);
         courseList.setForeground(new Color(-14540571));
         final DefaultListModel defaultListModel1 = new DefaultListModel();
@@ -288,10 +288,10 @@ public class SelectAssignmentGUI extends JFrame {
         courseList.putClientProperty("List.isFileList", Boolean.FALSE);
         coursePane.setViewportView(courseList);
         assignmentPane = new JScrollPane();
-        pnlList.add(assignmentPane, new GridConstraints(1, 3, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(300, -1), null, 0, false));
+        pnlList.add(assignmentPane, new GridConstraints(1, 3, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(350, -1), null, 0, false));
         assignmentList = new JList();
-        assignmentList.setBackground(new Color(-6253482));
-        Font assignmentListFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 15, assignmentList.getFont());
+        assignmentList.setBackground(new Color(-6837066));
+        Font assignmentListFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 16, assignmentList.getFont());
         if (assignmentListFont != null) assignmentList.setFont(assignmentListFont);
         assignmentList.setForeground(new Color(-11517211));
         assignmentList.setSelectionForeground(new Color(-11737629));

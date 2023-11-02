@@ -101,7 +101,7 @@
               </grid>
             </constraints>
             <properties>
-              <background color="-11482559"/>
+              <background color="-6837066"/>
               <font name="Droid Sans Mono" size="14" style="0"/>
               <foreground color="-15526864"/>
             </properties>
@@ -143,7 +143,7 @@
                   <card name="contentCard"/>
                 </constraints>
                 <properties>
-                  <background color="-4474633"/>
+                  <background color="-6837066"/>
                   <font name="Monaco" size="14" style="0"/>
                   <foreground color="-16777216"/>
                 </properties>
@@ -175,7 +175,7 @@
               </grid>
             </constraints>
             <properties>
-              <background color="-11737629"/>
+              <background color="-6837066"/>
               <font name="Monaco" size="14" style="0"/>
               <foreground color="-15526864"/>
               <text value=""/>

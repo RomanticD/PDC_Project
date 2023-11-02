@@ -75,7 +75,7 @@
               <card name="assignmentCard"/>
             </constraints>
             <properties>
-              <background color="-4563611"/>
+              <background color="-6837066"/>
               <font name="Monaco" size="14" style="0"/>
               <text value=""/>
             </properties>
@@ -124,7 +124,7 @@
               <card name="Card1"/>
             </constraints>
             <properties>
-              <background color="-6253482"/>
+              <background color="-6837066"/>
               <font name="Monaco" size="14" style="0"/>
               <foreground color="-15526864"/>
             </properties>
@@ -163,7 +163,7 @@
           </grid>
         </constraints>
         <properties>
-          <background color="-2238126"/>
+          <background color="-6837066"/>
           <foreground color="-1727412"/>
         </properties>
         <border type="none"/>
@@ -259,7 +259,7 @@
           <component id="2bef8" class="javax.swing.JTextArea" binding="submissionContent">
             <constraints border-constraint="Center"/>
             <properties>
-              <background color="-4474633"/>
+              <background color="-6837066"/>
               <focusCycleRoot value="true"/>
               <font name="Monaco" size="14" style="0"/>
               <foreground color="-15526864"/>

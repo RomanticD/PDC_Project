@@ -282,7 +282,7 @@ public class ManageAssignmentGUI extends JFrame {
         cardPanel.setForeground(new Color(-4563611));
         panel1.add(cardPanel, new GridConstraints(3, 0, 4, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(250, 250), new Dimension(-1, 100), new Dimension(-1, 250), 0, false));
         formerContentArea = new JTextArea();
-        formerContentArea.setBackground(new Color(-4563611));
+        formerContentArea.setBackground(new Color(-6837066));
         cardPanel.add(formerContentArea, "formerContentCard");
         nullLabel = new JLabel();
         nullLabel.setBackground(new Color(-4563611));
@@ -305,7 +305,7 @@ public class ManageAssignmentGUI extends JFrame {
         courseList.putClientProperty("List.isFileList", Boolean.FALSE);
         courseListPane.setViewportView(courseList);
         nameText = new JTextArea();
-        nameText.setBackground(new Color(-2238126));
+        nameText.setBackground(new Color(-6837066));
         Font nameTextFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, nameText.getFont());
         if (nameTextFont != null) nameText.setFont(nameTextFont);
         nameText.setForeground(new Color(-15526864));
@@ -320,7 +320,7 @@ public class ManageAssignmentGUI extends JFrame {
         if (hourSpinnerFont != null) hourSpinner.setFont(hourSpinnerFont);
         panel1.add(hourSpinner, new GridConstraints(6, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(75, 30), null, 0, false));
         contentText = new JTextArea();
-        contentText.setBackground(new Color(-11165332));
+        contentText.setBackground(new Color(-6837066));
         Font contentTextFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, contentText.getFont());
         if (contentTextFont != null) contentText.setFont(contentTextFont);
         contentText.setForeground(new Color(-15526864));

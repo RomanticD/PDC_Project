@@ -92,7 +92,7 @@
                   <card name="formerContentCard"/>
                 </constraints>
                 <properties>
-                  <background color="-4563611"/>
+                  <background color="-6837066"/>
                 </properties>
               </component>
               <component id="10fae" class="javax.swing.JLabel" binding="nullLabel">
@@ -141,7 +141,7 @@
               </grid>
             </constraints>
             <properties>
-              <background color="-2238126"/>
+              <background color="-6837066"/>
               <font name="Monaco" size="14" style="0"/>
               <foreground color="-15526864"/>
             </properties>
@@ -172,7 +172,7 @@
               </grid>
             </constraints>
             <properties>
-              <background color="-11165332"/>
+              <background color="-6837066"/>
               <font name="Monaco" size="14" style="0"/>
               <foreground color="-15526864"/>
               <text value=""/>
