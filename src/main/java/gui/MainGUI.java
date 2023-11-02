@@ -90,10 +90,23 @@ public class MainGUI extends JFrame {
         this.getContentPane().add(panel);
     }
 
+    /**
+     * Navigates back to the login graphical user interface (GUI).
+     */
     private void backToLoginGUI() {
         FrameUtil.disposeCurrentFrameAndCreateNewFrame(UIConstants.APP_NAME, MainGUI.this, new LoginGUI(user));
     }
 
+    /**
+     * Adds a button to the specified container with the provided properties.
+     *
+     * @param name the name or text to be displayed on the button.
+     * @param container the container where the button is to be added.
+     * @param verticalRelatedComponent the component that the button is vertically related to.
+     * @param topPaddingToVerticalComponent the top padding to the vertical related component.
+     * @param springLayout the SpringLayout object used for setting constraints.
+     * @return the JButton object added to the container.
+     */
     private JButton addButton(String name, JComponent container, JComponent verticalRelatedComponent, int topPaddingToVerticalComponent, SpringLayout springLayout){
         JButton button = new JButton(name);
         button.setFont(new Font("Dialog", Font.BOLD, 20));

@@ -39,7 +39,6 @@ public class ShadowRenderer {
     }
 
     public BufferedImage createShadow(final BufferedImage image) {
-        // Written by Sesbastien Petrucci
         int shadowSize = size * 2;
 
         int srcWidth = image.getWidth();

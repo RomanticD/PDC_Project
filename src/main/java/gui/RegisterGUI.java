@@ -134,6 +134,16 @@ public class RegisterGUI extends JPanel {
         add(panel);
     }
 
+    /**
+     * Validates the input for username, password, and repeated password.
+     *
+     * @param username the username to be validated.
+     * @param password the password to be validated.
+     * @param repeatedPassword the repeated password to be validated.
+     * @return true if the input is valid, false otherwise.
+     * @throws SQLException if a database access error occurs.
+     * @throws ClassNotFoundException if the class cannot be located.
+     */
     private boolean validateInput(String username, String password, String repeatedPassword) throws SQLException, ClassNotFoundException {
         if (username.trim().isEmpty()) {
             FrameUtil.showErrorDialog("username is empty!");
@@ -158,7 +168,11 @@ public class RegisterGUI extends JPanel {
         return true;
     }
 
-
+    /**
+     * Creates a panel for selecting the role.
+     *
+     * @return a component representing the role panel.
+     */
     private Component createRolePanel() {
         JPanel panel = new JPanel(new MigLayout("insets 0"));
         panel.putClientProperty(FlatClientProperties.STYLE, "" +
@@ -174,6 +188,11 @@ public class RegisterGUI extends JPanel {
         return panel;
     }
 
+    /**
+     * Creates a label for login.
+     *
+     * @return a component representing the login label.
+     */
     private Component createLoginLabel() {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         panel.putClientProperty(FlatClientProperties.STYLE, "" +

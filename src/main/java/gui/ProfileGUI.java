@@ -77,6 +77,15 @@ public class ProfileGUI extends JFrame {
         getContentPane().add(panel);
     }
 
+    /**
+     * Creates an information change button with the specified parameters.
+     *
+     * @param springLayout the SpringLayout to be used for setting constraints.
+     * @param panel the JPanel where the button will be added.
+     * @param labelText the text to be displayed on the button.
+     * @param yOffset the offset in the y-direction from the top of the panel.
+     * @return the JButton created for information change.
+     */
     private JButton createInfoChangeButton(SpringLayout springLayout, JPanel panel, String labelText, int yOffset) {
         JButton infoChangeButton = createJButton();
         infoChangeButton.setFont(new Font("Dialog", Font.PLAIN, 15));
@@ -92,11 +101,16 @@ public class ProfileGUI extends JFrame {
         return infoChangeButton;
     }
 
+    /**
+     * Adds change field buttons to the panel with the specified SpringLayout.
+     *
+     * @param springLayout the SpringLayout for setting constraints.
+     * @param panel the JPanel where the buttons will be added.
+     */
     private void addChangeFieldButtons(SpringLayout springLayout, JPanel panel) {
         createInfoChangeButton(springLayout, panel, "Name", 50);
         createInfoChangeButton(springLayout, panel, "Username", 110);
         createInfoChangeButton(springLayout, panel, "Email", 170);
-//        createInfoChangeButton(springLayout, panel, "Role", 230);
 
         JButton changePasswordButton = new JButton("Change Password");
         changePasswordButton.setFont(new Font("Dialog", Font.BOLD, 15));
@@ -111,7 +125,6 @@ public class ProfileGUI extends JFrame {
         });
         panel.add(changePasswordButton);
     }
-
 
     private JTextArea createJTextArea(String text) {
         JTextArea textArea = new JTextArea(text);

@@ -64,11 +64,20 @@ public class UserCoursesGUI extends JFrame{
         this.setContentPane(mainPanel);
     }
 
+    /**
+     * Performs the export of courses to Excel format.
+     */
     private void performExport() {
         MethodUtil.exportCoursesToExcel(courseList, user);
         FrameUtil.showSuccessDialog("Export successfully! Please check the " + ExportConstants.EXPORT_COURSE_TO_PATH + " directory.");
     }
 
+    /**
+     * Adds a list of courses to a JPanel and displays them accordingly.
+     *
+     * @param courseList the list of courses to be added.
+     * @return a JPanel containing the course list.
+     */
     public JPanel addCourseList(List<Course> courseList) {
         JPanel listPanel = new JPanel();
         listPanel.setLayout(new GridBagLayout());
@@ -97,6 +106,12 @@ public class UserCoursesGUI extends JFrame{
         return listPanel;
     }
 
+    /**
+     * Adds a single course item to a JPanel.
+     *
+     * @param course the course to be added as an item.
+     * @return a JPanel containing the course item.
+     */
     private JPanel addCourseItem(Course course) {
         JPanel coursePanel = new JPanel();
         coursePanel.setLayout(new BorderLayout());

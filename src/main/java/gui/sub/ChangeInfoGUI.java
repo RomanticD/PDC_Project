@@ -165,6 +165,15 @@ public class ChangeInfoGUI extends JFrame {
         FrameUtil.disposeCurrentFrameAndCreateNewFrame("PDC Project Group 18", ChangeInfoGUI.this, new LoginGUI(user));
     }
 
+    /**
+     * Validates the user input for password change.
+     *
+     * @param oldPasswordField the field for the old password.
+     * @param newPasswordField the field for the new password.
+     * @param repeatPasswordField the field for repeating the new password.
+     * @return true if the input is valid, false otherwise.
+     */
+
     private boolean validateUserInput(JPasswordField oldPasswordField, JPasswordField newPasswordField, JPasswordField repeatPasswordField) {
         String oldPassword = String.valueOf(oldPasswordField.getPassword());
         String newPassword = String.valueOf(newPasswordField.getPassword());
@@ -184,6 +193,12 @@ public class ChangeInfoGUI extends JFrame {
         return true;
     }
 
+    /**
+     * Modifies the email of the user.
+     *
+     * @param newEmail the new email to be set for the user.
+     */
+
     private void ModifyEmail(String newEmail) {
         if (validateInput(newEmail)){
             User updatedUser = userDao.updateUserEmail(user, newEmail);
@@ -193,6 +208,12 @@ public class ChangeInfoGUI extends JFrame {
             FrameUtil.showErrorDialog("Invalid Input!");
         }
     }
+
+    /**
+     * Modifies the username of the user.
+     *
+     * @param newUsername the new username to be set for the user.
+     */
 
     private void ModifyUsername(String newUsername) {
         if (validateInput(newUsername) && !userDao.isUserExists(newUsername)){
@@ -206,6 +227,10 @@ public class ChangeInfoGUI extends JFrame {
         }
     }
 
+    /**
+     Modifies the name of the user if the input is valid.
+     @param newName the new name to be assigned to the user.
+     */
     private void ModifyName(String newName) {
         if (validateInput(newName)){
             User updatedUser = userDao.updateUserName(user, newName);

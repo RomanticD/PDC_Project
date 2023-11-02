@@ -81,6 +81,13 @@ public class CourseGUI extends JFrame {
         this.setContentPane(mainPanel);
     }
 
+    /**
+     * Adds a list of courses to a JPanel.
+     *
+     * @param courseList the list of courses to be added.
+     * @return a JPanel containing the course list.
+     */
+
     public JPanel addCourseList(List<Course> courseList) {
         JPanel listPanel = new JPanel();
         listPanel.setLayout(new GridLayout(0, 1));
@@ -96,6 +103,12 @@ public class CourseGUI extends JFrame {
         return listPanel;
     }
 
+    /**
+     * Adds a single course item to a JPanel.
+     *
+     * @param course the course to be added as an item.
+     * @return a JPanel containing the course item.
+     */
     private JPanel addCourseItem(Course course) {
         JPanel coursePanel = new JPanel();
         coursePanel.setLayout(new BorderLayout());
@@ -111,13 +124,10 @@ public class CourseGUI extends JFrame {
         nameLabel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 0)); // Add padding
 
         JButton checkButton = new JButton("Check");
-        checkButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                log.info("Checking Button Clicked. Redirecting to " + course.getCourseName() + "'s Detail");
-                CourseGUI.this.dispose();
-                new CourseDetailGUI(course, user, CourseDetailPageFrom.COURSE_PAGE);
-            }
+        checkButton.addActionListener(e -> {
+            log.info("Checking Button Clicked. Redirecting to " + course.getCourseName() + "'s Detail");
+            CourseGUI.this.dispose();
+            new CourseDetailGUI(course, user, CourseDetailPageFrom.COURSE_PAGE);
         });
 
         JPanel contentPanel = new JPanel();

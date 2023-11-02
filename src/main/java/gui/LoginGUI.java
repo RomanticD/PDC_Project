@@ -99,6 +99,12 @@ public class LoginGUI extends JPanel {
         add(panel);
     }
 
+    /**
+     * Performs the login action using the provided username field and password field.
+     *
+     * @param usernameField the field for the username input.
+     * @param passwordField the field for the password input.
+     */
     private void performLoginAction(JTextField usernameField, JPasswordField passwordField) {
         boolean rememberMe = chRememberMe.isSelected();
         username = usernameField.getText();
@@ -147,6 +153,12 @@ public class LoginGUI extends JPanel {
         }
     }
 
+    /**
+     * Stores a new user preference with the provided username and password.
+     *
+     * @param username the username to be stored as a preference.
+     * @param password the password to be stored as a preference.
+     */
     private void storeNewPreference(String username, String password) {
         if (user.getUserId() != 0){
             Preference preference = Preference.builder()
@@ -160,14 +172,33 @@ public class LoginGUI extends JPanel {
         }
     }
 
+    /**
+     * Sets the remember status to false for the provided username and password.
+     *
+     * @param username the username for which the remember status is to be set.
+     * @param password the password for which the remember status is to be set.
+     */
     private void setRememberStatusToFalse(String username, String password) {
         setRememberStatus(username, password, false);
     }
 
+    /**
+     * Sets the remember status to true for the provided username and password.
+     *
+     * @param username the username for which the remember status is to be set.
+     * @param password the password for which the remember status is to be set.
+     */
     private void setRememberStatusToTrue(String username, String password) {
         setRememberStatus(username, password, true);
     }
 
+    /**
+     * Sets the remember status for the provided username and password with the given status.
+     *
+     * @param username the username for which the remember status is to be set.
+     * @param password the password for which the remember status is to be set.
+     * @param status the boolean value to set as the remember status.
+     */
     private void setRememberStatus(String username, String password, boolean status) {
         Preference preference = Preference.builder()
                 .userId(user.getUserId())
@@ -179,6 +210,11 @@ public class LoginGUI extends JPanel {
         preferenceDao.updatePreference(preference);
     }
 
+    /**
+     * Checks if the current user's preference is stored.
+     *
+     * @return true if the current user's preference is stored, false otherwise.
+     */
     private boolean hasCurrentUserPreferenceStored() {
         if (user.getUserId() == 0){
             return false;
@@ -192,6 +228,11 @@ public class LoginGUI extends JPanel {
         }
     }
 
+    /**
+     * Creates a label for signing up.
+     *
+     * @return a component representing the sign-up label.
+     */
     private Component createSignupLabel() {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         panel.putClientProperty(FlatClientProperties.STYLE, "" +
