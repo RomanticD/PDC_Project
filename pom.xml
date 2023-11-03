@@ -45,12 +45,12 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.32</version> <!-- Use the latest version -->
+            <version>1.7.32</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.9</version> <!-- Use the latest version -->
+            <version>1.2.9</version>
         </dependency>
         <dependency>
             <groupId>com.formdev</groupId>
@@ -93,14 +93,14 @@
             <scope>test</scope>
         </dependency>
 
-        <!--date picker-->
+        <!--JDateChooser-->
         <dependency>
             <groupId>com.toedter</groupId>
             <artifactId>jcalendar</artifactId>
             <version>1.4</version>
         </dependency>
 
-        <!--form designer-->
+        <!--IDEA form designer support-->
         <dependency>
             <groupId>com.intellij</groupId>
             <artifactId>forms_rt</artifactId>
@@ -139,14 +139,6 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>ideauidesigner-maven-plugin</artifactId>
                 <version>1.0-beta-1</version>
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <goals>-->
-<!--                            <goal>javac2</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-
                 <configuration>
                     <fork>true</fork>
                     <debug>true</debug>
