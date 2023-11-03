@@ -1,8 +1,7 @@
 package dao.impl;
 
-import dao.CourseDaoService;
+import dao.CourseService;
 import manager.DatabaseConnectionManager;
-import domain.Course;
 import domain.User;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,17 +14,17 @@ import java.sql.SQLException;
 import java.util.*;
 
 @Slf4j
-public class CourseDao implements CourseDaoService, Closeable {
+public class Course implements CourseService, Closeable {
     private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
 
-    public CourseDao() {
+    public Course() {
         databaseConnectionManager = new DatabaseConnectionManager();
         conn = databaseConnectionManager.getConnection();
     }
 
-    public List<Course> getAllCourses() {
-        List<Course> courses = new ArrayList<>();
+    public List<domain.Course> getAllCourses() {
+        List<domain.Course> courses = new ArrayList<>();
         String query = "SELECT * FROM COURSES";
         try (PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet resultSet = stmt.executeQuery()) {
@@ -39,7 +38,7 @@ public class CourseDao implements CourseDaoService, Closeable {
                 String instructor = resultSet.getString("INSTRUCTOR");
                 Date deadLine = resultSet.getDate("DEADLINE");
 
-                Course course = Course.builder()
+                domain.Course course = domain.Course.builder()
                         .courseID(courseId)
                         .courseName(courseName)
                         .courseDescription(courseDescription)
@@ -57,8 +56,8 @@ public class CourseDao implements CourseDaoService, Closeable {
     }
 
     @Override
-    public List<Course> getCourseByUser(User user) {
-        List<Course> courses = new ArrayList<>();
+    public List<domain.Course> getCourseByUser(User user) {
+        List<domain.Course> courses = new ArrayList<>();
         String query = "SELECT * FROM COURSES " +
                 "INNER JOIN COURSE_SELECTION ON COURSES.COURSEID = COURSE_SELECTION.COURSE_ID " +
                 "WHERE COURSE_SELECTION.USER_ID = ? " +
@@ -77,7 +76,7 @@ public class CourseDao implements CourseDaoService, Closeable {
                 String instructor = resultSet.getString("INSTRUCTOR");
                 Date deadLine = resultSet.getDate("DEADLINE");
 
-                Course course = Course.builder()
+                domain.Course course = domain.Course.builder()
                         .courseID(courseId)
                         .courseName(courseName)
                         .courseDescription(courseDescription)
@@ -117,10 +116,10 @@ public class CourseDao implements CourseDaoService, Closeable {
         return courseID;
     }
 
-    public List<String> getCourseNames(List<Course> courseList){
+    public List<String> getCourseNames(List<domain.Course> courseList){
         List<String> courseNames = new ArrayList<>();
 
-        for (Course course : courseList) {
+        for (domain.Course course : courseList) {
             courseNames.add(course.getCourseName());
         }
 
@@ -128,7 +127,7 @@ public class CourseDao implements CourseDaoService, Closeable {
     }
 
     @Override
-    public Course updateCourseNames(Course course, String newCourseName) {
+    public domain.Course updateCourseNames(domain.Course course, String newCourseName) {
         String sql = "UPDATE courses SET COURSENAME = ? WHERE COUESEID = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newCourseName);
@@ -147,7 +146,7 @@ public class CourseDao implements CourseDaoService, Closeable {
     }
 
     @Override
-    public Course updataCourseDescriptions(Course course, String newCourseDescription) {
+    public domain.Course updataCourseDescriptions(domain.Course course, String newCourseDescription) {
         String sql = "UPDATE courses SET COURSEDESCRIPTION = ? WHERE COUESEID = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newCourseDescription);
@@ -166,7 +165,7 @@ public class CourseDao implements CourseDaoService, Closeable {
     }
 
     @Override
-    public Course updateInstructor(Course course, String newInstructor) {
+    public domain.Course updateInstructor(domain.Course course, String newInstructor) {
         String sql = "UPDATE courses SET INSTRUCTOR = ? WHERE COUESEID = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newInstructor);
@@ -185,7 +184,7 @@ public class CourseDao implements CourseDaoService, Closeable {
     }
 
     @Override
-    public Course updateDeadline(Course course, Date newDeadline) {
+    public domain.Course updateDeadline(domain.Course course, Date newDeadline) {
         String sql = "UPDATE courses SET DEADLINE = ? WHERE COUESEID = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setDate(1, (java.sql.Date) newDeadline);
@@ -204,7 +203,7 @@ public class CourseDao implements CourseDaoService, Closeable {
     }
 
     @Override
-    public boolean newCourse(Course newCourse) {
+    public boolean newCourse(domain.Course newCourse) {
         String sql = "insert into courses (COURSENAME,COURSEDESCRIPTION,INSTRUCTOR,DEADLINE) values (?,?,?,?)";
         PreparedStatement ps = null;
 
@@ -223,7 +222,7 @@ public class CourseDao implements CourseDaoService, Closeable {
     }
 
     @Override
-    public boolean deleteCourse(Course course) {
+    public boolean deleteCourse(domain.Course course) {
         if(!doesCourseExist(course)){
             log.info("Course does NOT exist!");
             return false;
@@ -245,7 +244,7 @@ public class CourseDao implements CourseDaoService, Closeable {
     }
 
     @Override
-    public boolean doesCourseExist(Course course) {
+    public boolean doesCourseExist(domain.Course course) {
         String query = "SELECT COUNT(*) FROM courses WHERE COURSEID = ? OR COURSENAME = ?";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {

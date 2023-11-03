@@ -6,7 +6,7 @@ import domain.User;
 import java.util.Date;
 import java.util.List;
 
-public interface CourseDaoService {
+public interface CourseService {
     List<Course> getAllCourses();
 
     List<Course> getCourseByUser(User user);

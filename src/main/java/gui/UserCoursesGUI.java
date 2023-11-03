@@ -1,9 +1,8 @@
 package gui;
 
 import constants.ExportConstants;
-import dao.CourseDaoService;
-import dao.impl.CourseDao;
-import domain.Course;
+import dao.CourseService;
+import dao.impl.Course;
 import domain.User;
 import domain.enums.CourseDetailPageFrom;
 import gui.sub.CourseDetailGUI;
@@ -19,8 +18,8 @@ import java.util.List;
 @Slf4j
 public class UserCoursesGUI extends JFrame{
     private final User user;
-    private final CourseDaoService courseService;
-    private List<Course> courseList;
+    private final CourseService courseService;
+    private List<domain.Course> courseList;
 
     public UserCoursesGUI(User user) {
         this.setTitle(user.getName() + "'s Courses");
@@ -30,7 +29,7 @@ public class UserCoursesGUI extends JFrame{
         this.setSize(500, 600);
         this.setLocationRelativeTo(null);
         this.user = user;
-        this.courseService = new CourseDao();
+        this.courseService = new Course();
         this.courseList = courseService.getCourseByUser(user);
 
         JPanel mainPanel = new JPanel();
@@ -78,7 +77,7 @@ public class UserCoursesGUI extends JFrame{
      * @param courseList the list of courses to be added.
      * @return a JPanel containing the course list.
      */
-    public JPanel addCourseList(List<Course> courseList) {
+    public JPanel addCourseList(List<domain.Course> courseList) {
         JPanel listPanel = new JPanel();
         listPanel.setLayout(new GridBagLayout());
 
@@ -93,7 +92,7 @@ public class UserCoursesGUI extends JFrame{
             listPanel.add(emptyCourseListLabel, gbc);
         } else {
             listPanel.setLayout(new GridLayout(0, 1));
-            for (Course course : courseList) {
+            for (domain.Course course : courseList) {
                 listPanel.add(addCourseItem(course));
             }
         }
@@ -112,7 +111,7 @@ public class UserCoursesGUI extends JFrame{
      * @param course the course to be added as an item.
      * @return a JPanel containing the course item.
      */
-    private JPanel addCourseItem(Course course) {
+    private JPanel addCourseItem(domain.Course course) {
         JPanel coursePanel = new JPanel();
         coursePanel.setLayout(new BorderLayout());
 

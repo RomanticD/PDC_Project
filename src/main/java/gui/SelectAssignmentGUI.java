@@ -4,12 +4,11 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import dao.AssignmentService;
-import dao.CourseDaoService;
+import dao.CourseService;
 import dao.impl.AssignmentDao;
 import domain.Assignment;
-import domain.Course;
 import domain.User;
-import dao.impl.CourseDao;
+import dao.impl.Course;
 import util.FrameUtil;
 
 import javax.swing.*;
@@ -58,7 +57,7 @@ public class SelectAssignmentGUI extends JFrame {
         }
 
         AssignmentService assignmentService = new AssignmentDao();
-        CourseDaoService courseService = new CourseDao();
+        CourseService courseService = new Course();
 
         DefaultListModel<String> courseListModel = new DefaultListModel<>();
         DefaultListModel<String> assignmentListModel = new DefaultListModel<>();
@@ -183,7 +182,7 @@ public class SelectAssignmentGUI extends JFrame {
         showButton.addActionListener(e -> {
             courseListModel.clear();
             if (showAll[0]) {
-                for (Course course : courseService.getAllCourses()) {
+                for (domain.Course course : courseService.getAllCourses()) {
                     courseListModel.addElement(course.getCourseName());
                 }
                 showButton.setText("Show Yours");

@@ -20,6 +20,7 @@ public class DatabaseConnectionManager {
         }
     }
     public Connection getConnection() {
+        if (conn == null) log.warn("Please disconnect the existing DB connection and restart the app!");
         return conn;
     }
 }

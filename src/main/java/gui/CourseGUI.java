@@ -3,9 +3,8 @@ package gui;
 import constants.UIConstants;
 import dao.CourseSelectionService;
 import dao.impl.CourseSelectionDao;
-import domain.Course;
-import dao.CourseDaoService;
-import dao.impl.CourseDao;
+import dao.CourseService;
+import dao.impl.Course;
 import domain.User;
 import domain.enums.CourseDetailPageFrom;
 import gui.sub.CourseDetailGUI;
@@ -19,9 +18,9 @@ import java.util.List;
 @Slf4j
 public class CourseGUI extends JFrame {
     private final User user;
-    private final CourseDaoService courseService;
+    private final CourseService courseService;
     private final CourseSelectionService courseSelectionService;
-    private List<Course> courseList;
+    private List<domain.Course> courseList;
 
     public CourseGUI(User user) {
         this.setTitle("All Courses");
@@ -32,7 +31,7 @@ public class CourseGUI extends JFrame {
         this.setLocationRelativeTo(null);
         this.user = user;
         this.courseSelectionService = new CourseSelectionDao();
-        this.courseService = new CourseDao();
+        this.courseService = new Course();
         this.courseList = courseService.getAllCourses();
 
         // Create a test panel to hold everything
@@ -86,11 +85,11 @@ public class CourseGUI extends JFrame {
      * @return a JPanel containing the course list.
      */
 
-    public JPanel addCourseList(List<Course> courseList) {
+    public JPanel addCourseList(List<domain.Course> courseList) {
         JPanel listPanel = new JPanel();
         listPanel.setLayout(new GridLayout(0, 1));
 
-        for (Course course : courseList) {
+        for (domain.Course course : courseList) {
             listPanel.add(addCourseItem(course));
         }
         if (courseList.size() < 6) {
@@ -107,7 +106,7 @@ public class CourseGUI extends JFrame {
      * @param course the course to be added as an item.
      * @return a JPanel containing the course item.
      */
-    private JPanel addCourseItem(Course course) {
+    private JPanel addCourseItem(domain.Course course) {
         JPanel coursePanel = new JPanel();
         coursePanel.setLayout(new BorderLayout());
 
@@ -138,11 +137,11 @@ public class CourseGUI extends JFrame {
         return coursePanel;
     }
 
-    private boolean selectedByUserBefore(Course course) {
+    private boolean selectedByUserBefore(domain.Course course) {
         return courseSelectionService.selectionStatusEqualsUnselected(user, course);
     }
 
-    private boolean selectedByUser(Course course) {
+    private boolean selectedByUser(domain.Course course) {
         return courseSelectionService.checkIfUserEnrolled(user, course);
     }
 }

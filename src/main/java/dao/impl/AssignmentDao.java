@@ -15,7 +15,7 @@ import java.util.List;
 @Slf4j
 public class AssignmentDao implements AssignmentService, Closeable{
     private final Connection conn;
-    private final CourseDao courseDao = new CourseDao();
+    private final Course courseDao = new Course();
 
     public AssignmentDao() {
         DatabaseConnectionManager databaseConnectionManager = new DatabaseConnectionManager();

@@ -1,6 +1,5 @@
-import dao.CourseDaoService;
-import dao.impl.CourseDao;
-import domain.Course;
+import dao.CourseService;
+import dao.impl.Course;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,10 +14,10 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CourseTest {
-    private CourseDaoService courseService;
+    private CourseService courseService;
     @Before
     public void setUp() {
-        courseService = new CourseDao();
+        courseService = new Course();
     }
 
     @After
@@ -27,8 +26,8 @@ public class CourseTest {
     }
 
     @Test
-    public void testdatemodification() throws ParseException{
-        Course course = InstanceUtil.getTestCourseInstance();
+    public void testThatCourseCanBeAdded() throws ParseException{
+        domain.Course course = InstanceUtil.getTestCourseInstance();
         assertTrue(courseService.newCourse(course));
         assertTrue(courseService.deleteCourse(course));
     }

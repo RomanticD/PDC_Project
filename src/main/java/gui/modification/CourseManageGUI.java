@@ -1,11 +1,8 @@
 package gui.modification;
 
 import constants.UIConstants;
-import dao.CourseDaoService;
-import dao.CourseSelectionService;
-import dao.impl.CourseDao;
-import dao.impl.CourseSelectionDao;
-import domain.Course;
+import dao.CourseService;
+import dao.impl.Course;
 import domain.User;
 import gui.AdminGUI;
 import gui.sub.BackgroundPanel;
@@ -27,8 +24,8 @@ import java.util.Objects;
 @Slf4j
 public class CourseManageGUI extends JFrame {
     private final User user;
-    private final CourseDaoService courseService;
-    private List<Course> courseList;
+    private final CourseService courseService;
+    private List<domain.Course> courseList;
     public CourseManageGUI(User user) {
         this.setTitle("CourseManage");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -41,7 +38,7 @@ public class CourseManageGUI extends JFrame {
         addComponents(Objects.requireNonNull(panel));
 
         this.user = user;
-        this.courseService = new CourseDao();
+        this.courseService = new Course();
         this.courseList = courseService.getAllCourses();
 
         // Create a test panel to hold everything
@@ -156,7 +153,7 @@ public class CourseManageGUI extends JFrame {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        Course newCourse = new Course(newID, courseName, courseDescription, Instructor, date);
+        domain.Course newCourse = new domain.Course(newID, courseName, courseDescription, Instructor, date);
         if (courseService.doesCourseExist(newCourse)){
             FrameUtil.showErrorDialog("Course is existing!");
         }else{
@@ -172,11 +169,11 @@ public class CourseManageGUI extends JFrame {
 
     }
 
-    public JPanel addCourseList(List<Course> courseList) {
+    public JPanel addCourseList(List<domain.Course> courseList) {
         JPanel listPanel = new JPanel();
         listPanel.setLayout(new GridLayout(0, 1));
 
-        for (Course course : courseList) {
+        for (domain.Course course : courseList) {
             JPanel courseItem = addCourseItem(course);
             listPanel.add(courseItem);
         }
@@ -188,7 +185,7 @@ public class CourseManageGUI extends JFrame {
         return listPanel;
     }
 
-    private JPanel addCourseItem(Course course) {
+    private JPanel addCourseItem(domain.Course course) {
         JPanel coursePanel = new JPanel();
         coursePanel.setLayout(new BorderLayout());
 
@@ -225,7 +222,7 @@ public class CourseManageGUI extends JFrame {
         return coursePanel;
     }
 
-    private void creatDialog(Course course) {
+    private void creatDialog(domain.Course course) {
         JDialog modifyDialog = new JDialog();
         modifyDialog.setSize(400,400);
         modifyDialog.setLocationRelativeTo(null);
@@ -284,7 +281,7 @@ public class CourseManageGUI extends JFrame {
 
     }
 
-    private void modify(String funcName,Course course, String content) {
+    private void modify(String funcName, domain.Course course, String content) {
         switch (funcName){
             case"CourseName":course.setCourseName(content);
             courseService.updateCourseNames(course,content);
@@ -302,7 +299,7 @@ public class CourseManageGUI extends JFrame {
         }
     }
 
-    private void modifyDeadline(Course course, String deadline) {
+    private void modifyDeadline(domain.Course course, String deadline) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date;
         try {
