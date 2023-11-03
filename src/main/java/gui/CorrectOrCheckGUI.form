@@ -67,7 +67,9 @@
             <maximum-size width="-1" height="200"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-15526864"/>
+        </properties>
         <border type="none"/>
         <children>
           <component id="9c01e" class="javax.swing.JTextArea" binding="assignmentContent">
@@ -75,7 +77,7 @@
               <card name="assignmentCard"/>
             </constraints>
             <properties>
-              <background color="-4563611"/>
+              <background color="-6837066"/>
               <font name="Monaco" size="14" style="0"/>
               <text value=""/>
             </properties>
@@ -90,7 +92,8 @@
               <component id="dea27" class="javax.swing.JTable" binding="submissionTable">
                 <constraints/>
                 <properties>
-                  <background color="-4563611"/>
+                  <background color="-6837066"/>
+                  <foreground color="-15526864"/>
                 </properties>
               </component>
             </children>
@@ -124,7 +127,7 @@
               <card name="Card1"/>
             </constraints>
             <properties>
-              <background color="-6253482"/>
+              <background color="-3618616"/>
               <font name="Monaco" size="14" style="0"/>
               <foreground color="-15526864"/>
             </properties>
@@ -136,7 +139,7 @@
             <properties>
               <background color="-4474633"/>
               <font name="Droid Sans Mono Slashed" size="20" style="3"/>
-              <foreground color="-16777216"/>
+              <foreground color="-2104859"/>
               <horizontalAlignment value="0"/>
               <horizontalTextPosition value="0"/>
               <text value="No content"/>
@@ -163,7 +166,7 @@
           </grid>
         </constraints>
         <properties>
-          <background color="-2238126"/>
+          <background color="-6837066"/>
           <foreground color="-1727412"/>
         </properties>
         <border type="none"/>
@@ -259,7 +262,7 @@
           <component id="2bef8" class="javax.swing.JTextArea" binding="submissionContent">
             <constraints border-constraint="Center"/>
             <properties>
-              <background color="-4474633"/>
+              <background color="-6837066"/>
               <focusCycleRoot value="true"/>
               <font name="Monaco" size="14" style="0"/>
               <foreground color="-15526864"/>
