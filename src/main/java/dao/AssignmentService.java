@@ -4,7 +4,7 @@ import domain.Assignment;
 
 import java.util.List;
 
-public interface AssignmentDaoInterface {
+public interface AssignmentService {
     boolean doesAssignmentExist(Assignment assignment);
 
     boolean insertAssignment(Assignment assignment);

@@ -1,6 +1,6 @@
 package dao.impl;
 
-import dao.CourseDaoInterface;
+import dao.CourseDaoService;
 import manager.DatabaseConnectionManager;
 import domain.Course;
 import domain.User;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 @Slf4j
-public class CourseDao implements CourseDaoInterface, Closeable {
+public class CourseDao implements CourseDaoService, Closeable {
     private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
 
@@ -205,15 +205,15 @@ public class CourseDao implements CourseDaoInterface, Closeable {
 
     @Override
     public boolean newCourse(Course newCourse) {
-        String sql = "insert into courses (COURSEID,COURSENAME,COURSEDESCRIPTION,INSTRUCTOR,DEADLINE) values (?,?,?,?,?)";
+        String sql = "insert into courses (COURSENAME,COURSEDESCRIPTION,INSTRUCTOR,DEADLINE) values (?,?,?,?)";
         PreparedStatement ps = null;
 
         try {
             ps = conn.prepareStatement(sql);
-            ps.setString(2, newCourse.getCourseName());
-            ps.setString(3, newCourse.getCourseDescription());
-            ps.setString(4, newCourse.getInstructor());
-            ps.setDate(5, new java.sql.Date(newCourse.getDeadLine().getTime()));
+            ps.setString(1, newCourse.getCourseName());
+            ps.setString(2, newCourse.getCourseDescription());
+            ps.setString(3, newCourse.getInstructor());
+            ps.setDate(4, new java.sql.Date(newCourse.getDeadLine().getTime()));
             log.info("Executing SQL query: " + ps);
             ps.execute();
         } catch (SQLException ex) {
@@ -229,18 +229,19 @@ public class CourseDao implements CourseDaoInterface, Closeable {
             return false;
         }
 
-        String query = "DELETE FROM courses WHERE COURSEID = ? AND COURSENAME = ?";
+        String query = "DELETE FROM courses WHERE COURSENAME = ?";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
-            preparedStatement.setInt(1, course.getCourseID());
-            preparedStatement.setString(2, course.getCourseName());
-            preparedStatement.executeUpdate();
+            preparedStatement.setString(1, course.getCourseName());
             log.info("Executing SQL query: deleteCourse");
+
+            int i = preparedStatement.executeUpdate();
+            return i > 0;
+
         } catch (SQLException e) {
-            log.error("Error when deleteCourse: "  + e.getMessage());
+            log.error("Error when deleting Course: "  + e.getMessage());
             return false;
         }
-        return true;
     }
 
     @Override

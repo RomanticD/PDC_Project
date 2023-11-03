@@ -1,7 +1,7 @@
 package gui.sub;
 
 import constants.UIConstants;
-import dao.UserDaoInterface;
+import dao.UserService;
 import dao.impl.UserDao;
 import domain.User;
 import gui.LoginGUI;
@@ -21,7 +21,7 @@ import java.util.Objects;
 @Slf4j
 public class ChangeInfoGUI extends JFrame {
     private final String infoToModify;
-    private final UserDaoInterface userDao;
+    private final UserService userService;
     private User user;
 
     public ChangeInfoGUI(String infoToModify, User user){
@@ -30,7 +30,7 @@ public class ChangeInfoGUI extends JFrame {
         setSize(400, infoToModify.equals("Password") ? 350 : 300);
         setLocationRelativeTo(null);
         this.user = user;
-        this.userDao = new UserDao();
+        this.userService = new UserDao();
         this.infoToModify = infoToModify;
 
         addComponents(Objects.requireNonNull(getBackgroundPanel()));
@@ -159,7 +159,7 @@ public class ChangeInfoGUI extends JFrame {
     }
 
     private void ModifyPassword(String newPassword) {
-        this.user = userDao.updateUserPassword(user, newPassword);
+        this.user = userService.updateUserPassword(user, newPassword);
         FrameUtil.showSuccessDialog("Successfully Changed Your Password!");
         ChangeInfoGUI.this.dispose();
         FrameUtil.disposeCurrentFrameAndCreateNewFrame("PDC Project Group 18", ChangeInfoGUI.this, new LoginGUI(user));
@@ -201,7 +201,7 @@ public class ChangeInfoGUI extends JFrame {
 
     private void ModifyEmail(String newEmail) {
         if (validateInput(newEmail)){
-            User updatedUser = userDao.updateUserEmail(user, newEmail);
+            User updatedUser = userService.updateUserEmail(user, newEmail);
             ChangeInfoGUI.this.dispose();
             new UpdateSuccessGUI(updatedUser);
         }else{
@@ -216,11 +216,11 @@ public class ChangeInfoGUI extends JFrame {
      */
 
     private void ModifyUsername(String newUsername) {
-        if (validateInput(newUsername) && !userDao.isUserExists(newUsername)){
-            User updatedUser = userDao.updateUserUsername(user, newUsername);
+        if (validateInput(newUsername) && !userService.isUserExists(newUsername)){
+            User updatedUser = userService.updateUserUsername(user, newUsername);
             ChangeInfoGUI.this.dispose();
             new UpdateSuccessGUI(updatedUser);
-        }else if (userDao.isUserExists(newUsername)){
+        }else if (userService.isUserExists(newUsername)){
             FrameUtil.showErrorDialog("Username Exists, Please Change a New One!");
         } else {
             FrameUtil.showErrorDialog("Invalid Input!");
@@ -233,7 +233,7 @@ public class ChangeInfoGUI extends JFrame {
      */
     private void ModifyName(String newName) {
         if (validateInput(newName)){
-            User updatedUser = userDao.updateUserName(user, newName);
+            User updatedUser = userService.updateUserName(user, newName);
             ChangeInfoGUI.this.dispose();
             new UpdateSuccessGUI(updatedUser);
         }else{

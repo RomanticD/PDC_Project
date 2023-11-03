@@ -1,6 +1,6 @@
 package dao.impl;
 
-import dao.UserDaoInterface;
+import dao.UserService;
 import manager.DatabaseConnectionManager;
 import domain.enums.Role;
 import domain.User;
@@ -14,7 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Slf4j
-public class UserDao implements UserDaoInterface, Closeable {
+public class UserDao implements UserService, Closeable {
     private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
 

@@ -1,7 +1,7 @@
 package gui.sub;
 
 import constants.UIConstants;
-import dao.CourseSelectionDaoInterface;
+import dao.CourseSelectionService;
 import dao.impl.CourseSelectionDao;
 import domain.Course;
 import domain.User;
@@ -27,7 +27,7 @@ public class CourseDetailGUI extends JFrame {
     private final User user;
 
     private final CourseDetailPageFrom courseDetailPageFrom;
-    private final CourseSelectionDaoInterface courseSelectionDao;
+    private final CourseSelectionService courseSelectionService;
 
     public CourseDetailGUI(Course course, User user, CourseDetailPageFrom courseDetailPageFrom) {
         this.setTitle(course.getCourseName());
@@ -39,7 +39,7 @@ public class CourseDetailGUI extends JFrame {
         this.course = course;
         this.user = user;
         this.courseDetailPageFrom = courseDetailPageFrom;
-        this.courseSelectionDao = new CourseSelectionDao();
+        this.courseSelectionService = new CourseSelectionDao();
 
         JPanel backgroundPanel = getBackgroundPanel();
 //        JPanel backgroundPanel = new JPanel();
@@ -59,7 +59,7 @@ public class CourseDetailGUI extends JFrame {
     }
 
     private void addComponents(JPanel panel) {
-        boolean userEnrolled = courseSelectionDao.checkIfUserEnrolled(user, course);
+        boolean userEnrolled = courseSelectionService.checkIfUserEnrolled(user, course);
 
         SpringLayout springLayout = new SpringLayout();
         panel.setLayout(springLayout);
@@ -67,7 +67,7 @@ public class CourseDetailGUI extends JFrame {
         ActionListener backToSpecificGUI = e -> backToSpecificGUI();
         FrameUtil.addBackButtonWithCustomAction(panel, springLayout, backToSpecificGUI);
 
-        Date selectionDate = courseSelectionDao.getCourseSelectionDate(course, user);
+        Date selectionDate = courseSelectionService.getCourseSelectionDate(course, user);
         String formattedDate = selectionDate != null ? String.valueOf(selectionDate) : "No Selection Date";
 
         String[] labels = {"Course ID:", "Course Name:", "Course Instructor:", "Course Description:", "Enrolled:", "Select Date"};
@@ -167,19 +167,19 @@ public class CourseDetailGUI extends JFrame {
     }
 
     private boolean quitCourse() {
-        return courseSelectionDao.setUnselectedToSelectionStatus(user, course);
+        return courseSelectionService.setUnselectedToSelectionStatus(user, course);
     }
 
     private boolean reenrolledUserInCourse() {
-        return courseSelectionDao.reenrolled(user, course);
+        return courseSelectionService.reenrolled(user, course);
     }
 
     private boolean setUserEnrolled() {
-        return courseSelectionDao.newUserEnrolledRecord(user, course);
+        return courseSelectionService.newUserEnrolledRecord(user, course);
     }
 
     private boolean userEnrolledBefore() {
-        return courseSelectionDao.selectionStatusEqualsUnselected(user, course);
+        return courseSelectionService.selectionStatusEqualsUnselected(user, course);
     }
 
     private JTextArea createJTextArea(String text) {

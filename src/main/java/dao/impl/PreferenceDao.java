@@ -1,6 +1,6 @@
 package dao.impl;
 
-import dao.PreferenceDaoInterface;
+import dao.PreferenceService;
 import domain.Preference;
 import lombok.extern.slf4j.Slf4j;
 import manager.DatabaseConnectionManager;
@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Slf4j
-public class PreferenceDao implements PreferenceDaoInterface, Closeable {
+public class PreferenceDao implements PreferenceService, Closeable {
     private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
 

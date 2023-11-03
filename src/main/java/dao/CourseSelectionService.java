@@ -5,7 +5,7 @@ import domain.User;
 
 import java.util.Date;
 
-public interface CourseSelectionDaoInterface {
+public interface CourseSelectionService {
     int[] getSelectedCourseId(User user);
 
     boolean checkIfUserEnrolled(User user, Course course);

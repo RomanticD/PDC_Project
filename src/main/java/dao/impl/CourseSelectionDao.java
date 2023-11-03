@@ -1,6 +1,6 @@
 package dao.impl;
 
-import dao.CourseSelectionDaoInterface;
+import dao.CourseSelectionService;
 import manager.DatabaseConnectionManager;
 import domain.Course;
 import domain.User;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class CourseSelectionDao implements CourseSelectionDaoInterface, Closeable {
+public class CourseSelectionDao implements CourseSelectionService, Closeable {
     private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
 

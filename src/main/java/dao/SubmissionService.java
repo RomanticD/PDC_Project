@@ -5,7 +5,7 @@ import domain.Submission;
 
 import java.util.List;
 
-public interface SubmissionDaoInterface {
+public interface SubmissionService {
     boolean doesSubmissionExist(Submission submission);
 
     boolean insertSubmission(Submission submission);

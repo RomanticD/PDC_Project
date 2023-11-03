@@ -3,8 +3,8 @@ package gui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import dao.AssignmentDaoInterface;
-import dao.CourseDaoInterface;
+import dao.AssignmentService;
+import dao.CourseDaoService;
 import dao.impl.AssignmentDao;
 import domain.Assignment;
 import domain.Course;
@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.awt.event.ActionEvent;
 
 import static util.FrameUtil.getRoundedBorder;
 
@@ -58,14 +57,14 @@ public class SelectAssignmentGUI extends JFrame {
             showButton.setVisible(false);
         }
 
-        AssignmentDaoInterface assignmentDao = new AssignmentDao();
-        CourseDaoInterface courseDao = new CourseDao();
+        AssignmentService assignmentService = new AssignmentDao();
+        CourseDaoService courseService = new CourseDao();
 
         DefaultListModel<String> courseListModel = new DefaultListModel<>();
         DefaultListModel<String> assignmentListModel = new DefaultListModel<>();
 
         // Get the courseList and convert it to courseNameList showed in courseList
-        List<String> selectedCourseNames = courseDao.getCourseNames(courseDao.getCourseByUser(user));
+        List<String> selectedCourseNames = courseService.getCourseNames(courseService.getCourseByUser(user));
 
         for (String assignmentName : selectedCourseNames) {
             courseListModel.addElement(assignmentName);
@@ -83,7 +82,7 @@ public class SelectAssignmentGUI extends JFrame {
                 String selectedCourse = courseList.getSelectedValue();
 
                 // Convert the selectedCourse to assignmentNames.
-                List<String> assignmentNames = assignmentDao.getAssignmentNamesByCourseID(courseDao.getCourseIDByName(selectedCourse));
+                List<String> assignmentNames = assignmentService.getAssignmentNamesByCourseID(courseService.getCourseIDByName(selectedCourse));
 
                 // Clear the assignmentListModel
                 assignmentListModel.clear();
@@ -103,7 +102,7 @@ public class SelectAssignmentGUI extends JFrame {
             String selectedCourse = courseList.getSelectedValue();
             String selectedAssignment = assignmentList.getSelectedValue();
             if (selectedCourse != null && selectedAssignment != null) {
-                Assignment assignment = assignmentDao.getAssignmentByAssignmentAndCourseName(selectedAssignment, selectedCourse);
+                Assignment assignment = assignmentService.getAssignmentByAssignmentAndCourseName(selectedAssignment, selectedCourse);
 
                 correctButton.setEnabled(assignment.getDeadLine() == null || !assignment.getDeadLine().after(new Date()));
                 if (assignment.getDeadLine() != null) {
@@ -133,7 +132,7 @@ public class SelectAssignmentGUI extends JFrame {
             if (Objects.equals(selectedAssignment, null)) {
                 FrameUtil.showConfirmation(SelectAssignmentGUI.this, "You haven't selected any assignment!");
             } else {
-                if (assignmentDao.deleteAssignment(assignmentDao.getAssignmentByAssignmentAndCourseName(selectedAssignment, selectedCourse))) {
+                if (assignmentService.deleteAssignment(assignmentService.getAssignmentByAssignmentAndCourseName(selectedAssignment, selectedCourse))) {
                     FrameUtil.showConfirmation(SelectAssignmentGUI.this, "Delete successfully!");
                 } else {
                     FrameUtil.showConfirmation(SelectAssignmentGUI.this, "Something wrong or the assignment doesn't exist");
@@ -156,14 +155,14 @@ public class SelectAssignmentGUI extends JFrame {
                 new SelectAssignmentGUI(user);
             } else {
                 SelectAssignmentGUI.this.dispose();
-                new ManageAssignmentGUI(user, assignmentDao.getAssignmentByAssignmentAndCourseName(selectedAssignment, selectedCourse));
+                new ManageAssignmentGUI(user, assignmentService.getAssignmentByAssignmentAndCourseName(selectedAssignment, selectedCourse));
             }
         });
 
         correctButton.addActionListener(e -> {
             String selectedCourse = courseList.getSelectedValue();
             String selectedAssignment = assignmentList.getSelectedValue();
-            Assignment assignment = assignmentDao.getAssignmentByAssignmentAndCourseName(selectedAssignment, selectedCourse);
+            Assignment assignment = assignmentService.getAssignmentByAssignmentAndCourseName(selectedAssignment, selectedCourse);
 
             if (Objects.equals(selectedAssignment, null)) {
                 FrameUtil.showConfirmation(SelectAssignmentGUI.this, "You haven't selected any assignment!");
@@ -184,7 +183,7 @@ public class SelectAssignmentGUI extends JFrame {
         showButton.addActionListener(e -> {
             courseListModel.clear();
             if (showAll[0]) {
-                for (Course course : courseDao.getAllCourses()) {
+                for (Course course : courseService.getAllCourses()) {
                     courseListModel.addElement(course.getCourseName());
                 }
                 showButton.setText("Show Yours");

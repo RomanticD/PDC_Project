@@ -23,7 +23,6 @@ public class InstanceUtil {
 
     public static Course getTestCourseInstance() throws ParseException {
         return Course.builder()
-                .courseID(999)
                 .courseDescription("Test Description")
                 .courseName("Course Instance")
                 .instructor("Test Instructor")

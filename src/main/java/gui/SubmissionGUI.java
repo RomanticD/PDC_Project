@@ -3,7 +3,7 @@ package gui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import dao.SubmissionDaoInterface;
+import dao.SubmissionService;
 import domain.Assignment;
 import domain.Submission;
 import domain.User;
@@ -45,7 +45,7 @@ public class SubmissionGUI extends JFrame {
     private JPanel contentPanel;
 
     public SubmissionGUI(User user, Assignment assignment) {
-        SubmissionDaoInterface submissionDao = new SubmissionDao();
+        SubmissionService submissionService = new SubmissionDao();
 
 
         // The setting of assignmentLabel and assignmentCard, which is shown for assignment content or No content.
@@ -78,7 +78,7 @@ public class SubmissionGUI extends JFrame {
                     .studentID(user.getUserId())
                     .build();
 
-            if (submissionDao.insertSubmission(newSubmission)) {
+            if (submissionService.insertSubmission(newSubmission)) {
                 FrameUtil.showConfirmation(SubmissionGUI.this, "Submit successfully!");
             } else {
                 FrameUtil.showConfirmation(SubmissionGUI.this, "Something wrong!");
@@ -105,7 +105,7 @@ public class SubmissionGUI extends JFrame {
         };
         tableModel.addRow(rowName);
 
-        List<Submission> submissionList = submissionDao.getSubmissionsOfOneAssignmentAndStudent(assignment.getAssignmentID(), user.getUserId());
+        List<Submission> submissionList = submissionService.getSubmissionsOfOneAssignmentAndStudent(assignment.getAssignmentID(), user.getUserId());
         for (Submission submission : submissionList) {
             Object[] rowData = {
                     submission.getSubmissionOrder(),
@@ -123,7 +123,7 @@ public class SubmissionGUI extends JFrame {
             if (selectedRow >= 1) {
                 SubmissionGUI.this.dispose();
                 int submissionOrder = (int) tableModel.getValueAt(selectedRow, 0);
-                Submission submission = submissionDao.getSubmissionFromTwoIDsAndOrder(assignment.getAssignmentID(), user.getUserId(), submissionOrder);
+                Submission submission = submissionService.getSubmissionFromTwoIDsAndOrder(assignment.getAssignmentID(), user.getUserId(), submissionOrder);
 
                 new CorrectOrCheckGUI(user, assignment, submission);
             } else {

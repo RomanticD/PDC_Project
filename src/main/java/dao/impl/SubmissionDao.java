@@ -1,6 +1,6 @@
 package dao.impl;
 
-import dao.SubmissionDaoInterface;
+import dao.SubmissionService;
 import domain.Assignment;
 import domain.Submission;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class SubmissionDao implements SubmissionDaoInterface, Closeable{
+public class SubmissionDao implements SubmissionService, Closeable{
 
     private final Connection conn;
 

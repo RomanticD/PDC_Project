@@ -4,8 +4,8 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import com.toedter.calendar.JDateChooser;
-import dao.AssignmentDaoInterface;
-import dao.CourseDaoInterface;
+import dao.AssignmentService;
+import dao.CourseDaoService;
 import dao.impl.AssignmentDao;
 import dao.impl.CourseDao;
 import domain.Assignment;
@@ -14,12 +14,8 @@ import util.FrameUtil;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
-import javax.swing.text.MaskFormatter;
 import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.List;
 
@@ -54,7 +50,7 @@ public class ManageAssignmentGUI extends JFrame {
     private JPanel contentPanel;
 
 
-    AssignmentDaoInterface assignmentDao = new AssignmentDao();
+    AssignmentService assignmentService = new AssignmentDao();
 
     // Click the Check button in SelectAssignmentGui
     public ManageAssignmentGUI(User user, Assignment assignment) {
@@ -89,7 +85,7 @@ public class ManageAssignmentGUI extends JFrame {
             assignment.setAssignmentContent(contentText.getText());
             assignment.setDeadLine(deadline);
 
-            if (assignmentDao.updateAssignment(assignment)) {
+            if (assignmentService.updateAssignment(assignment)) {
                 FrameUtil.showConfirmation(ManageAssignmentGUI.this, "Arrange successfully!");
                 new SelectAssignmentGUI(user);
             } else {
@@ -127,12 +123,12 @@ public class ManageAssignmentGUI extends JFrame {
         Color customColor = new Color(200, 200, 200);
         nameText.setBackground(customColor);
 
-        AssignmentDaoInterface assignmentDao = new AssignmentDao();
-        CourseDaoInterface courseDao = new CourseDao();
+        AssignmentService assignmentService = new AssignmentDao();
+        CourseDaoService courseService = new CourseDao();
         DefaultListModel<String> courseListModel = new DefaultListModel<>();
 
         CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
-        List<String> CourseNames = courseDao.getCourseNames(courseDao.getCourseByUser(user));
+        List<String> CourseNames = courseService.getCourseNames(courseService.getCourseByUser(user));
         for (String assignmentName : CourseNames) {
             courseListModel.addElement(assignmentName);
         }
@@ -161,7 +157,7 @@ public class ManageAssignmentGUI extends JFrame {
             Assignment newAssignment = Assignment.builder()
                     .assignmentContent(contentText.getText())
                     .assignmentName(nameText.getText())
-                    .courseID(courseDao.getCourseIDByName(courseList.getSelectedValue()))
+                    .courseID(courseService.getCourseIDByName(courseList.getSelectedValue()))
                     .deadLine(deadline)
                     .build();
 
@@ -169,7 +165,7 @@ public class ManageAssignmentGUI extends JFrame {
                 FrameUtil.showConfirmation(ManageAssignmentGUI.this, "Assignment name can't be null");
                 new ManageAssignmentGUI(user);
             } else {
-                if (assignmentDao.insertAssignment(newAssignment)) {
+                if (assignmentService.insertAssignment(newAssignment)) {
                     FrameUtil.showConfirmation(ManageAssignmentGUI.this, "Create successfully!");
                     new SelectAssignmentGUI(user);
                 } else {

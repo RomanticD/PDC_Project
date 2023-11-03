@@ -1,10 +1,10 @@
 package gui;
 
 import constants.UIConstants;
-import dao.CourseSelectionDaoInterface;
+import dao.CourseSelectionService;
 import dao.impl.CourseSelectionDao;
 import domain.Course;
-import dao.CourseDaoInterface;
+import dao.CourseDaoService;
 import dao.impl.CourseDao;
 import domain.User;
 import domain.enums.CourseDetailPageFrom;
@@ -15,14 +15,12 @@ import util.GraphicsUtil;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 @Slf4j
 public class CourseGUI extends JFrame {
     private final User user;
-    private final CourseDaoInterface courseDao;
-    private final CourseSelectionDaoInterface courseSelectionDao;
+    private final CourseDaoService courseService;
+    private final CourseSelectionService courseSelectionService;
     private List<Course> courseList;
 
     public CourseGUI(User user) {
@@ -33,9 +31,9 @@ public class CourseGUI extends JFrame {
         this.setSize(UIConstants.COURSE_GUI_FRAME_SIZE[0], UIConstants.COURSE_GUI_FRAME_SIZE[1]);
         this.setLocationRelativeTo(null);
         this.user = user;
-        this.courseSelectionDao = new CourseSelectionDao();
-        this.courseDao = new CourseDao();
-        this.courseList = courseDao.getAllCourses();
+        this.courseSelectionService = new CourseSelectionDao();
+        this.courseService = new CourseDao();
+        this.courseList = courseService.getAllCourses();
 
         // Create a test panel to hold everything
         JPanel mainPanel = new JPanel();
@@ -141,10 +139,10 @@ public class CourseGUI extends JFrame {
     }
 
     private boolean selectedByUserBefore(Course course) {
-        return courseSelectionDao.selectionStatusEqualsUnselected(user, course);
+        return courseSelectionService.selectionStatusEqualsUnselected(user, course);
     }
 
     private boolean selectedByUser(Course course) {
-        return courseSelectionDao.checkIfUserEnrolled(user, course);
+        return courseSelectionService.checkIfUserEnrolled(user, course);
     }
 }

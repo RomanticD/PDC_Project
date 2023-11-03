@@ -1,8 +1,8 @@
 package gui;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import dao.PreferenceDaoInterface;
-import dao.UserDaoInterface;
+import dao.PreferenceService;
+import dao.UserService;
 import dao.impl.PreferenceDao;
 import dao.impl.UserDao;
 import domain.Preference;
@@ -24,8 +24,8 @@ public class LoginGUI extends JPanel {
     private User user;
     private String username;
     private String password;
-    private final UserDaoInterface userDao = new UserDao();
-    private final PreferenceDaoInterface preferenceDao = new PreferenceDao();
+    private final UserService userService = new UserDao();
+    private final PreferenceService preferenceService = new PreferenceDao();
 
     public LoginGUI(User user) {
         this.user = user;
@@ -40,7 +40,7 @@ public class LoginGUI extends JPanel {
             txtPassword = new JPasswordField();
             chRememberMe = new JCheckBox("Remember me");
         } else {
-            Preference preferenceByUserId = preferenceDao.getPreferenceByUserId(user.getUserId());
+            Preference preferenceByUserId = preferenceService.getPreferenceByUserId(user.getUserId());
             if (preferenceByUserId != null) {
                 chRememberMe = new JCheckBox("Remember me", preferenceByUserId.isRememberMe());
                 if (chRememberMe.isSelected()){
@@ -110,7 +110,7 @@ public class LoginGUI extends JPanel {
         username = usernameField.getText();
         password = passwordField.getText();
 
-        this.user = userDao.getUserByUsername(username);
+        this.user = userService.getUserByUsername(username);
         if (user == null) {
             FrameUtil.showErrorDialog("Account Do Not Exist!");
             usernameField.setText("");
@@ -127,7 +127,7 @@ public class LoginGUI extends JPanel {
             storeNewPreference(username, password);
         }
 
-        ResultSet rs = userDao.validateUser(username, password);
+        ResultSet rs = userService.validateUser(username, password);
         try {
             if (rs.next()) {
                 User currentUser = User.builder()
@@ -168,7 +168,7 @@ public class LoginGUI extends JPanel {
                     .rememberMe(true)
                     .build();
 
-            preferenceDao.setNewUserPreference(preference);
+            preferenceService.setNewUserPreference(preference);
         }
     }
 
@@ -207,7 +207,7 @@ public class LoginGUI extends JPanel {
                 .rememberMe(status)
                 .build();
 
-        preferenceDao.updatePreference(preference);
+        preferenceService.updatePreference(preference);
     }
 
     /**
@@ -219,7 +219,7 @@ public class LoginGUI extends JPanel {
         if (user.getUserId() == 0){
             return false;
         }else {
-            Preference preferenceByUserId = preferenceDao.getPreferenceByUserId(user.getUserId());
+            Preference preferenceByUserId = preferenceService.getPreferenceByUserId(user.getUserId());
             if (preferenceByUserId == null){
                 return false;
             } else {

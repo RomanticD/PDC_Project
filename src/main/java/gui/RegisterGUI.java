@@ -2,7 +2,7 @@ package gui;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import constants.UIConstants;
-import dao.UserDaoInterface;
+import dao.UserService;
 import dao.impl.UserDao;
 import domain.User;
 import domain.enums.Role;
@@ -18,7 +18,7 @@ import java.sql.SQLException;
 
 @Slf4j
 public class RegisterGUI extends JPanel {
-    private final UserDaoInterface userDao = new UserDao();
+    private final UserService userService = new UserDao();
 
     public RegisterGUI() {
         init();
@@ -92,8 +92,8 @@ public class RegisterGUI extends JPanel {
 
             try {
                 if (validateInput(username, password, repeatedPassword)) {
-                    if (!userDao.isUserExists(username)) {
-                        if (userDao.createUser(newUser)) {
+                    if (!userService.isUserExists(username)) {
+                        if (userService.createUser(newUser)) {
                             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
                             frame.dispose();
                             new RegisterSuccessGUI(new JFrame());

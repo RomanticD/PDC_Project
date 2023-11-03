@@ -1,7 +1,7 @@
 package gui;
 
 import constants.ExportConstants;
-import dao.CourseDaoInterface;
+import dao.CourseDaoService;
 import dao.impl.CourseDao;
 import domain.Course;
 import domain.User;
@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 public class UserCoursesGUI extends JFrame{
     private final User user;
-    private final CourseDaoInterface courseDao;
+    private final CourseDaoService courseService;
     private List<Course> courseList;
 
     public UserCoursesGUI(User user) {
@@ -30,8 +30,8 @@ public class UserCoursesGUI extends JFrame{
         this.setSize(500, 600);
         this.setLocationRelativeTo(null);
         this.user = user;
-        this.courseDao = new CourseDao();
-        this.courseList = courseDao.getCourseByUser(user);
+        this.courseService = new CourseDao();
+        this.courseList = courseService.getCourseByUser(user);
 
         JPanel mainPanel = new JPanel();
         JPanel topPanel = new JPanel();

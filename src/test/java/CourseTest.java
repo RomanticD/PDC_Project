@@ -1,7 +1,6 @@
-import dao.CourseDaoInterface;
+import dao.CourseDaoService;
 import dao.impl.CourseDao;
 import domain.Course;
-import gui.modification.CourseManageGUI;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,22 +15,22 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CourseTest {
-    private CourseDaoInterface courseDao;
+    private CourseDaoService courseService;
     @Before
     public void setUp() {
-        courseDao = new CourseDao();
+        courseService = new CourseDao();
     }
 
     @After
     public void tearDown() {
-        courseDao = null;
+        courseService = null;
     }
 
     @Test
     public void testdatemodification() throws ParseException{
         Course course = InstanceUtil.getTestCourseInstance();
-        assertTrue(courseDao.newCourse(course));
-        assertTrue(courseDao.deleteCourse(course));
+        assertTrue(courseService.newCourse(course));
+        assertTrue(courseService.deleteCourse(course));
     }
 
     @Test

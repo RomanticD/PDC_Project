@@ -3,7 +3,7 @@ package gui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import dao.UserDaoInterface;
+import dao.UserService;
 import dao.impl.SubmissionDao;
 import dao.impl.UserDao;
 import domain.Assignment;
@@ -59,7 +59,7 @@ public class CorrectOrCheckGUI extends JFrame {
         setTitle("Correct an assignment");
         cardLabel.setText("Submissions:");
         cardLayout.show(cardPanel, "submissionCard");
-        UserDaoInterface userDao = new UserDao();
+        UserService userService = new UserDao();
         submissionContent.setEditable(false);
 
         submissionPanel.setBorder(getRoundedBorder());
@@ -77,7 +77,7 @@ public class CorrectOrCheckGUI extends JFrame {
         for (Submission submission : submissionList) {
             Object[] rowData = {
                     submission.getStudentID(),
-                    userDao.getUserById(submission.getStudentID()).getUsername(),
+                    userService.getUserById(submission.getStudentID()).getUsername(),
                     submission.getSubmissionTime(),
                     submission.getSubmissionOrder(),
                     submission.getSubmissionStatus()

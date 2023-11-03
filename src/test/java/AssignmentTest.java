@@ -1,11 +1,6 @@
-import dao.AssignmentDaoInterface;
-import dao.CourseDaoInterface;
+import dao.AssignmentService;
 import dao.impl.AssignmentDao;
-import dao.impl.CourseDao;
-import dao.impl.UserDao;
 import domain.Assignment;
-import domain.Course;
-import domain.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,22 +15,22 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AssignmentTest {
-    private AssignmentDaoInterface assignmentDao;
+    private AssignmentService assignmentService;
 
     @Before
     public void setUp(){
-        assignmentDao = new AssignmentDao();
+        assignmentService = new AssignmentDao();
     }
 
     @After
     public void tearDown() {
-        assignmentDao = null;
+        assignmentService = null;
     }
 
     @Test
     public void testThatInsertAssignmentCanInsertRecordToAssignmentsTable() throws ParseException {
         Assignment assignment = InstanceUtil.getTestAssignmentInstance();
-        assertTrue(assignmentDao.insertAssignment(assignment));
-        assertTrue(assignmentDao.deleteAssignment(assignment));
+        assertTrue(assignmentService.insertAssignment(assignment));
+        assertTrue(assignmentService.deleteAssignment(assignment));
     }
 }

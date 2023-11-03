@@ -2,7 +2,7 @@ package dao;
 
 import domain.Preference;
 
-public interface PreferenceDaoInterface {
+public interface PreferenceService {
     boolean updatePreference(Preference updatedPreference);
 
     boolean resetPreference(int userId);

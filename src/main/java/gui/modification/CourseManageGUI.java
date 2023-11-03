@@ -1,8 +1,8 @@
 package gui.modification;
 
 import constants.UIConstants;
-import dao.CourseDaoInterface;
-import dao.CourseSelectionDaoInterface;
+import dao.CourseDaoService;
+import dao.CourseSelectionService;
 import dao.impl.CourseDao;
 import dao.impl.CourseSelectionDao;
 import domain.Course;
@@ -27,8 +27,7 @@ import java.util.Objects;
 @Slf4j
 public class CourseManageGUI extends JFrame {
     private final User user;
-    private final CourseDaoInterface courseDao;
-    private final CourseSelectionDaoInterface courseSelectionDao;
+    private final CourseDaoService courseService;
     private List<Course> courseList;
     public CourseManageGUI(User user) {
         this.setTitle("CourseManage");
@@ -42,9 +41,8 @@ public class CourseManageGUI extends JFrame {
         addComponents(Objects.requireNonNull(panel));
 
         this.user = user;
-        this.courseSelectionDao = new CourseSelectionDao();
-        this.courseDao = new CourseDao();
-        this.courseList = courseDao.getAllCourses();
+        this.courseService = new CourseDao();
+        this.courseList = courseService.getAllCourses();
 
         // Create a test panel to hold everything
         JPanel mainPanel = new JPanel();
@@ -150,7 +148,7 @@ public class CourseManageGUI extends JFrame {
     }
 
     private void NewCourse(String courseName, String courseDescription, String Instructor, String deadline) {
-        int newID = courseDao.FindMinUnusedCourseID();
+        int newID = courseService.FindMinUnusedCourseID();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date;
         try {
@@ -159,9 +157,10 @@ public class CourseManageGUI extends JFrame {
             throw new RuntimeException(e);
         }
         Course newCourse = new Course(newID, courseName, courseDescription, Instructor, date);
-        if (courseDao.doesCourseExist(newCourse)){
+        if (courseService.doesCourseExist(newCourse)){
             FrameUtil.showErrorDialog("Course is existing!");
-        }else{courseDao.newCourse(newCourse);}
+        }else{
+            courseService.newCourse(newCourse);}
     }
 
     private void addComponents(JPanel panel) {
@@ -208,7 +207,7 @@ public class CourseManageGUI extends JFrame {
         });
 
         deleteButton.addActionListener(e -> {
-            courseDao.deleteCourse(course);
+            courseService.deleteCourse(course);
         });
 
         JPanel buttonPanel = new JPanel();
@@ -288,13 +287,13 @@ public class CourseManageGUI extends JFrame {
     private void modify(String funcName,Course course, String content) {
         switch (funcName){
             case"CourseName":course.setCourseName(content);
-            courseDao.updateCourseNames(course,content);
+            courseService.updateCourseNames(course,content);
                 break;
             case"Description":course.setCourseDescription(content);
-            courseDao.updataCourseDescriptions(course,content);
+            courseService.updataCourseDescriptions(course,content);
                 break;
             case"Instructor":course.setInstructor(content);
-                courseDao.updateInstructor(course,content);
+                courseService.updateInstructor(course,content);
                 break;
             case"Deadline":modifyDeadline(course,content);
                 break;
@@ -311,7 +310,7 @@ public class CourseManageGUI extends JFrame {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        courseDao.updateDeadline(course,date);
+        courseService.updateDeadline(course,date);
     }
 
 

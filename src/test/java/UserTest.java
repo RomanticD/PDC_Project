@@ -1,4 +1,4 @@
-import dao.UserDaoInterface;
+import dao.UserService;
 import dao.impl.UserDao;
 import domain.User;
 import org.junit.After;
@@ -12,42 +12,42 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UserDaoTest {
-    private UserDaoInterface userDao;
+public class UserTest {
+    private UserService userService;
 
     @Before
     public void setUp() {
-        userDao = new UserDao();
+        userService = new UserDao();
     }
 
     @After
     public void tearDown() {
-        userDao = null;
+        userService = null;
     }
 
     @Test
     public void testThatCreateUserCanInsertRecordToUserTable(){
         User user = InstanceUtil.getTestUserInstance();
-        assertTrue(userDao.createUser(user));
-        assertTrue(userDao.deleteUserByUsername(user.getUsername()));
+        assertTrue(userService.createUser(user));
+        assertTrue(userService.deleteUserByUsername(user.getUsername()));
     }
 
     @Test
     public void testThatUserInfoCanBeFetched(){
         User user = InstanceUtil.getTestUserInstance();
 
-        assertTrue(userDao.createUser(user));
-        assertEquals(true, userDao.isUserExists(user.getUsername()));
-        assertTrue(userDao.deleteUserByUsername(user.getUsername()));
+        assertTrue(userService.createUser(user));
+        assertEquals(true, userService.isUserExists(user.getUsername()));
+        assertTrue(userService.deleteUserByUsername(user.getUsername()));
     }
 
     @Test
     public void testThatUpUserUsernameCanBeUpdated(){
         User user = InstanceUtil.getTestUserInstance();
 
-        assertTrue(userDao.createUser(user));
-        User updatedUser = userDao.updateUserUsername(user, "Test change username");
+        assertTrue(userService.createUser(user));
+        User updatedUser = userService.updateUserUsername(user, "Test change username");
         assertEquals("Test change username", updatedUser.getUsername());
-        assertTrue(userDao.deleteUserByUsername(user.getUsername()));
+        assertTrue(userService.deleteUserByUsername(user.getUsername()));
     }
 }

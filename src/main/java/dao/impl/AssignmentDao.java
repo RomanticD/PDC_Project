@@ -1,6 +1,6 @@
 package dao.impl;
 
-import dao.AssignmentDaoInterface;
+import dao.AssignmentService;
 import domain.Assignment;
 import lombok.extern.slf4j.Slf4j;
 import manager.DatabaseConnectionManager;
@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @Slf4j
-public class AssignmentDao implements AssignmentDaoInterface, Closeable{
+public class AssignmentDao implements AssignmentService, Closeable{
     private final Connection conn;
     private final CourseDao courseDao = new CourseDao();
 
