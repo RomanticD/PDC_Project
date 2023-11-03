@@ -204,17 +204,16 @@ public class CourseDao implements CourseDaoInterface, Closeable {
     }
 
     @Override
-    public boolean newCourse(Course newcourse) {
-        String sql = "insert into course (COURSEID,COURSENAME,COURSEDESCRIPTON,INSTRUCTOR,DEADLINE) values (?,?,?,?,?)";
+    public boolean newCourse(Course newCourse) {
+        String sql = "insert into courses (COURSEID,COURSENAME,COURSEDESCRIPTION,INSTRUCTOR,DEADLINE) values (?,?,?,?,?)";
         PreparedStatement ps = null;
 
         try {
             ps = conn.prepareStatement(sql);
-            ps.setInt(1, newcourse.getCourseID());
-            ps.setString(2, newcourse.getCourseName());
-            ps.setString(3, newcourse.getCourseDescription());
-            ps.setString(4, newcourse.getInstructor());
-            ps.setDate(5, (java.sql.Date) newcourse.getDeadLine());
+            ps.setString(2, newCourse.getCourseName());
+            ps.setString(3, newCourse.getCourseDescription());
+            ps.setString(4, newCourse.getInstructor());
+            ps.setDate(5, new java.sql.Date(newCourse.getDeadLine().getTime()));
             log.info("Executing SQL query: " + ps);
             ps.execute();
         } catch (SQLException ex) {
@@ -226,18 +225,17 @@ public class CourseDao implements CourseDaoInterface, Closeable {
     @Override
     public boolean deleteCourse(Course course) {
         if(!doesCourseExist(course)){
+            log.info("Course does NOT exist!");
             return false;
         }
 
-        String query = "DELETE FROM course WHERE COURSEID = ? AND COURSENAME";
+        String query = "DELETE FROM courses WHERE COURSEID = ? AND COURSENAME = ?";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, course.getCourseID());
             preparedStatement.setString(2, course.getCourseName());
             preparedStatement.executeUpdate();
-
             log.info("Executing SQL query: deleteCourse");
-
         } catch (SQLException e) {
             log.error("Error when deleteCourse: "  + e.getMessage());
             return false;
@@ -247,7 +245,7 @@ public class CourseDao implements CourseDaoInterface, Closeable {
 
     @Override
     public boolean doesCourseExist(Course course) {
-        String query = "SELECT COUNT(*) FROM course WHERE COURSEID = ? OR COURSENAME = ?";
+        String query = "SELECT COUNT(*) FROM courses WHERE COURSEID = ? OR COURSENAME = ?";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, course.getCourseID());
@@ -255,22 +253,19 @@ public class CourseDao implements CourseDaoInterface, Closeable {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     int count = resultSet.getInt(1);
-                    return count > 0; // If count == 0, the assignment doesn't exist
+                    log.info("Executing SQL query: doesCourseExist，result: " + (count > 0 ? "true" : "false"));
+                    return count > 0;
                 }
             }
-
-            log.info("Executing SQL query: doesCourseExist");
-
         } catch (SQLException e) {
             log.error("Error when checkIfCourseExists: "  + e.getMessage());
         }
-
         return false;
     }
 
     @Override
     public int FindMinUnusedCourseID() {
-        String query = "SELECT COURSEID FROM COURSE";
+        String query = "SELECT COURSEID FROM courses";
         int muID = 0;
         try{
             PreparedStatement preparedStatement = conn.prepareStatement(query);

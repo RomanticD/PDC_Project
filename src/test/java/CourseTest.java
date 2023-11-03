@@ -19,7 +19,6 @@ public class CourseTest {
     private CourseDaoInterface courseDao;
     @Before
     public void setUp() {
-        // 在每个测试方法之前初始化测试实例
         courseDao = new CourseDao();
     }
 
