@@ -4,10 +4,10 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import com.toedter.calendar.JDateChooser;
-import dao.AssignmentService;
-import dao.CourseService;
-import dao.impl.AssignmentDao;
-import dao.impl.Course;
+import service.AssignmentService;
+import service.CourseService;
+import service.dao.AssignmentDao;
+import service.dao.CourseDao;
 import domain.Assignment;
 import domain.User;
 import util.FrameUtil;
@@ -124,7 +124,7 @@ public class ManageAssignmentGUI extends JFrame {
         nameText.setBackground(customColor);
 
         AssignmentService assignmentService = new AssignmentDao();
-        CourseService courseService = new Course();
+        CourseService courseService = new CourseDao();
         DefaultListModel<String> courseListModel = new DefaultListModel<>();
 
         CardLayout cardLayout = (CardLayout) cardPanel.getLayout();

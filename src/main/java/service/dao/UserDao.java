@@ -1,6 +1,6 @@
-package dao.impl;
+package service.dao;
 
-import dao.UserService;
+import service.UserService;
 import manager.DatabaseConnectionManager;
 import domain.enums.Role;
 import domain.User;

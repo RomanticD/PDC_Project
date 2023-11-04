@@ -3,11 +3,11 @@ package gui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import dao.SubmissionService;
+import service.SubmissionService;
 import domain.Assignment;
 import domain.Submission;
 import domain.User;
-import dao.impl.SubmissionDao;
+import service.dao.SubmissionDao;
 import util.FrameUtil;
 
 import javax.swing.*;

@@ -1,8 +1,8 @@
 package gui.modification;
 
 import constants.UIConstants;
-import dao.CourseService;
-import dao.impl.Course;
+import service.CourseService;
+import service.dao.CourseDao;
 import domain.User;
 import gui.AdminGUI;
 import gui.sub.BackgroundPanel;
@@ -38,7 +38,7 @@ public class CourseManageGUI extends JFrame {
         addComponents(Objects.requireNonNull(panel));
 
         this.user = user;
-        this.courseService = new Course();
+        this.courseService = new CourseDao();
         this.courseList = courseService.getAllCourses();
 
         // Create a test panel to hold everything

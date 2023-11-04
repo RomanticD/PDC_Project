@@ -1,6 +1,6 @@
-package dao.impl;
+package service.dao;
 
-import dao.CourseSelectionService;
+import service.CourseSelectionService;
 import manager.DatabaseConnectionManager;
 import domain.Course;
 import domain.User;

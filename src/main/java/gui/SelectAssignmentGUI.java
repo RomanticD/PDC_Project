@@ -3,12 +3,12 @@ package gui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import dao.AssignmentService;
-import dao.CourseService;
-import dao.impl.AssignmentDao;
+import service.AssignmentService;
+import service.CourseService;
+import service.dao.AssignmentDao;
 import domain.Assignment;
 import domain.User;
-import dao.impl.Course;
+import service.dao.CourseDao;
 import util.FrameUtil;
 
 import javax.swing.*;
@@ -57,7 +57,7 @@ public class SelectAssignmentGUI extends JFrame {
         }
 
         AssignmentService assignmentService = new AssignmentDao();
-        CourseService courseService = new Course();
+        CourseService courseService = new CourseDao();
 
         DefaultListModel<String> courseListModel = new DefaultListModel<>();
         DefaultListModel<String> assignmentListModel = new DefaultListModel<>();

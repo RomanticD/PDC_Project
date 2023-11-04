@@ -1,4 +1,4 @@
-package dao;
+package service;
 
 import domain.Course;
 import domain.User;

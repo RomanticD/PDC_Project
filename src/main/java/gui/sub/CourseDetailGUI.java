@@ -1,8 +1,8 @@
 package gui.sub;
 
 import constants.UIConstants;
-import dao.CourseSelectionService;
-import dao.impl.CourseSelectionDao;
+import service.CourseSelectionService;
+import service.dao.CourseSelectionDao;
 import domain.Course;
 import domain.User;
 import domain.enums.CourseDetailPageFrom;

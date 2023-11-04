@@ -1,8 +1,8 @@
 package gui.sub;
 
 import constants.UIConstants;
-import dao.UserService;
-import dao.impl.UserDao;
+import service.UserService;
+import service.dao.UserDao;
 import domain.User;
 import gui.LoginGUI;
 import gui.ProfileGUI;

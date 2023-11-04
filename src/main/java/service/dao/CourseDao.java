@@ -1,6 +1,6 @@
-package dao.impl;
+package service.dao;
 
-import dao.CourseService;
+import service.CourseService;
 import manager.DatabaseConnectionManager;
 import domain.User;
 import lombok.extern.slf4j.Slf4j;
@@ -14,11 +14,11 @@ import java.sql.SQLException;
 import java.util.*;
 
 @Slf4j
-public class Course implements CourseService, Closeable {
+public class CourseDao implements CourseService, Closeable {
     private final DatabaseConnectionManager databaseConnectionManager;
     private final Connection conn;
 
-    public Course() {
+    public CourseDao() {
         databaseConnectionManager = new DatabaseConnectionManager();
         conn = databaseConnectionManager.getConnection();
     }

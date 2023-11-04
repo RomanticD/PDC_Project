@@ -1,5 +1,5 @@
-import dao.CourseService;
-import dao.impl.Course;
+import service.CourseService;
+import service.dao.CourseDao;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,11 +13,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CourseTest {
+public class CourseDaoTest {
     private CourseService courseService;
     @Before
     public void setUp() {
-        courseService = new Course();
+        courseService = new CourseDao();
     }
 
     @After

@@ -1,5 +1,5 @@
-import dao.AssignmentService;
-import dao.impl.AssignmentDao;
+import service.AssignmentService;
+import service.dao.AssignmentDao;
 import domain.Assignment;
 import org.junit.After;
 import org.junit.Before;

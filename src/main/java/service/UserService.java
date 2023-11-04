@@ -1,4 +1,4 @@
-package dao;
+package service;
 
 import domain.enums.Role;
 import domain.User;

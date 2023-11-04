@@ -1,6 +1,6 @@
-package dao.impl;
+package service.dao;
 
-import dao.PreferenceService;
+import service.PreferenceService;
 import domain.Preference;
 import lombok.extern.slf4j.Slf4j;
 import manager.DatabaseConnectionManager;

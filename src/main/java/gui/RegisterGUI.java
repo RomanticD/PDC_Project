@@ -2,8 +2,8 @@ package gui;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import constants.UIConstants;
-import dao.UserService;
-import dao.impl.UserDao;
+import service.UserService;
+import service.dao.UserDao;
 import domain.User;
 import domain.enums.Role;
 import gui.sub.PasswordStrengthStatus;

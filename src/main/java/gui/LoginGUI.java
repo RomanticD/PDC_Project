@@ -1,10 +1,10 @@
 package gui;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import dao.PreferenceService;
-import dao.UserService;
-import dao.impl.PreferenceDao;
-import dao.impl.UserDao;
+import service.PreferenceService;
+import service.UserService;
+import service.dao.PreferenceDao;
+import service.dao.UserDao;
 import domain.Preference;
 import domain.User;
 import domain.enums.Role;

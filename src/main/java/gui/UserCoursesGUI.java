@@ -1,8 +1,8 @@
 package gui;
 
 import constants.ExportConstants;
-import dao.CourseService;
-import dao.impl.Course;
+import service.CourseService;
+import service.dao.CourseDao;
 import domain.User;
 import domain.enums.CourseDetailPageFrom;
 import gui.sub.CourseDetailGUI;
@@ -29,7 +29,7 @@ public class UserCoursesGUI extends JFrame{
         this.setSize(500, 600);
         this.setLocationRelativeTo(null);
         this.user = user;
-        this.courseService = new Course();
+        this.courseService = new CourseDao();
         this.courseList = courseService.getCourseByUser(user);
 
         JPanel mainPanel = new JPanel();

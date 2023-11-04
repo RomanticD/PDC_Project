@@ -1,6 +1,7 @@
-package dao.impl;
+package service.dao;
 
-import dao.AssignmentService;
+import service.AssignmentService;
+import service.CourseService;
 import domain.Assignment;
 import lombok.extern.slf4j.Slf4j;
 import manager.DatabaseConnectionManager;
@@ -15,7 +16,7 @@ import java.util.List;
 @Slf4j
 public class AssignmentDao implements AssignmentService, Closeable{
     private final Connection conn;
-    private final Course courseDao = new Course();
+    private final CourseService courseService = new CourseDao();
 
     public AssignmentDao() {
         DatabaseConnectionManager databaseConnectionManager = new DatabaseConnectionManager();
@@ -149,7 +150,7 @@ public class AssignmentDao implements AssignmentService, Closeable{
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setString(1, assignmentName);
-            preparedStatement.setInt(2, courseDao.getCourseIDByName(courseName));
+            preparedStatement.setInt(2, courseService.getCourseIDByName(courseName));
 
             log.info("Executing SQL query: getAssignmentByAssignmentAndCourseName");
 

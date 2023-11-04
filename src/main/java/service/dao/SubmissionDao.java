@@ -1,6 +1,6 @@
-package dao.impl;
+package service.dao;
 
-import dao.SubmissionService;
+import service.SubmissionService;
 import domain.Assignment;
 import domain.Submission;
 import lombok.extern.slf4j.Slf4j;

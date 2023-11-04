@@ -1,10 +1,10 @@
 package gui;
 
 import constants.UIConstants;
-import dao.CourseSelectionService;
-import dao.impl.CourseSelectionDao;
-import dao.CourseService;
-import dao.impl.Course;
+import service.CourseSelectionService;
+import service.dao.CourseSelectionDao;
+import service.CourseService;
+import service.dao.CourseDao;
 import domain.User;
 import domain.enums.CourseDetailPageFrom;
 import gui.sub.CourseDetailGUI;
@@ -31,7 +31,7 @@ public class CourseGUI extends JFrame {
         this.setLocationRelativeTo(null);
         this.user = user;
         this.courseSelectionService = new CourseSelectionDao();
-        this.courseService = new Course();
+        this.courseService = new CourseDao();
         this.courseList = courseService.getAllCourses();
 
         // Create a test panel to hold everything

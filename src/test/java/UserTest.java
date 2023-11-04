@@ -1,5 +1,5 @@
-import dao.UserService;
-import dao.impl.UserDao;
+import service.UserService;
+import service.dao.UserDao;
 import domain.User;
 import org.junit.After;
 import org.junit.Before;
