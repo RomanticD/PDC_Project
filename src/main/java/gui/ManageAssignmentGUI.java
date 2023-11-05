@@ -29,7 +29,7 @@ public class ManageAssignmentGUI extends JFrame {
     private JTextArea nameText;
     private JTextArea contentText;
     private JButton backButton;
-    private JButton arrangeButton;
+    private JButton createButton;
     private JLabel assignmentName;
     private JLabel assignmentContent;
     private JPanel mainPanel;
@@ -48,6 +48,9 @@ public class ManageAssignmentGUI extends JFrame {
     private JLabel minuteLabel;
     private JLabel dateLabel;
     private JPanel contentPanel;
+    private JButton alterTimeButton;
+    private JButton alterContentButton;
+    private JPanel deadlinePanel;
 
 
     AssignmentService assignmentService = new AssignmentDao();
@@ -57,6 +60,7 @@ public class ManageAssignmentGUI extends JFrame {
         $$$setupUI$$$();
         CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
         contentPanel.setBorder(getRoundedBorder());
+        createButton.setVisible(false);
 
         nameText.setEditable(false);
         formerContentArea.setEditable(false);
@@ -69,7 +73,7 @@ public class ManageAssignmentGUI extends JFrame {
         dateChooser.setForeground(Color.WHITE);
         createTimeSpinner(hourSpinner, minuteSpinner);
 
-        arrangeButton.addActionListener(e -> {
+        alterTimeButton.addActionListener(e -> {
             Date selectedDate = dateChooser.getDate();
             int selectedHour = (int) hourSpinner.getValue();
             int selectedMinute = (int) minuteSpinner.getValue();
@@ -82,16 +86,25 @@ public class ManageAssignmentGUI extends JFrame {
             }
             Date deadline = combineDateAndTime(selectedDate, selectedTime);
 
-            assignment.setAssignmentContent(contentText.getText());
             assignment.setDeadLine(deadline);
 
             if (assignmentService.updateAssignment(assignment)) {
-                FrameUtil.showConfirmation(ManageAssignmentGUI.this, "Arrange successfully!");
-                new SelectAssignmentGUI(user);
+                FrameUtil.showConfirmation(ManageAssignmentGUI.this, "Alter successfully!");
             } else {
                 FrameUtil.showConfirmation(ManageAssignmentGUI.this, "Something wrong!");
-                new ManageAssignmentGUI(user, assignment);
             }
+            new ManageAssignmentGUI(user, assignment);
+        });
+
+        alterContentButton.addActionListener(e -> {
+            assignment.setAssignmentContent(contentText.getText());
+
+            if (assignmentService.updateAssignment(assignment)) {
+                FrameUtil.showConfirmation(ManageAssignmentGUI.this, "Alter successfully!");
+            } else {
+                FrameUtil.showConfirmation(ManageAssignmentGUI.this, "Something wrong!");
+            }
+            new ManageAssignmentGUI(user, assignment);
         });
 
         backButton.addActionListener(e -> {
@@ -119,6 +132,8 @@ public class ManageAssignmentGUI extends JFrame {
     public ManageAssignmentGUI(User user) {
         $$$setupUI$$$();
 
+        alterContentButton.setVisible(false);
+        alterTimeButton.setVisible(false);
         contentPanel.setBorder(getRoundedBorder());
         Color customColor = new Color(200, 200, 200);
         nameText.setBackground(customColor);
@@ -140,7 +155,7 @@ public class ManageAssignmentGUI extends JFrame {
         dateChooser.setForeground(Color.WHITE);
         createTimeSpinner(hourSpinner, minuteSpinner);
 
-        arrangeButton.addActionListener(e -> {
+        createButton.addActionListener(e -> {
             // Get the selected date
             Date selectedDate = dateChooser.getDate();
             int selectedHour = (int) hourSpinner.getValue();
@@ -258,14 +273,14 @@ public class ManageAssignmentGUI extends JFrame {
         toolBar1.add(backButton);
         final Spacer spacer1 = new Spacer();
         toolBar1.add(spacer1);
-        arrangeButton = new JButton();
-        arrangeButton.setBackground(new Color(-2104859));
-        arrangeButton.setEnabled(true);
-        Font arrangeButtonFont = this.$$$getFont$$$("JetBrains Mono", Font.BOLD, 16, arrangeButton.getFont());
-        if (arrangeButtonFont != null) arrangeButton.setFont(arrangeButtonFont);
-        arrangeButton.setForeground(new Color(-15526864));
-        arrangeButton.setText("Create");
-        toolBar1.add(arrangeButton);
+        createButton = new JButton();
+        createButton.setBackground(new Color(-2104859));
+        createButton.setEnabled(true);
+        Font arrangeButtonFont = this.$$$getFont$$$("JetBrains Mono", Font.BOLD, 16, createButton.getFont());
+        if (arrangeButtonFont != null) createButton.setFont(arrangeButtonFont);
+        createButton.setForeground(new Color(-15526864));
+        createButton.setText("Create");
+        toolBar1.add(createButton);
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(7, 5, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(panel1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(225, -1), null, null, 0, false));

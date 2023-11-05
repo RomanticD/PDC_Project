@@ -91,7 +91,7 @@
             </constraints>
             <properties>
               <font name="Droid Sans Mono" size="16" style="0"/>
-              <text value="Your submission contents:"/>
+              <text value="Enter the content you want to submit:"/>
             </properties>
           </component>
           <component id="62b4f" class="javax.swing.JTable" binding="submissionTable">

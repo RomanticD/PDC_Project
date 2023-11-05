@@ -3,6 +3,7 @@ package gui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import domain.Course;
 import service.AssignmentService;
 import service.CourseService;
 import service.dao.AssignmentDao;
@@ -182,7 +183,7 @@ public class SelectAssignmentGUI extends JFrame {
         showButton.addActionListener(e -> {
             courseListModel.clear();
             if (showAll[0]) {
-                for (domain.Course course : courseService.getAllCourses()) {
+                for (Course course : courseService.getAllCourses()) {
                     courseListModel.addElement(course.getCourseName());
                 }
                 showButton.setText("Show Yours");
@@ -307,7 +308,7 @@ public class SelectAssignmentGUI extends JFrame {
         assignments = new JLabel();
         Font assignmentsFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 16, assignments.getFont());
         if (assignmentsFont != null) assignments.setFont(assignmentsFont);
-        assignments.setText("Your assignments:");
+        assignments.setText("Assignments:");
         pnlList.add(assignments, new GridConstraints(0, 3, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         deadLineLabel = new JLabel();
         deadLineLabel.setBackground(new Color(-4474633));

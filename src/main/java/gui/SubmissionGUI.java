@@ -210,7 +210,7 @@ public class SubmissionGUI extends JFrame {
         programmeLabel = new JLabel();
         Font programmeLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 16, programmeLabel.getFont());
         if (programmeLabelFont != null) programmeLabel.setFont(programmeLabelFont);
-        programmeLabel.setText("Your submission contents:");
+        programmeLabel.setText("Enter the content you want to submit:");
         mainPanel.add(programmeLabel, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(305, 17), null, 0, false));
         submissionTable = new JTable();
         submissionTable.setBackground(new Color(-6837066));

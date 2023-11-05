@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="622" height="520"/>
+      <xy x="20" y="20" width="789" height="526"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -29,7 +29,7 @@
           <hspacer id="8aca5">
             <constraints/>
           </hspacer>
-          <component id="c8bb7" class="javax.swing.JButton" binding="arrangeButton">
+          <component id="c8bb7" class="javax.swing.JButton" binding="createButton">
             <constraints/>
             <properties>
               <background color="-2104859"/>
@@ -41,7 +41,7 @@
           </component>
         </children>
       </toolbar>
-      <grid id="13884" layout-manager="GridLayoutManager" row-count="7" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="13884" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -62,20 +62,9 @@
               <text value="Assignment name:"/>
             </properties>
           </component>
-          <component id="3641" class="javax.swing.JLabel" binding="assignmentContent">
-            <constraints>
-              <grid row="0" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                <preferred-size width="250" height="17"/>
-              </grid>
-            </constraints>
-            <properties>
-              <font name="Droid Sans Mono" size="18" style="0"/>
-              <text value="Write the assignment content:"/>
-            </properties>
-          </component>
           <grid id="28d7d" binding="cardPanel" layout-manager="CardLayout" hgap="0" vgap="0">
             <constraints>
-              <grid row="3" column="0" row-span="4" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+              <grid row="3" column="0" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <minimum-size width="250" height="250"/>
                 <preferred-size width="-1" height="100"/>
                 <maximum-size width="-1" height="250"/>
@@ -156,87 +145,10 @@
               <text value="Card content"/>
             </properties>
           </component>
-          <component id="8bc90" class="javax.swing.JSpinner" binding="hourSpinner">
-            <constraints>
-              <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="75" height="30"/>
-              </grid>
-            </constraints>
-            <properties>
-              <font name="Droid Sans Mono" size="16" style="1"/>
-            </properties>
-          </component>
-          <component id="3bb5d" class="com.toedter.calendar.JDateChooser" binding="dateChooser" custom-create="true">
-            <constraints>
-              <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                <minimum-size width="100" height="-1"/>
-                <preferred-size width="150" height="30"/>
-              </grid>
-            </constraints>
-          </component>
-          <component id="88d9a" class="javax.swing.JSpinner" binding="minuteSpinner">
-            <constraints>
-              <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="86" height="30"/>
-              </grid>
-            </constraints>
-            <properties>
-              <font name="Droid Sans Mono" size="16" style="1"/>
-            </properties>
-          </component>
-          <component id="77df1" class="javax.swing.JLabel" binding="timeLabel">
-            <constraints>
-              <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                <maximum-size width="5" height="-1"/>
-              </grid>
-            </constraints>
-            <properties>
-              <font name="Droid Sans Mono" size="16" style="1"/>
-              <text value=":"/>
-            </properties>
-          </component>
-          <component id="1ad37" class="javax.swing.JLabel" binding="hourLabel">
-            <constraints>
-              <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <font name="Droid Sans Mono" size="14" style="0"/>
-              <text value="hour(0-23h):"/>
-            </properties>
-          </component>
-          <component id="41c7a" class="javax.swing.JLabel" binding="minuteLabel">
-            <constraints>
-              <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                <preferred-size width="86" height="17"/>
-              </grid>
-            </constraints>
-            <properties>
-              <font name="Droid Sans Mono" size="14" style="0"/>
-              <text value="minute(0-59m):"/>
-            </properties>
-          </component>
-          <component id="694f2" class="javax.swing.JLabel" binding="deadlineLabel">
-            <constraints>
-              <grid row="4" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <font name="Droid Sans Mono" size="18" style="0"/>
-              <text value="Choose your deadline:"/>
-            </properties>
-          </component>
-          <component id="deb71" class="javax.swing.JLabel" binding="dateLabel">
-            <constraints>
-              <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <font name="Droid Sans Mono" size="14" style="0"/>
-              <text value="date:"/>
-            </properties>
-          </component>
           <grid id="24eef" binding="contentPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <grid row="1" column="1" row-span="3" col-span="4" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="1" row-span="3" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-15526864"/>
@@ -254,6 +166,135 @@
                   <font name="Monaco" size="14" style="0"/>
                   <foreground color="-15526864"/>
                   <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <component id="3641" class="javax.swing.JLabel" binding="assignmentContent">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="173" height="17"/>
+              </grid>
+            </constraints>
+            <properties>
+              <font name="Droid Sans Mono" size="18" style="0"/>
+              <text value="Write the assignment content:"/>
+            </properties>
+          </component>
+          <component id="33f99" class="javax.swing.JButton" binding="alterContentButton">
+            <constraints>
+              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-2104859"/>
+              <font name="JetBrains Mono" size="16" style="1"/>
+              <foreground color="-15526864"/>
+              <text value="Alter"/>
+            </properties>
+          </component>
+          <hspacer id="394d3">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </hspacer>
+          <grid id="811e8" binding="deadlinePanel" layout-manager="GridLayoutManager" row-count="3" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="4" column="1" row-span="1" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="694f2" class="javax.swing.JLabel" binding="deadlineLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Droid Sans Mono" size="18" style="0"/>
+                  <text value="Choose your deadline:"/>
+                </properties>
+              </component>
+              <component id="deb71" class="javax.swing.JLabel" binding="dateLabel">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="173" height="17"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <font name="Droid Sans Mono" size="14" style="0"/>
+                  <text value="date:"/>
+                </properties>
+              </component>
+              <component id="3bb5d" class="com.toedter.calendar.JDateChooser" binding="dateChooser" custom-create="true">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <minimum-size width="100" height="-1"/>
+                    <preferred-size width="173" height="30"/>
+                  </grid>
+                </constraints>
+              </component>
+              <component id="1ad37" class="javax.swing.JLabel" binding="hourLabel">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font name="Droid Sans Mono" size="14" style="0"/>
+                  <text value="hour(0-23h):"/>
+                </properties>
+              </component>
+              <component id="884b3" class="javax.swing.JButton" binding="alterTimeButton">
+                <constraints>
+                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="112" height="30"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-2104859"/>
+                  <font name="JetBrains Mono" size="16" style="1"/>
+                  <foreground color="-15526864"/>
+                  <text value="Alter"/>
+                </properties>
+              </component>
+              <component id="41c7a" class="javax.swing.JLabel" binding="minuteLabel">
+                <constraints>
+                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                    <preferred-size width="86" height="17"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <font name="Droid Sans Mono" size="14" style="0"/>
+                  <text value="minute(0-59m):"/>
+                </properties>
+              </component>
+              <component id="8bc90" class="javax.swing.JSpinner" binding="hourSpinner">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="75" height="30"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <font name="Droid Sans Mono" size="16" style="1"/>
+                </properties>
+              </component>
+              <component id="88d9a" class="javax.swing.JSpinner" binding="minuteSpinner">
+                <constraints>
+                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="75" height="30"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <font name="Droid Sans Mono" size="16" style="1"/>
+                </properties>
+              </component>
+              <component id="77df1" class="javax.swing.JLabel" binding="timeLabel">
+                <constraints>
+                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                    <maximum-size width="5" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <font name="Droid Sans Mono" size="16" style="1"/>
+                  <text value=":"/>
                 </properties>
               </component>
             </children>
