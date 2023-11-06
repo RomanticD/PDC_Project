@@ -3,6 +3,7 @@ package gui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import service.SubmissionService;
 import service.UserService;
 import service.dao.SubmissionDao;
 import service.dao.UserDao;
@@ -51,7 +52,7 @@ public class CorrectOrCheckGUI extends JFrame {
     private JLabel noContentLabel;
     private JLabel downloadLabel;
 
-    SubmissionDao submissionDao = new SubmissionDao();
+    SubmissionService submissionService = new SubmissionDao();
 
     // Click the Correct button in ManageAssignmentGUI
     public CorrectOrCheckGUI(User user, Assignment assignment) {
@@ -76,7 +77,7 @@ public class CorrectOrCheckGUI extends JFrame {
         tableModel.addColumn("Order");
         tableModel.addColumn("Status");
 
-        List<Submission> submissionList = submissionDao.getSubmissionsFromAssignment(assignment);
+        List<Submission> submissionList = submissionService.getSubmissionsFromAssignment(assignment);
         for (Submission submission : submissionList) {
             Object[] rowData = {
                     submission.getStudentID(),
@@ -109,7 +110,7 @@ public class CorrectOrCheckGUI extends JFrame {
             if (selectedRow != -1) {
                 int studentID = (int) tableModel.getValueAt(selectedRow, 0);
                 int submissionOrder = (int) tableModel.getValueAt(selectedRow, 3);
-                Submission submission = submissionDao.getSubmissionFromTwoIDsAndOrder(assignment.getAssignmentID(), studentID, submissionOrder);
+                Submission submission = submissionService.getSubmissionFromTwoIDsAndOrder(assignment.getAssignmentID(), studentID, submissionOrder);
                 submissionContent.setText(submission.getSubmissionContent());
             }
         });
@@ -121,11 +122,11 @@ public class CorrectOrCheckGUI extends JFrame {
             if (selectedRow >= 0) {
                 int studentID = (int) tableModel.getValueAt(selectedRow, 0);
                 int submissionOrder = (int) tableModel.getValueAt(selectedRow, 3);
-                Submission submission = submissionDao.getSubmissionFromTwoIDsAndOrder(assignment.getAssignmentID(), studentID, submissionOrder);
+                Submission submission = submissionService.getSubmissionFromTwoIDsAndOrder(assignment.getAssignmentID(), studentID, submissionOrder);
                 submission.setEvaluation(evaluationContent.getText());
                 submission.setScores((int) scoresSpinner.getValue());
 
-                if (submissionDao.correctSubmission(submission)) {
+                if (submissionService.correctSubmission(submission)) {
                     FrameUtil.showConfirmation(CorrectOrCheckGUI.this, "Correct successfully");
                 } else {
                     FrameUtil.showConfirmation(CorrectOrCheckGUI.this, "Something wrong");
@@ -148,7 +149,7 @@ public class CorrectOrCheckGUI extends JFrame {
                 CorrectOrCheckGUI.this.dispose();
                 int studentID = (int) tableModel.getValueAt(selectedRow, 0);
                 int submissionOrder = (int) tableModel.getValueAt(selectedRow, 3);
-                Submission submission = submissionDao.getSubmissionFromTwoIDsAndOrder(assignment.getAssignmentID(), studentID, submissionOrder);
+                Submission submission = submissionService.getSubmissionFromTwoIDsAndOrder(assignment.getAssignmentID(), studentID, submissionOrder);
 
                 new CorrectOrCheckGUI(user, assignment, submission);
             } else {
@@ -208,7 +209,7 @@ public class CorrectOrCheckGUI extends JFrame {
             operationButton.setVisible(false);
         }
         operationButton.addActionListener(e -> {
-            if (submissionDao.deleteSubmission(submission)) {
+            if (submissionService.deleteSubmission(submission)) {
                 FrameUtil.showConfirmation(CorrectOrCheckGUI.this, "Delete successfully!");
             } else {
                 FrameUtil.showConfirmation(CorrectOrCheckGUI.this, "Something wrong!");

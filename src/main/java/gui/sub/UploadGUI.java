@@ -1,16 +1,15 @@
-package gui;
+package gui.sub;
 import lombok.extern.slf4j.Slf4j;
 import util.FrameUtil;
 import util.MethodUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
 
 import static constants.ExportConstants.UPLOADED_TO_PATH;
 
@@ -22,10 +21,18 @@ public class UploadGUI extends JFrame {
 
     public UploadGUI() {
         setTitle("Upload your file");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setSize(400, 180);
         setLocationRelativeTo(null);
         setLayout(new GridLayout(4, 1));
+
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                UploadGUI.this.dispose();
+                log.info("Your closed the upload GUI");
+            }
+        });
 
         sourceField = new JTextField();
         sourceField.setBorder(BorderFactory.createTitledBorder("Your file path"));

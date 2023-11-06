@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Clock extends JComponent {
-
     private BufferedImage background;
     private Time time = new Time();
     private Thread thread;

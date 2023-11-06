@@ -11,6 +11,7 @@ public interface UserService {
     boolean createUser(User newUser);
 
     boolean isUserExists(String username);
+
     User updateUserUsername(User user, String newUsername);
 
     User updateUserPassword(User user, String newPassword);

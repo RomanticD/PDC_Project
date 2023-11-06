@@ -1,12 +1,13 @@
 package gui.sub.clock;
 
+import lombok.Getter;
 import util.GraphicsUtil;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+@Getter
 public class ShadowRenderer {
-
     // size of the shadow in pixels (defines the fuzziness)
     private int size = 5;
 
@@ -24,18 +25,6 @@ public class ShadowRenderer {
         this.size = size;
         this.opacity = opacity;
         this.color = color;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public float getOpacity() {
-        return opacity;
-    }
-
-    public int getSize() {
-        return size;
     }
 
     public BufferedImage createShadow(final BufferedImage image) {
@@ -101,13 +90,12 @@ public class ShadowRenderer {
                 int a = hSumLookup[aSum];
                 dstBuffer[dstOffset++] = a << 24;   // store the alpha value only
                 // the shadow color will be added in the next pass
-
-                aSum -= aHistory[historyIdx]; // substract the oldest pixel from the sum
+                aSum -= aHistory[historyIdx];
 
                 // extract the new pixel ...
                 a = srcBuffer[srcOffset + srcX] >>> 24;
-                aHistory[historyIdx] = a;   // ... and store its value into history
-                aSum += a;                  // ... and add its value to the sum
+                aHistory[historyIdx] = a;
+                aSum += a;
 
                 if (++historyIdx >= shadowSize) {
                     historyIdx -= shadowSize;
@@ -120,7 +108,6 @@ public class ShadowRenderer {
                 int a = hSumLookup[aSum];
                 dstBuffer[dstOffset++] = a << 24;
 
-                // substract the oldest pixel from the sum ... and nothing new to add !
                 aSum -= aHistory[historyIdx];
 
                 if (++historyIdx >= shadowSize) {
@@ -155,11 +142,11 @@ public class ShadowRenderer {
                 int a = vSumLookup[aSum];
                 dstBuffer[bufferOffset] = a << 24 | shadowRgb;  // store alpha value + shadow color
 
-                aSum -= aHistory[historyIdx];   // substract the oldest pixel from the sum
+                aSum -= aHistory[historyIdx];
 
-                a = dstBuffer[bufferOffset + lastPixelOffset] >>> 24;   // extract the new pixel ...
-                aHistory[historyIdx] = a;                               // ... and store its value into history
-                aSum += a;                                              // ... and add its value to the sum
+                a = dstBuffer[bufferOffset + lastPixelOffset] >>> 24;
+                aHistory[historyIdx] = a;
+                aSum += a;
 
                 if (++historyIdx >= shadowSize) {
                     historyIdx -= shadowSize;
@@ -172,7 +159,7 @@ public class ShadowRenderer {
                 int a = vSumLookup[aSum];
                 dstBuffer[bufferOffset] = a << 24 | shadowRgb;
 
-                aSum -= aHistory[historyIdx];   // substract the oldest pixel from the sum
+                aSum -= aHistory[historyIdx];
 
                 if (++historyIdx >= shadowSize) {
                     historyIdx -= shadowSize;

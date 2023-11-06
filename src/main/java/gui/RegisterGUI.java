@@ -14,6 +14,7 @@ import util.FrameUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 @Slf4j
@@ -69,47 +70,8 @@ public class RegisterGUI extends JPanel {
 
         passwordStrengthStatus.initPasswordField(txtPassword);
 
-        cmdRegister.addActionListener(e -> {
-            String name = txtFirstName.getText() + " " + txtLastName.getText();
-            String username = txtUsername.getText();
-            String password = String.valueOf(txtPassword.getPassword());
-            String repeatedPassword = String.valueOf(txtConfirmPassword.getPassword());
-            String email = txtEmail.getText();
-            Boolean isAdmin = isSelectedRoleAdmin();
-
-            User newUser = User.builder()
-                    .name(name)
-                    .username(username)
-                    .password(password)
-                    .email(email)
-                    .build();
-
-            if (isAdmin) {
-                newUser.setRole(Role.ADMIN);
-            }else{
-                newUser.setRole(Role.USER);
-            }
-
-            try {
-                if (validateInput(username, password, repeatedPassword)) {
-                    if (!userService.isUserExists(username)) {
-                        if (userService.createUser(newUser)) {
-                            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-                            frame.dispose();
-                            new RegisterSuccessGUI(new JFrame());
-                        }
-                    } else {
-                        FrameUtil.showErrorDialog("The account has existed!");
-
-                        log.warn("Account Existed!");
-                        FrameUtil.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
-                    }
-                }
-            } catch (SQLException | ClassNotFoundException ex) {
-                ex.printStackTrace();
-            }
-            RegisterGUI.this.removeNotify();
-        });
+        ActionListener registerAction = e -> handleRegisterAction();
+        cmdRegister.addActionListener(registerAction);
 
 
         panel.add(lbTitle);
@@ -132,6 +94,68 @@ public class RegisterGUI extends JPanel {
         panel.add(cmdRegister, "gapy 20");
         panel.add(createLoginLabel(), "gapy 10");
         add(panel);
+    }
+
+    /**
+     * Creates a new User object based on the input provided by the user interface.
+     *
+     * @return A User object populated with the provided input data.
+     */
+    private User createUserFromInput() {
+        String name = txtFirstName.getText() + " " + txtLastName.getText();
+        String username = txtUsername.getText();
+        String password = String.valueOf(txtPassword.getPassword());
+        String email = txtEmail.getText();
+        boolean isAdmin = isSelectedRoleAdmin();
+
+        User newUser = User.builder()
+                .name(name)
+                .username(username)
+                .password(password)
+                .email(email)
+                .build();
+
+        newUser.setRole(isAdmin ? Role.ADMIN : Role.USER);
+        return newUser;
+    }
+
+    /**
+     * Checks the existence of the user in the system and performs the necessary actions based on the result.
+     *
+     * @param newUser The User object representing the new user to be checked and added.
+     * @param username The username of the new user.
+     */
+    private void handleUserExistence(User newUser, String username) {
+        if (userService.isUserExists(username)) {
+            FrameUtil.showErrorDialog("The account has existed!");
+            log.warn("Account Existed!");
+            FrameUtil.disposeCurrentFrameAndCreateNewFrame("New Registration", this, new RegisterGUI());
+        } else {
+            if (userService.createUser(newUser)) {
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+                frame.dispose();
+                new RegisterSuccessGUI(new JFrame());
+            }
+        }
+    }
+
+    /**
+     * Handles the registration action by validating input and creating a new user based on the provided data.
+     * If the user does not already exist, it adds the new user to the system and shows a success message.
+     */
+    private void handleRegisterAction() {
+        try {
+            String username = txtUsername.getText();
+            String repeatedPassword = String.valueOf(txtConfirmPassword.getPassword());
+
+            if (validateInput(username, String.valueOf(txtPassword.getPassword()), repeatedPassword)) {
+                User newUser = createUserFromInput();
+                handleUserExistence(newUser, username);
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            log.error(ex.getMessage());
+        }
+        RegisterGUI.this.removeNotify();
     }
 
     /**

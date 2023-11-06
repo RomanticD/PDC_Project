@@ -47,7 +47,7 @@ public class SelectAssignmentGUI extends JFrame {
     public SelectAssignmentGUI(User user) {
         // In this GUI, you can select an assignment from selected courses to submit or arrange.
         if (user.isAdmin()) {
-            explainLabel.setText(" Correct, Alter, New or Delete assignments.");
+            explainLabel.setText(" Select the assignment in the course or create a new one");
         } else {
             explainLabel.setText(" Select an assignment, completing and submitting it. Let's go!");
             correctButton.setText("Select");

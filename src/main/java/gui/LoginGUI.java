@@ -35,7 +35,7 @@ public class LoginGUI extends JPanel {
     private void init() {
         setLayout(new MigLayout("fill,insets 20", "[center]", "[center]"));
 
-        if (user.getUserId() == 0) {
+        if (user.getUserId() == 0) {// When app restart
             txtUsername = new JTextField();
             txtPassword = new JPasswordField();
             chRememberMe = new JCheckBox("Remember me");

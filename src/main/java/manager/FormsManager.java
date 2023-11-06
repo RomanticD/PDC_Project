@@ -2,12 +2,14 @@ package manager;
 
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 import app.PDC_App;
+import lombok.NoArgsConstructor;
 
 import javax.swing.*;
 import java.awt.*;
 
+@NoArgsConstructor
 public class FormsManager {
-    private PDC_App PDCAppNewUI;
+    private PDC_App app;
     private static FormsManager instance;
 
     public static FormsManager getInstance() {
@@ -17,20 +19,16 @@ public class FormsManager {
         return instance;
     }
 
-    private FormsManager() {
-
-    }
-
-    public void initApplication(PDC_App PDCAppNewUI) {
-        this.PDCAppNewUI = PDCAppNewUI;
+    public void initApplication(PDC_App app) {
+        this.app = app;
     }
 
     public void showForm(JComponent form) {
         EventQueue.invokeLater(() -> {
             FlatAnimatedLafChange.showSnapshot();
-            PDCAppNewUI.setContentPane(form);
-            PDCAppNewUI.revalidate();
-            PDCAppNewUI.repaint();
+            app.setContentPane(form);
+            app.revalidate();
+            app.repaint();
             FlatAnimatedLafChange.hideSnapshotWithAnimation();
         });
     }

@@ -47,7 +47,6 @@ public class SubmissionGUI extends JFrame {
     public SubmissionGUI(User user, Assignment assignment) {
         SubmissionService submissionService = new SubmissionDao();
 
-
         // The setting of assignmentLabel and assignmentCard, which is shown for assignment content or No content.
         assignmentLabel.setText(assignment.getAssignmentName());
         assignmentCard.setBorder(getRoundedBorder());

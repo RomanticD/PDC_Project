@@ -22,7 +22,7 @@ public class MainGUI extends JFrame {
 
     public MainGUI(User user) {
         this.user = user;
-        this.setTitle("Welcome, " + user.getRole() + " " + user.getName() + " !");
+        this.setTitle("Welcome, " + user.getName() + " !");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setResizable(false);

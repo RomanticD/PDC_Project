@@ -1,16 +1,11 @@
 package util;
 
-import domain.User;
-import gui.UploadGUI;
-import gui.SelectAssignmentGUI;
+import gui.sub.UploadGUI;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
-import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,12 +13,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 @Slf4j
 public class FrameUtil {
-
     /**
      * Disposes the current frame and creates a new frame with the specified title and panel.
      * @param title Title of the new frame.

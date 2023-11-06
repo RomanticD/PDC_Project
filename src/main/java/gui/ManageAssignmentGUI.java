@@ -124,7 +124,7 @@ public class ManageAssignmentGUI extends JFrame {
 
         setContentPane(mainPanel);
         setTitle("Alter your assignment content");
-        setSize(755, 525);
+        setSize(900, 525);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
@@ -222,7 +222,7 @@ public class ManageAssignmentGUI extends JFrame {
 
         setContentPane(mainPanel);
         setTitle("Create an assignment");
-        setSize(675, 500);
+        setSize(825, 525);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
@@ -232,8 +232,8 @@ public class ManageAssignmentGUI extends JFrame {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
         calendar.set(Calendar.MINUTE, selectedMinute);
-        calendar.set(Calendar.SECOND, 0); // Optional, set to 0 if you want to clear seconds
-        calendar.set(Calendar.MILLISECOND, 0); // Optional, set to 0 if you want to clear milliseconds
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
 
         return calendar.getTime();
     }
