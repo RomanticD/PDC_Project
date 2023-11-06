@@ -236,7 +236,7 @@ public class SubmissionGUI extends JFrame {
         assignmentCard.add(nullContentLabel, "nullContentCard");
         assignmentContent = new JTextArea();
         assignmentContent.setBackground(new Color(-6837066));
-        Font assignmentContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, assignmentContent.getFont());
+        Font assignmentContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 16, assignmentContent.getFont());
         if (assignmentContentFont != null) assignmentContent.setFont(assignmentContentFont);
         assignmentContent.setForeground(new Color(-16777216));
         assignmentCard.add(assignmentContent, "contentCard");
@@ -257,7 +257,7 @@ public class SubmissionGUI extends JFrame {
         mainPanel.add(contentPanel, new GridConstraints(1, 3, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         submissionContent = new JTextArea();
         submissionContent.setBackground(new Color(-3618616));
-        Font submissionContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, submissionContent.getFont());
+        Font submissionContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 16, submissionContent.getFont());
         if (submissionContentFont != null) submissionContent.setFont(submissionContentFont);
         submissionContent.setForeground(new Color(-15526864));
         submissionContent.setText("");

@@ -170,7 +170,7 @@ public class CorrectOrCheckGUI extends JFrame {
         scoresSpinner.setPreferredSize(preferredSize);
 
         setContentPane(mainPanel);
-        setSize(755, 600);
+        setSize(775, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
@@ -302,7 +302,7 @@ public class CorrectOrCheckGUI extends JFrame {
         mainPanel.add(cardPanel, new GridConstraints(2, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(-1, 150), new Dimension(150, 150), new Dimension(-1, 200), 0, false));
         assignmentContent = new JTextArea();
         assignmentContent.setBackground(new Color(-6837066));
-        Font assignmentContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, assignmentContent.getFont());
+        Font assignmentContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 16, assignmentContent.getFont());
         if (assignmentContentFont != null) assignmentContent.setFont(assignmentContentFont);
         assignmentContent.setText("");
         cardPanel.add(assignmentContent, "assignmentCard");
@@ -331,7 +331,7 @@ public class CorrectOrCheckGUI extends JFrame {
         mainPanel.add(evaluationPanel, new GridConstraints(2, 3, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(250, 300), new Dimension(300, 350), null, 0, false));
         evaluationContent = new JTextArea();
         evaluationContent.setBackground(new Color(-3618616));
-        Font evaluationContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, evaluationContent.getFont());
+        Font evaluationContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 16, evaluationContent.getFont());
         if (evaluationContentFont != null) evaluationContent.setFont(evaluationContentFont);
         evaluationContent.setForeground(new Color(-15526864));
         evaluationPanel.add(evaluationContent, "Card1");
@@ -402,7 +402,7 @@ public class CorrectOrCheckGUI extends JFrame {
         submissionContent = new JTextArea();
         submissionContent.setBackground(new Color(-6837066));
         submissionContent.setFocusCycleRoot(true);
-        Font submissionContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, submissionContent.getFont());
+        Font submissionContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 16, submissionContent.getFont());
         if (submissionContentFont != null) submissionContent.setFont(submissionContentFont);
         submissionContent.setForeground(new Color(-15526864));
         submissionContent.setLineWrap(true);

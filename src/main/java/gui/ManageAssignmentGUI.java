@@ -296,6 +296,9 @@ public class ManageAssignmentGUI extends JFrame {
         panel1.add(cardPanel, new GridConstraints(3, 0, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(250, 250), new Dimension(-1, 100), new Dimension(-1, 250), 0, false));
         formerContentArea = new JTextArea();
         formerContentArea.setBackground(new Color(-6837066));
+        Font formerContentAreaFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 16, formerContentArea.getFont());
+        if (formerContentAreaFont != null) formerContentArea.setFont(formerContentAreaFont);
+        formerContentArea.setForeground(new Color(-15526864));
         cardPanel.add(formerContentArea, "formerContentCard");
         nullLabel = new JLabel();
         nullLabel.setBackground(new Color(-16777216));
@@ -320,7 +323,7 @@ public class ManageAssignmentGUI extends JFrame {
         courseListPane.setViewportView(courseList);
         nameText = new JTextArea();
         nameText.setBackground(new Color(-6837066));
-        Font nameTextFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, nameText.getFont());
+        Font nameTextFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 16, nameText.getFont());
         if (nameTextFont != null) nameText.setFont(nameTextFont);
         nameText.setForeground(new Color(-15526864));
         panel1.add(nameText, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, new Dimension(-1, 50), new Dimension(225, 137), new Dimension(-1, 150), 0, false));
@@ -335,7 +338,7 @@ public class ManageAssignmentGUI extends JFrame {
         panel1.add(contentPanel, new GridConstraints(1, 1, 3, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         contentText = new JTextArea();
         contentText.setBackground(new Color(-3618616));
-        Font contentTextFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, contentText.getFont());
+        Font contentTextFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 16, contentText.getFont());
         if (contentTextFont != null) contentText.setFont(contentTextFont);
         contentText.setForeground(new Color(-15526864));
         contentText.setText("");
