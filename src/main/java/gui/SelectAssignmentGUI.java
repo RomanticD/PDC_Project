@@ -104,10 +104,12 @@ public class SelectAssignmentGUI extends JFrame {
             if (selectedCourse != null && selectedAssignment != null) {
                 Assignment assignment = assignmentService.getAssignmentByAssignmentAndCourseName(selectedAssignment, selectedCourse);
 
-                correctButton.setEnabled(assignment.getDeadLine() == null || !assignment.getDeadLine().after(new Date()));
+                correctButton.setEnabled(assignment.getDeadLine() == null || assignment.getDeadLine().after(new Date()));
                 if (assignment.getDeadLine() != null) {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    String formattedDeadline = dateFormat.format(assignment.getDeadLine());
+                    Date deadline = assignment.getDeadLine();
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    String formattedDeadline = dateFormat.format(deadline);
                     concreteTime.setText(formattedDeadline);
                 } else {
                     concreteTime.setText("No deadline");

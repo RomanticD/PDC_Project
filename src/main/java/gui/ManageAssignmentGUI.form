@@ -82,6 +82,8 @@
                 </constraints>
                 <properties>
                   <background color="-6837066"/>
+                  <font name="Monaco" size="16" style="0"/>
+                  <foreground color="-15526864"/>
                 </properties>
               </component>
               <component id="10fae" class="javax.swing.JLabel" binding="nullLabel">
@@ -132,7 +134,7 @@
             </constraints>
             <properties>
               <background color="-6837066"/>
-              <font name="Monaco" size="14" style="0"/>
+              <font name="Monaco" size="16" style="0"/>
               <foreground color="-15526864"/>
             </properties>
           </component>
@@ -163,7 +165,7 @@
                 </constraints>
                 <properties>
                   <background color="-3618616"/>
-                  <font name="Monaco" size="14" style="0"/>
+                  <font name="Monaco" size="16" style="0"/>
                   <foreground color="-15526864"/>
                   <text value=""/>
                 </properties>

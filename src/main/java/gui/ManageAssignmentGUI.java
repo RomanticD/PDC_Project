@@ -122,7 +122,7 @@ public class ManageAssignmentGUI extends JFrame {
 
         setContentPane(mainPanel);
         setTitle("Alter your assignment content");
-        setSize(750, 525);
+        setSize(755, 525);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);

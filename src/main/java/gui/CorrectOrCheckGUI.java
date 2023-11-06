@@ -242,7 +242,7 @@ public class CorrectOrCheckGUI extends JFrame {
         }
 
         setContentPane(mainPanel);
-        setSize(675, 600);
+        setSize(700, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
