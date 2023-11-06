@@ -48,6 +48,8 @@ public class CorrectOrCheckGUI extends JFrame {
     private JPanel mainScoresPanel;
     private JButton downloadButton;
     private JPanel submissionPanel;
+    private JLabel noContentLabel;
+    private JLabel downloadLabel;
 
     SubmissionDao submissionDao = new SubmissionDao();
 
@@ -59,6 +61,7 @@ public class CorrectOrCheckGUI extends JFrame {
         setTitle("Correct an assignment");
         cardLabel.setText("Submissions:");
         cardLayout.show(cardPanel, "submissionCard");
+        cardPanel.setBorder(getRoundedBorder());
         UserService userService = new UserDao();
         submissionContent.setEditable(false);
 
@@ -167,7 +170,7 @@ public class CorrectOrCheckGUI extends JFrame {
         scoresSpinner.setPreferredSize(preferredSize);
 
         setContentPane(mainPanel);
-        setSize(755, 600);
+        setSize(775, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
@@ -180,16 +183,22 @@ public class CorrectOrCheckGUI extends JFrame {
         }
 
         CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
+        cardPanel.setBorder(getRoundedBorder());
         CardLayout evaluationLayout = (CardLayout) evaluationPanel.getLayout();
         CardLayout scoresLayout = (CardLayout) scoresPanel.getLayout();
 
         setTitle("Check out your assignment");
         cardLabel.setText(assignment.getAssignmentName());
-        cardLayout.show(cardPanel, "assignmentCard");
-        assignmentContent.setText(assignment.getAssignmentContent());
-        assignmentContent.setEditable(false);
         checkButton.setVisible(false);
         clearButton.setVisible(false);
+
+        if (assignment.getAssignmentContent() == null || assignment.getAssignmentContent().isEmpty()) {
+            cardLayout.show(cardPanel, "nullCard");
+        } else {
+            cardLayout.show(cardPanel, "assignmentCard");
+            assignmentContent.setText(assignment.getAssignmentContent());
+            assignmentContent.setEditable(false);
+        }
 
         submissionContent.setText(submission.getSubmissionContent());
         submissionContent.setEditable(false);
@@ -233,7 +242,7 @@ public class CorrectOrCheckGUI extends JFrame {
         }
 
         setContentPane(mainPanel);
-        setSize(675, 600);
+        setSize(700, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
@@ -293,7 +302,7 @@ public class CorrectOrCheckGUI extends JFrame {
         mainPanel.add(cardPanel, new GridConstraints(2, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(-1, 150), new Dimension(150, 150), new Dimension(-1, 200), 0, false));
         assignmentContent = new JTextArea();
         assignmentContent.setBackground(new Color(-6837066));
-        Font assignmentContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, assignmentContent.getFont());
+        Font assignmentContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 16, assignmentContent.getFont());
         if (assignmentContentFont != null) assignmentContent.setFont(assignmentContentFont);
         assignmentContent.setText("");
         cardPanel.add(assignmentContent, "assignmentCard");
@@ -303,6 +312,13 @@ public class CorrectOrCheckGUI extends JFrame {
         submissionTable.setBackground(new Color(-6837066));
         submissionTable.setForeground(new Color(-15526864));
         submissionsPanel.setViewportView(submissionTable);
+        noContentLabel = new JLabel();
+        Font noContentLabelFont = this.$$$getFont$$$("Droid Sans Mono Slashed", Font.BOLD | Font.ITALIC, 20, noContentLabel.getFont());
+        if (noContentLabelFont != null) noContentLabel.setFont(noContentLabelFont);
+        noContentLabel.setHorizontalAlignment(0);
+        noContentLabel.setHorizontalTextPosition(0);
+        noContentLabel.setText("No content");
+        cardPanel.add(noContentLabel, "nullCard");
         cardLabel = new JLabel();
         Font cardLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 16, cardLabel.getFont());
         if (cardLabelFont != null) cardLabel.setFont(cardLabelFont);
@@ -315,7 +331,7 @@ public class CorrectOrCheckGUI extends JFrame {
         mainPanel.add(evaluationPanel, new GridConstraints(2, 3, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(250, 300), new Dimension(300, 350), null, 0, false));
         evaluationContent = new JTextArea();
         evaluationContent.setBackground(new Color(-3618616));
-        Font evaluationContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, evaluationContent.getFont());
+        Font evaluationContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 16, evaluationContent.getFont());
         if (evaluationContentFont != null) evaluationContent.setFont(evaluationContentFont);
         evaluationContent.setForeground(new Color(-15526864));
         evaluationPanel.add(evaluationContent, "Card1");
@@ -377,8 +393,6 @@ public class CorrectOrCheckGUI extends JFrame {
         downloadButton.setForeground(new Color(-15526864));
         downloadButton.setText("Download");
         mainPanel.add(downloadButton, new GridConstraints(6, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer3 = new Spacer();
-        mainPanel.add(spacer3, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         submissionPanel = new JPanel();
         submissionPanel.setLayout(new BorderLayout(0, 0));
         submissionPanel.setBackground(new Color(-13947600));
@@ -388,7 +402,7 @@ public class CorrectOrCheckGUI extends JFrame {
         submissionContent = new JTextArea();
         submissionContent.setBackground(new Color(-6837066));
         submissionContent.setFocusCycleRoot(true);
-        Font submissionContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, submissionContent.getFont());
+        Font submissionContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 16, submissionContent.getFont());
         if (submissionContentFont != null) submissionContent.setFont(submissionContentFont);
         submissionContent.setForeground(new Color(-15526864));
         submissionContent.setLineWrap(true);
@@ -401,6 +415,13 @@ public class CorrectOrCheckGUI extends JFrame {
         checkButton.setForeground(new Color(-15526864));
         checkButton.setText("Check");
         mainPanel.add(checkButton, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        downloadLabel = new JLabel();
+        Font downloadLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 12, downloadLabel.getFont());
+        if (downloadLabelFont != null) downloadLabel.setFont(downloadLabelFont);
+        downloadLabel.setHorizontalAlignment(4);
+        downloadLabel.setHorizontalTextPosition(4);
+        downloadLabel.setText("Download the uploaded file: ");
+        mainPanel.add(downloadLabel, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**

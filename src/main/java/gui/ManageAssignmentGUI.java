@@ -29,7 +29,7 @@ public class ManageAssignmentGUI extends JFrame {
     private JTextArea nameText;
     private JTextArea contentText;
     private JButton backButton;
-    private JButton arrangeButton;
+    private JButton createButton;
     private JLabel assignmentName;
     private JLabel assignmentContent;
     private JPanel mainPanel;
@@ -48,6 +48,9 @@ public class ManageAssignmentGUI extends JFrame {
     private JLabel minuteLabel;
     private JLabel dateLabel;
     private JPanel contentPanel;
+    private JButton alterTimeButton;
+    private JButton alterContentButton;
+    private JPanel deadlinePanel;
 
 
     AssignmentService assignmentService = new AssignmentDao();
@@ -57,6 +60,7 @@ public class ManageAssignmentGUI extends JFrame {
         $$$setupUI$$$();
         CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
         contentPanel.setBorder(getRoundedBorder());
+        createButton.setVisible(false);
 
         nameText.setEditable(false);
         formerContentArea.setEditable(false);
@@ -69,7 +73,7 @@ public class ManageAssignmentGUI extends JFrame {
         dateChooser.setForeground(Color.WHITE);
         createTimeSpinner(hourSpinner, minuteSpinner);
 
-        arrangeButton.addActionListener(e -> {
+        alterTimeButton.addActionListener(e -> {
             Date selectedDate = dateChooser.getDate();
             int selectedHour = (int) hourSpinner.getValue();
             int selectedMinute = (int) minuteSpinner.getValue();
@@ -82,16 +86,25 @@ public class ManageAssignmentGUI extends JFrame {
             }
             Date deadline = combineDateAndTime(selectedDate, selectedTime);
 
-            assignment.setAssignmentContent(contentText.getText());
             assignment.setDeadLine(deadline);
 
             if (assignmentService.updateAssignment(assignment)) {
-                FrameUtil.showConfirmation(ManageAssignmentGUI.this, "Arrange successfully!");
-                new SelectAssignmentGUI(user);
+                FrameUtil.showConfirmation(ManageAssignmentGUI.this, "Alter successfully!");
             } else {
                 FrameUtil.showConfirmation(ManageAssignmentGUI.this, "Something wrong!");
-                new ManageAssignmentGUI(user, assignment);
             }
+            new ManageAssignmentGUI(user, assignment);
+        });
+
+        alterContentButton.addActionListener(e -> {
+            assignment.setAssignmentContent(contentText.getText());
+
+            if (assignmentService.updateAssignment(assignment)) {
+                FrameUtil.showConfirmation(ManageAssignmentGUI.this, "Alter successfully!");
+            } else {
+                FrameUtil.showConfirmation(ManageAssignmentGUI.this, "Something wrong!");
+            }
+            new ManageAssignmentGUI(user, assignment);
         });
 
         backButton.addActionListener(e -> {
@@ -109,7 +122,7 @@ public class ManageAssignmentGUI extends JFrame {
 
         setContentPane(mainPanel);
         setTitle("Alter your assignment content");
-        setSize(750, 525);
+        setSize(755, 525);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
         setLocationRelativeTo(null);
@@ -119,6 +132,8 @@ public class ManageAssignmentGUI extends JFrame {
     public ManageAssignmentGUI(User user) {
         $$$setupUI$$$();
 
+        alterContentButton.setVisible(false);
+        alterTimeButton.setVisible(false);
         contentPanel.setBorder(getRoundedBorder());
         Color customColor = new Color(200, 200, 200);
         nameText.setBackground(customColor);
@@ -140,7 +155,7 @@ public class ManageAssignmentGUI extends JFrame {
         dateChooser.setForeground(Color.WHITE);
         createTimeSpinner(hourSpinner, minuteSpinner);
 
-        arrangeButton.addActionListener(e -> {
+        createButton.addActionListener(e -> {
             // Get the selected date
             Date selectedDate = dateChooser.getDate();
             int selectedHour = (int) hourSpinner.getValue();
@@ -258,34 +273,32 @@ public class ManageAssignmentGUI extends JFrame {
         toolBar1.add(backButton);
         final Spacer spacer1 = new Spacer();
         toolBar1.add(spacer1);
-        arrangeButton = new JButton();
-        arrangeButton.setBackground(new Color(-2104859));
-        arrangeButton.setEnabled(true);
-        Font arrangeButtonFont = this.$$$getFont$$$("JetBrains Mono", Font.BOLD, 16, arrangeButton.getFont());
-        if (arrangeButtonFont != null) arrangeButton.setFont(arrangeButtonFont);
-        arrangeButton.setForeground(new Color(-15526864));
-        arrangeButton.setText("Create");
-        toolBar1.add(arrangeButton);
+        createButton = new JButton();
+        createButton.setBackground(new Color(-2104859));
+        createButton.setEnabled(true);
+        Font createButtonFont = this.$$$getFont$$$("JetBrains Mono", Font.BOLD, 16, createButton.getFont());
+        if (createButtonFont != null) createButton.setFont(createButtonFont);
+        createButton.setForeground(new Color(-15526864));
+        createButton.setText("Create");
+        toolBar1.add(createButton);
         final JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(7, 5, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setLayout(new GridLayoutManager(5, 4, new Insets(0, 0, 0, 0), -1, -1));
         mainPanel.add(panel1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(225, -1), null, null, 0, false));
         assignmentName = new JLabel();
         Font assignmentNameFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 18, assignmentName.getFont());
         if (assignmentNameFont != null) assignmentName.setFont(assignmentNameFont);
         assignmentName.setText("Assignment name:");
         panel1.add(assignmentName, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(225, 17), null, 0, false));
-        assignmentContent = new JLabel();
-        Font assignmentContentFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 18, assignmentContent.getFont());
-        if (assignmentContentFont != null) assignmentContent.setFont(assignmentContentFont);
-        assignmentContent.setText("Write the assignment content:");
-        panel1.add(assignmentContent, new GridConstraints(0, 1, 1, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(250, 17), null, 0, false));
         cardPanel = new JPanel();
         cardPanel.setLayout(new CardLayout(0, 0));
         cardPanel.setBackground(new Color(-16777216));
         cardPanel.setForeground(new Color(-16777216));
-        panel1.add(cardPanel, new GridConstraints(3, 0, 4, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(250, 250), new Dimension(-1, 100), new Dimension(-1, 250), 0, false));
+        panel1.add(cardPanel, new GridConstraints(3, 0, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(250, 250), new Dimension(-1, 100), new Dimension(-1, 250), 0, false));
         formerContentArea = new JTextArea();
         formerContentArea.setBackground(new Color(-6837066));
+        Font formerContentAreaFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 16, formerContentArea.getFont());
+        if (formerContentAreaFont != null) formerContentArea.setFont(formerContentAreaFont);
+        formerContentArea.setForeground(new Color(-15526864));
         cardPanel.add(formerContentArea, "formerContentCard");
         nullLabel = new JLabel();
         nullLabel.setBackground(new Color(-16777216));
@@ -310,7 +323,7 @@ public class ManageAssignmentGUI extends JFrame {
         courseListPane.setViewportView(courseList);
         nameText = new JTextArea();
         nameText.setBackground(new Color(-6837066));
-        Font nameTextFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, nameText.getFont());
+        Font nameTextFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 16, nameText.getFont());
         if (nameTextFont != null) nameText.setFont(nameTextFont);
         nameText.setForeground(new Color(-15526864));
         panel1.add(nameText, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, new Dimension(-1, 50), new Dimension(225, 137), new Dimension(-1, 150), 0, false));
@@ -319,51 +332,75 @@ public class ManageAssignmentGUI extends JFrame {
         if (cardContentFont != null) cardContent.setFont(cardContentFont);
         cardContent.setText("Card content");
         panel1.add(cardContent, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        hourSpinner = new JSpinner();
-        Font hourSpinnerFont = this.$$$getFont$$$("Droid Sans Mono", Font.BOLD, 16, hourSpinner.getFont());
-        if (hourSpinnerFont != null) hourSpinner.setFont(hourSpinnerFont);
-        panel1.add(hourSpinner, new GridConstraints(6, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(75, 30), null, 0, false));
-        panel1.add(dateChooser, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(100, -1), new Dimension(150, 30), null, 0, false));
-        minuteSpinner = new JSpinner();
-        Font minuteSpinnerFont = this.$$$getFont$$$("Droid Sans Mono", Font.BOLD, 16, minuteSpinner.getFont());
-        if (minuteSpinnerFont != null) minuteSpinner.setFont(minuteSpinnerFont);
-        panel1.add(minuteSpinner, new GridConstraints(6, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(86, 30), null, 0, false));
-        timeLabel = new JLabel();
-        Font timeLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.BOLD, 16, timeLabel.getFont());
-        if (timeLabelFont != null) timeLabel.setFont(timeLabelFont);
-        timeLabel.setText(":");
-        panel1.add(timeLabel, new GridConstraints(6, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, new Dimension(5, -1), 0, false));
-        hourLabel = new JLabel();
-        Font hourLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 14, hourLabel.getFont());
-        if (hourLabelFont != null) hourLabel.setFont(hourLabelFont);
-        hourLabel.setText("hour(0-23h):");
-        panel1.add(hourLabel, new GridConstraints(5, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        minuteLabel = new JLabel();
-        Font minuteLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 14, minuteLabel.getFont());
-        if (minuteLabelFont != null) minuteLabel.setFont(minuteLabelFont);
-        minuteLabel.setText("minute(0-59m):");
-        panel1.add(minuteLabel, new GridConstraints(5, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(86, 17), null, 0, false));
-        deadlineLabel = new JLabel();
-        Font deadlineLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 18, deadlineLabel.getFont());
-        if (deadlineLabelFont != null) deadlineLabel.setFont(deadlineLabelFont);
-        deadlineLabel.setText("Choose your deadline:");
-        panel1.add(deadlineLabel, new GridConstraints(4, 1, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        dateLabel = new JLabel();
-        Font dateLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 14, dateLabel.getFont());
-        if (dateLabelFont != null) dateLabel.setFont(dateLabelFont);
-        dateLabel.setText("date:");
-        panel1.add(dateLabel, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         contentPanel = new JPanel();
         contentPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         contentPanel.setBackground(new Color(-15526864));
-        panel1.add(contentPanel, new GridConstraints(1, 1, 3, 4, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        panel1.add(contentPanel, new GridConstraints(1, 1, 3, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         contentText = new JTextArea();
         contentText.setBackground(new Color(-3618616));
-        Font contentTextFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, contentText.getFont());
+        Font contentTextFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 16, contentText.getFont());
         if (contentTextFont != null) contentText.setFont(contentTextFont);
         contentText.setForeground(new Color(-15526864));
         contentText.setText("");
         contentPanel.add(contentText, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(250, 150), null, 0, false));
+        assignmentContent = new JLabel();
+        Font assignmentContentFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 18, assignmentContent.getFont());
+        if (assignmentContentFont != null) assignmentContent.setFont(assignmentContentFont);
+        assignmentContent.setText("Write the assignment content:");
+        panel1.add(assignmentContent, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(173, 17), null, 0, false));
+        alterContentButton = new JButton();
+        alterContentButton.setBackground(new Color(-2104859));
+        Font alterContentButtonFont = this.$$$getFont$$$("JetBrains Mono", Font.BOLD, 16, alterContentButton.getFont());
+        if (alterContentButtonFont != null) alterContentButton.setFont(alterContentButtonFont);
+        alterContentButton.setForeground(new Color(-15526864));
+        alterContentButton.setText("Alter");
+        panel1.add(alterContentButton, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer2 = new Spacer();
+        panel1.add(spacer2, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        deadlinePanel = new JPanel();
+        deadlinePanel.setLayout(new GridLayoutManager(3, 4, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.add(deadlinePanel, new GridConstraints(4, 1, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        deadlineLabel = new JLabel();
+        Font deadlineLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 18, deadlineLabel.getFont());
+        if (deadlineLabelFont != null) deadlineLabel.setFont(deadlineLabelFont);
+        deadlineLabel.setText("Choose your deadline:");
+        deadlinePanel.add(deadlineLabel, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        dateLabel = new JLabel();
+        Font dateLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 14, dateLabel.getFont());
+        if (dateLabelFont != null) dateLabel.setFont(dateLabelFont);
+        dateLabel.setText("date:");
+        deadlinePanel.add(dateLabel, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(173, 17), null, 0, false));
+        deadlinePanel.add(dateChooser, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(100, -1), new Dimension(173, 30), null, 0, false));
+        hourLabel = new JLabel();
+        Font hourLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 14, hourLabel.getFont());
+        if (hourLabelFont != null) hourLabel.setFont(hourLabelFont);
+        hourLabel.setText("hour(0-23h):");
+        deadlinePanel.add(hourLabel, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        alterTimeButton = new JButton();
+        alterTimeButton.setBackground(new Color(-2104859));
+        Font alterTimeButtonFont = this.$$$getFont$$$("JetBrains Mono", Font.BOLD, 16, alterTimeButton.getFont());
+        if (alterTimeButtonFont != null) alterTimeButton.setFont(alterTimeButtonFont);
+        alterTimeButton.setForeground(new Color(-15526864));
+        alterTimeButton.setText("Alter");
+        deadlinePanel.add(alterTimeButton, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(112, 30), null, 0, false));
+        minuteLabel = new JLabel();
+        Font minuteLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 14, minuteLabel.getFont());
+        if (minuteLabelFont != null) minuteLabel.setFont(minuteLabelFont);
+        minuteLabel.setText("minute(0-59m):");
+        deadlinePanel.add(minuteLabel, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(86, 17), null, 0, false));
+        hourSpinner = new JSpinner();
+        Font hourSpinnerFont = this.$$$getFont$$$("Droid Sans Mono", Font.BOLD, 16, hourSpinner.getFont());
+        if (hourSpinnerFont != null) hourSpinner.setFont(hourSpinnerFont);
+        deadlinePanel.add(hourSpinner, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(75, 30), null, 0, false));
+        minuteSpinner = new JSpinner();
+        Font minuteSpinnerFont = this.$$$getFont$$$("Droid Sans Mono", Font.BOLD, 16, minuteSpinner.getFont());
+        if (minuteSpinnerFont != null) minuteSpinner.setFont(minuteSpinnerFont);
+        deadlinePanel.add(minuteSpinner, new GridConstraints(2, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(75, 30), null, 0, false));
+        timeLabel = new JLabel();
+        Font timeLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.BOLD, 16, timeLabel.getFont());
+        if (timeLabelFont != null) timeLabel.setFont(timeLabelFont);
+        timeLabel.setText(":");
+        deadlinePanel.add(timeLabel, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, new Dimension(5, -1), 0, false));
     }
 
     /**

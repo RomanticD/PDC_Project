@@ -152,7 +152,7 @@
             </constraints>
             <properties>
               <font name="Droid Sans Mono" size="16" style="0"/>
-              <text value="Your assignments:"/>
+              <text value="Assignments:"/>
             </properties>
           </component>
           <component id="fd69" class="javax.swing.JLabel" binding="deadLineLabel">

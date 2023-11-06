@@ -210,7 +210,7 @@ public class SubmissionGUI extends JFrame {
         programmeLabel = new JLabel();
         Font programmeLabelFont = this.$$$getFont$$$("Droid Sans Mono", Font.PLAIN, 16, programmeLabel.getFont());
         if (programmeLabelFont != null) programmeLabel.setFont(programmeLabelFont);
-        programmeLabel.setText("Your submission contents:");
+        programmeLabel.setText("Enter the content you want to submit:");
         mainPanel.add(programmeLabel, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(305, 17), null, 0, false));
         submissionTable = new JTable();
         submissionTable.setBackground(new Color(-6837066));
@@ -236,7 +236,7 @@ public class SubmissionGUI extends JFrame {
         assignmentCard.add(nullContentLabel, "nullContentCard");
         assignmentContent = new JTextArea();
         assignmentContent.setBackground(new Color(-6837066));
-        Font assignmentContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, assignmentContent.getFont());
+        Font assignmentContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 16, assignmentContent.getFont());
         if (assignmentContentFont != null) assignmentContent.setFont(assignmentContentFont);
         assignmentContent.setForeground(new Color(-16777216));
         assignmentCard.add(assignmentContent, "contentCard");
@@ -257,7 +257,7 @@ public class SubmissionGUI extends JFrame {
         mainPanel.add(contentPanel, new GridConstraints(1, 3, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         submissionContent = new JTextArea();
         submissionContent.setBackground(new Color(-3618616));
-        Font submissionContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 14, submissionContent.getFont());
+        Font submissionContentFont = this.$$$getFont$$$("Monaco", Font.PLAIN, 16, submissionContent.getFont());
         if (submissionContentFont != null) submissionContent.setFont(submissionContentFont);
         submissionContent.setForeground(new Color(-15526864));
         submissionContent.setText("");

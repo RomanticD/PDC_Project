@@ -159,7 +159,8 @@ public class AssignmentDao implements AssignmentService, Closeable{
                 int courseId = resultSet.getInt("courseID");
                 int assignmentID = resultSet.getInt("assignmentID");
                 String assignmentContent = resultSet.getString("assignmentContent");
-                Date deadline = resultSet.getDate("deadline");
+                Timestamp timestamp = resultSet.getTimestamp("deadline");
+                Date deadline = (timestamp != null) ? new Date(timestamp.getTime()) : null;
 
                 return Assignment.builder()
                         .assignmentContent(assignmentContent)
