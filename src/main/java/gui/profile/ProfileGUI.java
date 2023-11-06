@@ -1,7 +1,7 @@
-package gui;
+package gui.profile;
 
 import constants.UIConstants;
-import gui.sub.ChangeInfoGUI;
+import gui.MainGUI;
 import domain.User;
 import gui.sub.BackgroundPanel;
 import lombok.extern.slf4j.Slf4j;

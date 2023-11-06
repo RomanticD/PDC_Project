@@ -1,11 +1,10 @@
-package gui;
+package gui.course;
 
 import constants.ExportConstants;
 import service.CourseService;
 import service.dao.CourseDao;
 import domain.User;
 import domain.enums.CourseDetailPageFrom;
-import gui.sub.CourseDetailGUI;
 import lombok.extern.slf4j.Slf4j;
 import util.FrameUtil;
 import util.MethodUtil;

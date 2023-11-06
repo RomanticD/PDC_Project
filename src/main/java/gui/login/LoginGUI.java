@@ -1,6 +1,7 @@
-package gui;
+package gui.login;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import gui.MainGUI;
 import service.PreferenceService;
 import service.UserService;
 import service.dao.PreferenceDao;

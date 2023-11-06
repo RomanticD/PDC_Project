@@ -1,13 +1,13 @@
-package gui;
+package gui.course;
 
 import constants.UIConstants;
+import gui.MainGUI;
 import service.CourseSelectionService;
 import service.dao.CourseSelectionDao;
 import service.CourseService;
 import service.dao.CourseDao;
 import domain.User;
 import domain.enums.CourseDetailPageFrom;
-import gui.sub.CourseDetailGUI;
 import lombok.extern.slf4j.Slf4j;
 import util.GraphicsUtil;
 

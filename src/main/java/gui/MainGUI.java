@@ -2,6 +2,10 @@ package gui;
 
 import constants.UIConstants;
 import domain.User;
+import gui.assignment.SelectAssignmentGUI;
+import gui.course.CourseGUI;
+import gui.login.LoginGUI;
+import gui.profile.ProfileGUI;
 import gui.sub.BackgroundPanel;
 import gui.sub.clock.Clock;
 import lombok.extern.slf4j.Slf4j;

@@ -4,7 +4,7 @@ import constants.UIConstants;
 import domain.Course;
 import domain.User;
 import domain.enums.CourseDetailPageFrom;
-import gui.sub.CourseDetailGUI;
+import gui.course.CourseDetailGUI;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 

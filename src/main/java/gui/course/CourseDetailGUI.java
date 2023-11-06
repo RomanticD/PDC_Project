@@ -1,13 +1,12 @@
-package gui.sub;
+package gui.course;
 
 import constants.UIConstants;
+import gui.sub.BackgroundPanel;
 import service.CourseSelectionService;
 import service.dao.CourseSelectionDao;
 import domain.Course;
 import domain.User;
 import domain.enums.CourseDetailPageFrom;
-import gui.CourseGUI;
-import gui.UserCoursesGUI;
 import gui.sub.success.SelectOrQuitCourseSuccessGUI;
 import lombok.extern.slf4j.Slf4j;
 import util.FrameUtil;

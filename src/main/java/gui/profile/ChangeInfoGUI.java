@@ -1,11 +1,11 @@
-package gui.sub;
+package gui.profile;
 
 import constants.UIConstants;
+import gui.sub.BackgroundPanel;
 import service.UserService;
 import service.dao.UserDao;
 import domain.User;
-import gui.LoginGUI;
-import gui.ProfileGUI;
+import gui.login.LoginGUI;
 import gui.sub.success.UpdateSuccessGUI;
 import lombok.extern.slf4j.Slf4j;
 import util.FrameUtil;

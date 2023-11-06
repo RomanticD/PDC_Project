@@ -2,6 +2,8 @@ package gui;
 
 import constants.UIConstants;
 import domain.User;
+import gui.assignment.SelectAssignmentGUI;
+import gui.course.CourseGUI;
 import gui.modification.CourseManageGUI;
 import gui.sub.BackgroundPanel;
 import gui.sub.clock.Clock;

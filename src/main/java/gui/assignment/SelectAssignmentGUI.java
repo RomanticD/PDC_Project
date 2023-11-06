@@ -1,9 +1,11 @@
-package gui;
+package gui.assignment;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import domain.Course;
+import gui.AdminGUI;
+import gui.MainGUI;
 import service.AssignmentService;
 import service.CourseService;
 import service.dao.AssignmentDao;

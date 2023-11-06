@@ -5,7 +5,7 @@ import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import constants.UIConstants;
 import domain.User;
-import gui.LoginGUI;
+import gui.login.LoginGUI;
 import lombok.extern.slf4j.Slf4j;
 import manager.FormsManager;
 

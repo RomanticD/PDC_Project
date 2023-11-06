@@ -1,4 +1,4 @@
-package gui;
+package gui.login;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import constants.UIConstants;

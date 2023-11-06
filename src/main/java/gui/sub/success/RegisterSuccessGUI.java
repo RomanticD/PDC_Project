@@ -2,7 +2,7 @@ package gui.sub.success;
 
 import constants.UIConstants;
 import domain.User;
-import gui.LoginGUI;
+import gui.login.LoginGUI;
 import util.FrameUtil;
 
 import javax.swing.*;
