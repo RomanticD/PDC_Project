@@ -2,6 +2,7 @@ package gui;
 
 import constants.UIConstants;
 import domain.User;
+import gui.admin.AdminGUI;
 import gui.assignment.SelectAssignmentGUI;
 import gui.course.CourseGUI;
 import gui.login.LoginGUI;

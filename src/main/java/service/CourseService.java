@@ -28,6 +28,4 @@ public interface CourseService {
     boolean deleteCourse(Course course);
 
     boolean doesCourseExist(Course course);
-
-    //int FindMinUnusedCourseID();
 }
