@@ -42,13 +42,9 @@ public class CourseManageGUI extends JFrame {
         this.courseList = courseService.getAllCourses();
 
         // Create a test panel to hold everything
-        JPanel mainPanel = new JPanel();
-        JPanel topPanel = new JPanel();
-        JPanel bottomPanel = new JPanel();
-
-        topPanel.setLayout(new BorderLayout());
-        mainPanel.setLayout(new BorderLayout());
-        bottomPanel.setLayout(new BorderLayout());
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        JPanel topPanel = new JPanel(new BorderLayout());
+        JPanel bottomPanel = new JPanel(new BorderLayout());
 
         // Create a "Back" button and add it to the top-left corner
         JButton backButton = new JButton("Back");
@@ -57,8 +53,8 @@ public class CourseManageGUI extends JFrame {
         JButton refreshButton = new JButton("Refresh");
         refreshButton.setFont(new Font("Dialog", Font.BOLD, 15));
 
-        JButton insertButton = new JButton("Insert");
-        insertButton.setFont(new Font("Dialog", Font.BOLD, 15));
+        JButton createCourseButton = new JButton("Create New Course");
+        createCourseButton.setFont(new Font("Dialog", Font.BOLD, 15));
 
         backButton.addActionListener(e -> {
             backToAdminGUI();
@@ -71,11 +67,11 @@ public class CourseManageGUI extends JFrame {
         });
         topPanel.add(refreshButton,BorderLayout.EAST);
 
-        insertButton.addActionListener(e -> {
-            insertCourse();
+        createCourseButton.addActionListener(e -> {
+            createCourseDialog();
         });
 
-        bottomPanel.add(insertButton);
+        bottomPanel.add(createCourseButton);
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
         JScrollPane js = new JScrollPane(addCourseList(courseList), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -85,52 +81,40 @@ public class CourseManageGUI extends JFrame {
         this.setContentPane(mainPanel);
     }
 
-    private void insertCourse() {
+    private void createCourseDialog() {
         JDialog dialog = new JDialog();
         dialog.setLocationRelativeTo(null);
-        dialog.setTitle("Insert New Course");
+        dialog.setTitle("Create New Course");
         dialog.setSize(400,400);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setResizable(true);
 
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        JPanel namePanel = new JPanel(new BorderLayout());
-        JPanel descriptionPanel = new JPanel(new BorderLayout());
-        JPanel instructorPanel = new JPanel(new BorderLayout());
-        JPanel deadlinePanel = new JPanel(new BorderLayout());
-        JPanel insertPanel = new JPanel(new BorderLayout());
+        
 
-        JLabel nameLabel = new JLabel("Course Name:");
-        nameLabel.setFont(new Font("Dialog", Font.BOLD, 20));
-        JTextField nameTextField = new JTextField(20);
+        JTextArea nameTextArea = new JTextArea();
+        JPanel namePanel = createLabelAndTextArea("Course Name:", 20,nameTextArea);
 
-        JLabel descriptionLabel = new JLabel("Description:");
-        descriptionLabel.setFont(new Font("Dialog", Font.BOLD, 20));
-        JTextArea descriptionTextArea = new JTextArea(0,20);
 
-        JLabel instructorLabel = new JLabel("Instructor:");
-        instructorLabel.setFont(new Font("Dialog", Font.BOLD, 20));
-        JTextField instructorTextField = new JTextField(20);
+        JTextArea descriptionTextArea = new JTextArea();
+        JPanel descriptionPanel = createLabelAndTextArea("Description:", 20,descriptionTextArea);
 
-        JLabel deadlineLabel = new JLabel("Deadline:");
-        deadlineLabel.setFont(new Font("Dialog", Font.BOLD, 20));
-        JTextField deadlineTextField = new JTextField(20);
+        JTextArea instructorTextArea = new JTextArea();
+        JPanel instructorPanel = createLabelAndTextArea("Instruction:", 20,instructorTextArea);
 
-        JButton insertButton = new JButton("Insert");
+        JTextArea deadlineTextArea = new JTextArea();
+        JPanel deadlinePanel = createLabelAndTextArea("Deadline:", 20,deadlineTextArea);
+
+
+        JButton insertButton = new JButton("Create");
         insertButton.setFont(new Font("Dialog", Font.BOLD, 18));
         insertButton.addActionListener(e -> {
-            NewCourse(nameTextField.getText(),descriptionTextArea.getText(),instructorTextField.getText(),deadlineTextField.getText());
+            NewCourse(nameTextArea.getText(),descriptionTextArea.getText(),instructorTextArea.getText(),deadlineTextArea.getText());
         });
 
-        namePanel.add(nameLabel,BorderLayout.WEST);
-        namePanel.add(nameTextField,BorderLayout.EAST);
-        descriptionPanel.add(descriptionLabel,BorderLayout.WEST);
-        descriptionPanel.add(descriptionTextArea,BorderLayout.EAST);
-        instructorPanel.add(instructorLabel,BorderLayout.WEST);
-        instructorPanel.add(instructorTextField,BorderLayout.EAST);
-        deadlinePanel.add(deadlineLabel,BorderLayout.WEST);
-        deadlinePanel.add(deadlineTextField,BorderLayout.EAST);
+        JPanel insertPanel = new JPanel(new BorderLayout());
+
         insertPanel.add(insertButton,BorderLayout.CENTER);
 
         contentPanel.add(namePanel);
@@ -144,8 +128,31 @@ public class CourseManageGUI extends JFrame {
         dialog.setVisible(true);
     }
 
+    private JPanel createLabelAndTextArea(String label, int columns,JTextArea textArea) {
+        JPanel panel = new JPanel(new GridBagLayout());
+        JLabel nameLabel = new JLabel(label);
+        nameLabel.setFont(new Font("Dialog", Font.BOLD, 20));
+
+        // 创建 GridBagConstraints
+        GridBagConstraints labelConstraints = new GridBagConstraints();
+        labelConstraints.gridx = 0;
+        labelConstraints.gridy = 0;
+        labelConstraints.weightx = 0.2; // 调整宽度比例，使 label 变窄
+
+        GridBagConstraints textAreaConstraints = new GridBagConstraints();
+        textAreaConstraints.gridx = 1;
+        textAreaConstraints.gridy = 0;
+        textAreaConstraints.weightx = 0.8; // 调整宽度比例，使 textArea 变长
+        textAreaConstraints.fill = GridBagConstraints.HORIZONTAL; // 填充水平空间
+
+        panel.add(nameLabel, labelConstraints);
+        panel.add(textArea, textAreaConstraints);
+        return panel;
+    }
+
+
     private void NewCourse(String courseName, String courseDescription, String Instructor, String deadline) {
-        int newID = courseService.FindMinUnusedCourseID();
+        //int newID = courseService.FindMinUnusedCourseID();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date;
         try {
@@ -153,7 +160,8 @@ public class CourseManageGUI extends JFrame {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        domain.Course newCourse = new domain.Course(newID, courseName, courseDescription, Instructor, date);
+
+        domain.Course newCourse = new domain.Course(1, courseName, courseDescription, Instructor, date);
         if (courseService.doesCourseExist(newCourse)){
             FrameUtil.showErrorDialog("Course is existing!");
         }else{
@@ -200,7 +208,7 @@ public class CourseManageGUI extends JFrame {
         //final Course currentCourse = course;
 
         modifyButton.addActionListener(e -> {
-            creatDialog(course);
+            createModifyDialog(course);
         });
 
         deleteButton.addActionListener(e -> {
@@ -222,74 +230,56 @@ public class CourseManageGUI extends JFrame {
         return coursePanel;
     }
 
-    private void creatDialog(domain.Course course) {
+    private void createModifyDialog(domain.Course course) {
         JDialog modifyDialog = new JDialog();
-        modifyDialog.setSize(400,400);
+        modifyDialog.setSize(400, 200);
         modifyDialog.setLocationRelativeTo(null);
         modifyDialog.setTitle("Choose One to Modify");
         modifyDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         modifyDialog.setResizable(true);
         modifyDialog.setModal(true);
 
-        JPanel func = new JPanel();
-        func.setLayout(new BoxLayout(func, BoxLayout.Y_AXIS));
-        JPanel textPanle = new JPanel(new BorderLayout());
-        JPanel namePanel = new JPanel(new BorderLayout());
-        JPanel descriptionPanel = new JPanel(new BorderLayout());
-        JPanel InstructorPanel = new JPanel(new BorderLayout());
-        JPanel deadlinePanel = new JPanel(new BorderLayout());
+        JPanel func = new JPanel(new BorderLayout()); // 使用 BorderLayout 布局
 
-        JTextArea contentArea = new JTextArea(5,20);
-        JButton modifyNameButton = new JButton("CourseName");
-        JButton modifyDescriptionButton = new JButton("Description");
-        JButton modifyInstructorButton = new JButton("Instructor");
-        JButton modifyDeadlineButton = new JButton("Deadline");
+        JTextArea contentArea = new JTextArea(2, 20);
+        contentArea.setFont(new Font("Dialog", Font.PLAIN, 20));
 
-        modifyNameButton.addActionListener(e1 -> {
-            modify(modifyNameButton.getText(),course,contentArea.getText());
-            log.info("modifyNameButton Clicked");
-        });
+        JComboBox<String> modifyOptions = new JComboBox<>(new String[]{"CourseName", "Description", "Instructor", "Deadline"});
+        modifyOptions.setFont(new Font("Dialog", Font.BOLD, 20));
 
-        modifyDeadlineButton.addActionListener(e1 -> {
-            modify(modifyDeadlineButton.getText(),course,contentArea.getText());
-        });
+        JButton modifyButton = createModifyButton("Modify", "Modify", course, contentArea, modifyOptions);
+        modifyButton.setFont(new Font("Dialog", Font.BOLD, 20));
 
-        modifyInstructorButton.addActionListener(e1 -> {
-            modify(modifyInstructorButton.getText(),course,contentArea.getText());
-        });
-
-        modifyDeadlineButton.addActionListener(e1 -> {
-            modify(modifyDeadlineButton.getText(),course,contentArea.getText());
-        });
-
-
-        textPanle.add(contentArea,BorderLayout.CENTER);
-        namePanel.add(modifyNameButton,BorderLayout.CENTER);
-        descriptionPanel.add(modifyDescriptionButton,BorderLayout.CENTER);
-        InstructorPanel.add(modifyInstructorButton,BorderLayout.CENTER);
-        deadlinePanel.add(modifyDeadlineButton,BorderLayout.CENTER);
-        func.add(textPanle);
-        func.add(namePanel);
-        func.add(descriptionPanel);
-        func.add(InstructorPanel);
-        func.add(deadlinePanel);
+// 将 JTextArea 放置在 CENTER 位置
+        func.add(contentArea, BorderLayout.CENTER);
+// 将 JComboBox 放置在 NORTH 位置
+        func.add(modifyOptions, BorderLayout.NORTH);
+// 将 JButton 放置在 SOUTH 位置，并且水平居中
+        func.add(modifyButton, BorderLayout.SOUTH);
 
         modifyDialog.add(func);
-
         modifyDialog.setVisible(true);
-
-
     }
+
+        private JButton createModifyButton(String label, String actionCommand, domain.Course course, JTextArea contentArea, JComboBox<String> modifyOptions) {
+        JButton button = new JButton(label);
+        button.addActionListener(e -> {
+            String selectedOption = modifyOptions.getSelectedItem().toString();
+            modify(selectedOption, course, contentArea.getText());
+        });
+        return button;
+    }
+
 
     private void modify(String funcName, domain.Course course, String content) {
         switch (funcName){
-            case"CourseName":course.setCourseName(content);
+            case"CourseName":
             courseService.updateCourseNames(course,content);
                 break;
-            case"Description":course.setCourseDescription(content);
+            case"Description":
             courseService.updataCourseDescriptions(course,content);
                 break;
-            case"Instructor":course.setInstructor(content);
+            case"Instructor":
                 courseService.updateInstructor(course,content);
                 break;
             case"Deadline":modifyDeadline(course,content);

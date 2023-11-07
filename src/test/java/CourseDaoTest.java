@@ -1,3 +1,4 @@
+import domain.Course;
 import service.CourseService;
 import service.dao.CourseDao;
 import org.junit.After;
@@ -52,6 +53,15 @@ public class CourseDaoTest {
 
         // 使用断言来验证期望的结果
         // assertEquals("NewCourseName", yourInstance.getCourseName("CourseName"));
+    }
+
+    @Test
+    public void testThatCourseNameCanBeModified() throws ParseException {
+        Course course = InstanceUtil.getTestCourseInstance();
+        assertTrue(courseService.newCourse(course));
+        Course updateCourse = courseService.updateInstructor(course,"Test1");
+        assertEquals("Test1",updateCourse.getInstructor());
+        //assertTrue(courseService.deleteCourse(course));
     }
 
     @Test

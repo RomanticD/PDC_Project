@@ -1,5 +1,6 @@
 package service.dao;
 
+import domain.Course;
 import service.CourseService;
 import manager.DatabaseConnectionManager;
 import domain.User;
@@ -127,11 +128,11 @@ public class CourseDao implements CourseService, Closeable {
     }
 
     @Override
-    public domain.Course updateCourseNames(domain.Course course, String newCourseName) {
-        String sql = "UPDATE courses SET COURSENAME = ? WHERE COUESEID = ?";
+    public Course updateCourseNames(Course course, String newCourseName) {
+        String sql = "UPDATE courses SET COURSENAME = ? WHERE COURSENAME = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newCourseName);
-            ps.setInt(2, course.getCourseID());
+            ps.setString(2, course.getCourseName());
             log.info("Executing SQL query: " + ps);
             int updatedRows = ps.executeUpdate();
 
@@ -147,10 +148,10 @@ public class CourseDao implements CourseService, Closeable {
 
     @Override
     public domain.Course updataCourseDescriptions(domain.Course course, String newCourseDescription) {
-        String sql = "UPDATE courses SET COURSEDESCRIPTION = ? WHERE COUESEID = ?";
+        String sql = "UPDATE courses SET COURSEDESCRIPTION = ? WHERE COURSENAME = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newCourseDescription);
-            ps.setInt(2, course.getCourseID());
+            ps.setString(2, course.getCourseName());
             log.info("Executing SQL query: " + ps);
             int updatedRows = ps.executeUpdate();
 
@@ -166,10 +167,10 @@ public class CourseDao implements CourseService, Closeable {
 
     @Override
     public domain.Course updateInstructor(domain.Course course, String newInstructor) {
-        String sql = "UPDATE courses SET INSTRUCTOR = ? WHERE COUESEID = ?";
+        String sql = "UPDATE courses SET INSTRUCTOR = ? WHERE COURSENAME = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newInstructor);
-            ps.setInt(2,course.getCourseID());
+            ps.setString(2,course.getCourseName());
             log.info("Executing SQL query: " + ps);
             int updatedRows = ps.executeUpdate();
 
@@ -185,10 +186,10 @@ public class CourseDao implements CourseService, Closeable {
 
     @Override
     public domain.Course updateDeadline(domain.Course course, Date newDeadline) {
-        String sql = "UPDATE courses SET DEADLINE = ? WHERE COUESEID = ?";
+        String sql = "UPDATE courses SET DEADLINE = ? WHERE COURSENAME = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setDate(1, (java.sql.Date) newDeadline);
-            ps.setInt(2, course.getCourseID());
+            ps.setString(2, course.getCourseName());
             log.info("Executing SQL query: " + ps);
             int updatedRows = ps.executeUpdate();
 
@@ -245,11 +246,10 @@ public class CourseDao implements CourseService, Closeable {
 
     @Override
     public boolean doesCourseExist(domain.Course course) {
-        String query = "SELECT COUNT(*) FROM courses WHERE COURSEID = ? OR COURSENAME = ?";
+        String query = "SELECT COUNT(*) FROM courses WHERE  COURSENAME = ?";
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
-            preparedStatement.setInt(1, course.getCourseID());
-            preparedStatement.setString(2, course.getCourseName());
+            preparedStatement.setString(1, course.getCourseName());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     int count = resultSet.getInt(1);
@@ -263,7 +263,7 @@ public class CourseDao implements CourseService, Closeable {
         return false;
     }
 
-    @Override
+    /*@Override
     public int FindMinUnusedCourseID() {
         String query = "SELECT COURSEID FROM courses";
         int muID = 0;
@@ -282,7 +282,7 @@ public class CourseDao implements CourseService, Closeable {
             throw new RuntimeException(e);
         }
         return muID;
-    }
+    }*/
 
     @Override
     public void close() throws IOException {
