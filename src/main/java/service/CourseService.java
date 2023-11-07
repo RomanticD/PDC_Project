@@ -29,5 +29,5 @@ public interface CourseService {
 
     boolean doesCourseExist(Course course);
 
-    int FindMinUnusedCourseID();
+    //int FindMinUnusedCourseID();
 }
