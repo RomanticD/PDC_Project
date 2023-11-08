@@ -110,7 +110,23 @@ public class CourseManageGUI extends JFrame {
         JButton insertButton = new JButton("Create");
         insertButton.setFont(new Font("Dialog", Font.BOLD, 18));
         insertButton.addActionListener(e -> {
-            createNewCourse(nameTextArea.getText(),descriptionTextArea.getText(),instructorTextArea.getText(),deadlineTextArea.getText());
+            if (confirmOperation("Are you sure you want to create this item?")) {
+                String nameContent =  nameTextArea.getText();
+                String descriptionContent =  descriptionTextArea.getText();
+                String instructorContent =  instructorTextArea.getText();
+                String deadlineContent =  deadlineTextArea.getText();
+                if (nameContent.isEmpty()||descriptionContent.isEmpty()||instructorContent.isEmpty()||deadlineContent.isEmpty()) {
+                    // 显示错误消息，文本框不能为空
+                    SwingUtilities.invokeLater(() -> {
+                        // 显示错误消息，文本框不能为空
+                        JOptionPane.showMessageDialog(null, "Text cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+                    });
+                } else {
+                    // 执行修改操作
+                    createNewCourse(nameTextArea.getText(),descriptionTextArea.getText(),instructorTextArea.getText(),deadlineTextArea.getText());
+                }
+            new CourseManageGUI(user);
+        }
         });
 
         JPanel insertPanel = new JPanel(new BorderLayout());
@@ -211,8 +227,12 @@ public class CourseManageGUI extends JFrame {
         });
 
         deleteButton.addActionListener(e -> {
-            courseService.deleteCourse(course);
+            if (confirmOperation("Are you sure you want to delete this item?")) {
+                courseService.deleteCourse(course);
+                new CourseManageGUI(user);;
+            }
         });
+
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -229,9 +249,14 @@ public class CourseManageGUI extends JFrame {
         return coursePanel;
     }
 
+    private boolean confirmOperation(String message) {
+        int choice = JOptionPane.showConfirmDialog(this, message, "Confirmation", JOptionPane.YES_NO_OPTION);
+        return choice == JOptionPane.YES_OPTION;
+    }
+
     private void createModifyDialog(domain.Course course) {
         JDialog modifyDialog = new JDialog();
-        modifyDialog.setSize(400, 200);
+        modifyDialog.setSize(600, 200);
         modifyDialog.setLocationRelativeTo(null);
         modifyDialog.setTitle("Choose One to Modify");
         modifyDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -246,12 +271,46 @@ public class CourseManageGUI extends JFrame {
         JComboBox<String> modifyOptions = new JComboBox<>(new String[]{"CourseName", "Description", "Instructor", "Deadline"});
         modifyOptions.setFont(new Font("Dialog", Font.BOLD, 20));
 
+        JLabel informLabel;
+
+
+        informLabel = new JLabel();
+        informLabel.setFont(new Font("Dialog", Font.PLAIN, 20));
+        informLabel.setVerticalAlignment(SwingConstants.CENTER);
+
+
+        modifyOptions.addActionListener(e -> {
+            String selectedOption = modifyOptions.getSelectedItem().toString();
+
+            switch (selectedOption) {
+                case "CourseName":
+                    informLabel.setText(course.getCourseName());
+                    break;
+                case "Description":
+                    informLabel.setText(course.getCourseDescription());
+                    break;
+                case "Instructor":
+                    informLabel.setText(course.getInstructor());
+                    break;
+                case "Deadline":
+                    informLabel.setText(course.getDeadLine().toString());
+                    break;
+                default:
+                    informLabel.setText(course.getCourseName());
+                    break;
+            }
+        });
+
         JButton modifyButton = createModifyButton("Modify", course, contentArea, modifyOptions);
         modifyButton.setFont(new Font("Dialog", Font.BOLD, 20));
 
-        func.add(contentArea, BorderLayout.CENTER);
+        JPanel buttonPanel = new JPanel(new BorderLayout());
+        buttonPanel.add(contentArea, BorderLayout.NORTH);
+        buttonPanel.add(modifyButton, BorderLayout.SOUTH);
         func.add(modifyOptions, BorderLayout.NORTH);
-        func.add(modifyButton, BorderLayout.SOUTH);
+        func.add(informLabel, BorderLayout.CENTER);
+        func.add(buttonPanel,BorderLayout.SOUTH);
+
 
         modifyDialog.add(func);
         modifyDialog.setVisible(true);
@@ -261,7 +320,15 @@ public class CourseManageGUI extends JFrame {
         JButton button = new JButton(label);
         button.addActionListener(e -> {
             String selectedOption = modifyOptions.getSelectedItem().toString();
-            modify(selectedOption, course, contentArea.getText());
+            String content = contentArea.getText();
+
+            if (content.isEmpty()) {
+                // 显示错误消息，文本框不能为空
+                JOptionPane.showMessageDialog(null, "Text cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                // 执行修改操作
+                modify(selectedOption, course, content);
+            }
         });
         return button;
     }
@@ -269,16 +336,21 @@ public class CourseManageGUI extends JFrame {
 
     private void modify(String funcName, domain.Course course, String content) {
         switch (funcName){
-            case"CourseName":
-            courseService.updateCourseNames(course,content);
+            case"CourseName": if (confirmOperation("Are you sure you want to modify this item?")) {
+                courseService.updateCourseNames(course,content);
+                new CourseManageGUI(user);}
                 break;
-            case"Description":
-            courseService.updataCourseDescriptions(course,content);
+            case"Description":if (confirmOperation("Are you sure you want to modify this item?")) {
+                courseService.updataCourseDescriptions(course,content);
+                new CourseManageGUI(user);}
                 break;
-            case"Instructor":
+            case"Instructor":if (confirmOperation("Are you sure you want to modify this item?")) {
                 courseService.updateInstructor(course,content);
+                new CourseManageGUI(user);}
                 break;
-            case"Deadline":modifyDeadline(course,content);
+            case"Deadline":if (confirmOperation("Are you sure you want to modify this item?")) {
+                modifyDeadline(course,content);
+                new CourseManageGUI(user);}
                 break;
             default:
                 break;

@@ -28,7 +28,7 @@ public class AdminGUI extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setResizable(false);
-        this.setSize(UIConstants.MAIN_GUI_FRAME_SIZE[0],UIConstants.MAIN_GUI_FRAME_SIZE[1]);
+        this.setSize(600,UIConstants.MAIN_GUI_FRAME_SIZE[1]);
         this.setLocationRelativeTo(null);
         JPanel panel = getBackgroundPanel();
         addComponents(Objects.requireNonNull(panel));
@@ -36,7 +36,7 @@ public class AdminGUI extends JFrame {
 
     private JPanel getBackgroundPanel() {
         try {
-            BufferedImage backgroundImage = ImageIO.read(new File(UIConstants.MAIN_BACKGROUND_IMAGE));
+            BufferedImage backgroundImage = ImageIO.read(new File("src/main/resources/admin_gui_background.jpeg"));
             return new BackgroundPanel(backgroundImage);
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,7 +52,9 @@ public class AdminGUI extends JFrame {
         FrameUtil.addBackButtonWithCustomAction(panel, springLayout, backToMainGUI);
 
         //Assignment Manage Button
-        JButton manageAssignmentButton = addButton("Manage Assignment", panel, panel, 30, springLayout);
+        JButton manageAssignmentButton = addButton("Manage Assignment", panel, panel, 120, springLayout);
+        manageAssignmentButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        manageAssignmentButton.setPreferredSize(new Dimension(300, 50));
         manageAssignmentButton.addActionListener(e -> {
             log.info("Going to Assignment GUI");
             AdminGUI.this.dispose();
@@ -62,6 +64,8 @@ public class AdminGUI extends JFrame {
 
         //Course Manage Button
         JButton manageCourseButton = addButton("Manage Course", panel, manageAssignmentButton, 90, springLayout);
+        manageCourseButton.setFont(new Font("Dialog", Font.BOLD, 18));
+        manageCourseButton.setPreferredSize(new Dimension(300, 50));
         manageCourseButton.addActionListener(e -> {
             log.info("Going to Manage Course GUI");
             AdminGUI.this.dispose();
@@ -70,7 +74,9 @@ public class AdminGUI extends JFrame {
 
 
         //Course Select Button
-        JButton courseSelectionButton = addButton("Manage Course Selection", panel, manageAssignmentButton, 150, springLayout);
+        JButton courseSelectionButton = addButton("Manage Course Selection", panel, manageCourseButton, 90, springLayout);
+        courseSelectionButton.setPreferredSize(new Dimension(300, 50));
+        courseSelectionButton.setFont(new Font("Dialog", Font.BOLD, 18));
         courseSelectionButton.addActionListener(e -> {
             log.info("Going to Manage Course Selection");
             AdminGUI.this.dispose();
