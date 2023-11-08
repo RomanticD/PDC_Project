@@ -57,8 +57,9 @@ public class  ManageAssignmentGUI extends JFrame {
 
     AssignmentService assignmentService = new AssignmentDao();
 
-    // Click the Check button in SelectAssignmentGui
+    // Click the Check button in SelectAssignmentGui when role is admin
     public ManageAssignmentGUI(User user, Assignment assignment) {
+        // Basic setup
         $$$setupUI$$$();
         CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
         contentPanel.setBorder(getRoundedBorder());
@@ -69,12 +70,12 @@ public class  ManageAssignmentGUI extends JFrame {
         courseList.setVisible(false);
         nameText.setText(assignment.getAssignmentName());
 
-        dateChooser.setDateFormatString("yyyy-MM-dd");
-        Font customFont = new Font("Droid Sans Mono", Font.BOLD, 16);
-        dateChooser.setFont(customFont);
-        dateChooser.setForeground(Color.WHITE);
-        createTimeSpinner(hourSpinner, minuteSpinner);
 
+        // Date and time chooser
+        createDateAndTimeChooser();
+
+
+        // Button part
         alterTimeButton.addActionListener(e -> {
             Date selectedDate = dateChooser.getDate();
             int selectedHour = (int) hourSpinner.getValue();
@@ -114,6 +115,8 @@ public class  ManageAssignmentGUI extends JFrame {
             new SelectAssignmentGUI(user);
         });
 
+
+        // Assignment content part
         cardContent.setText("Former assignment content:");
         cardLayout.show(cardPanel, "formerContentCard");
         if (assignment.getAssignmentContent() == null || assignment.getAssignmentContent().isEmpty()) {
@@ -132,8 +135,8 @@ public class  ManageAssignmentGUI extends JFrame {
 
     // Click the New button in SelectAssignmentGui
     public ManageAssignmentGUI(User user) {
+        // Basic setup
         $$$setupUI$$$();
-
         alterContentButton.setVisible(false);
         alterTimeButton.setVisible(false);
         contentPanel.setBorder(getRoundedBorder());
@@ -144,6 +147,8 @@ public class  ManageAssignmentGUI extends JFrame {
         CourseService courseService = new CourseDao();
         DefaultListModel<String> courseListModel = new DefaultListModel<>();
 
+
+        // Course list part
         CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
         List<String> courseNames = courseService.getCourseNames(courseService.getCourseByUser(user));
         for (String assignmentName : courseNames) {
@@ -151,14 +156,12 @@ public class  ManageAssignmentGUI extends JFrame {
         }
         courseList.setModel(courseListModel);
 
-        dateChooser.setDateFormatString("yyyy-MM-dd");
-        Font customFont = new Font("Droid Sans Mono", Font.BOLD, 16);
-        dateChooser.setFont(customFont);
-        dateChooser.setForeground(Color.WHITE);
-        createTimeSpinner(hourSpinner, minuteSpinner);
 
+        // Date and time chooser
+        createDateAndTimeChooser();
+
+        // Button part
         createButton.addActionListener(e -> {
-            // Get the selected date
             Date selectedDate = dateChooser.getDate();
             int selectedHour = (int) hourSpinner.getValue();
             int selectedMinute = (int) minuteSpinner.getValue();
@@ -197,6 +200,7 @@ public class  ManageAssignmentGUI extends JFrame {
             new SelectAssignmentGUI(user);
         });
 
+        // Show button that transform list between all and yours
         cardContent.setText("Your selected courses:");
         cardLayout.show(cardPanel, "courseListCard");
 
@@ -228,6 +232,13 @@ public class  ManageAssignmentGUI extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Creates a Date object with a specified hour and minute and clears seconds and milliseconds.
+     *
+     * @param selectedHour   The selected hour (0-23) for the new Date object.
+     * @param selectedMinute The selected minute (0-59) for the new Date object.
+     * @return A Date object with the specified hour and minute, with seconds and milliseconds cleared.
+     */
     public static Date getTime(int selectedHour, int selectedMinute) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
@@ -238,6 +249,14 @@ public class  ManageAssignmentGUI extends JFrame {
         return calendar.getTime();
     }
 
+    /**
+     * Combines a Date object representing a date and a Date object representing a time
+     * into a new Date object representing a combined date and time.
+     *
+     * @param date A Date object representing the date component.
+     * @param time A Date object representing the time component.
+     * @return A new Date object representing the combined date and time.
+     */
     private Date combineDateAndTime(Date date, Date time) {
         Calendar calendarDate = Calendar.getInstance();
         calendarDate.setTime(date);
@@ -251,12 +270,37 @@ public class  ManageAssignmentGUI extends JFrame {
         return calendarDate.getTime();
     }
 
+    /**
+     * Create custom UI components and configure them.
+     * Java GUI form custom create needs this method.
+     */
     private void createUIComponents() {
         this.dateChooser = new JDateChooser();
         dateChooser.setMinSelectableDate(new Date());
-        dateChooser.setDateFormatString("yyyy-MM-dd");
     }
 
+    /**
+     * Creates the date chooser and time spinner components with custom styling.
+     * <p>
+     * Configures the date chooser to use a particular date format. Also sets
+     * a custom font and foreground color.
+     * <p>
+     * The time spinner is created by calling the createTimeSpinner method.
+     */
+    private void createDateAndTimeChooser(){
+        dateChooser.setDateFormatString("yyyy-MM-dd");
+        Font customFont = new Font("Droid Sans Mono", Font.BOLD, 16);
+        dateChooser.setFont(customFont);
+        dateChooser.setForeground(Color.WHITE);
+        createTimeSpinner(hourSpinner, minuteSpinner);
+    }
+
+    /**
+     * Creates and configures hour and minute spinners for selecting time.
+     *
+     * @param hourSpinner   The JSpinner component for selecting hours.
+     * @param minuteSpinner The JSpinner component for selecting minutes.
+     */
     private void createTimeSpinner(JSpinner hourSpinner, JSpinner minuteSpinner) {
         // Create a spinner for hours (00-23)
         SpinnerModel hourModel = new SpinnerNumberModel(0, 0, 23, 1);

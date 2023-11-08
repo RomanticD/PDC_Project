@@ -14,7 +14,6 @@ import java.util.List;
 
 @Slf4j
 public class SubmissionDao implements SubmissionService, Closeable{
-
     private final Connection conn;
 
     public SubmissionDao() {
@@ -22,6 +21,7 @@ public class SubmissionDao implements SubmissionService, Closeable{
         conn = databaseConnectionManager.getConnection();
     }
 
+    // Definition: one unique submission depends on one assignmentID, one userID and the submission order.
     @Override
     public boolean doesSubmissionExist(Submission submission) {
         String query = "SELECT COUNT(*) FROM submissions WHERE assignmentID = ? AND studentID = ? AND submissionOrder = ?";

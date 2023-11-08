@@ -144,7 +144,6 @@ public class AssignmentDao implements AssignmentService, Closeable{
         return assignmentNames;
     }
 
-    //
     public Assignment getAssignmentByAssignmentAndCourseName(String assignmentName, String courseName) {
         String query = "SELECT * FROM assignments WHERE ASSIGNMENTNAME = ? AND COURSEID = ?";
 
