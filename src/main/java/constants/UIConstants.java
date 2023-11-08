@@ -17,6 +17,7 @@ public class UIConstants {
     public static final String COURSE_DETAIL_BACKGROUND_IMAGE = "src/main/resources/course_detail_gui_background.jpg";
     public static final String PROFILE_BACKGROUND_IMAGE = "src/main/resources/course_detail_gui_background.jpg";
     public static final String CHANGE_INFO_GUI_IMAGE = "src/main/resources/course_detail_gui_background.jpg";
+    public static final String ADMIN_GUI_IMAGE = "src/main/resources/admin_gui_background.jpg";
     public static final Color ENROLLED_COLOR = Color.decode("#2b6f5b");
     public static final Color ENROLLED_BEFORE_BUT_QUIT_COLOR = Color.decode("#ffc966");
 }

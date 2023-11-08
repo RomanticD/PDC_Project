@@ -1,5 +1,6 @@
 package util;
 
+import domain.User;
 import gui.sub.UploadGUI;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -154,11 +157,11 @@ public class FrameUtil {
      * When the button is clicked, it opens a UploadGUI for file uploading.
      * @return The configured JButton for file uploading.
      */
-    public static JButton addUploadedButton(){
+    public static JButton addUploadedButton(User user){
         JButton uploadButton = new JButton("upload");
         uploadButton.setFont(new Font("Dialog", Font.BOLD, 15));
         uploadButton.addActionListener(e -> {
-            new UploadGUI().setVisible(true);
+            new UploadGUI(user).setVisible(true);
         });
         return uploadButton;
     }
@@ -169,8 +172,8 @@ public class FrameUtil {
      *
      * @return An ActionListener for opening the UploadGUI.
      */
-    public static ActionListener uploadAction() {
-        return e -> new UploadGUI().setVisible(true);
+    public static ActionListener uploadAction(User user) {
+        return e -> new UploadGUI(user).setVisible(true);
     }
 
     /**
@@ -215,6 +218,30 @@ public class FrameUtil {
             @Override
             public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
                 g.fillRoundRect(x, y, width - 1, height - 1, 20, 20);
+            }
+        };
+    }
+
+    public static ActionListener downloadAction(String[] userUploadedFilePath){
+        log.info("try to open the file your uploaded...");
+        return e -> {
+            if (userUploadedFilePath.length == 0){
+                showErrorDialog("You haven't upload any file!");
+            } else {
+                for (String filepath : userUploadedFilePath) {
+                    log.info("opening file" + filepath);
+                    File file = new File(filepath);
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop desktop = Desktop.getDesktop();
+                        if (file.exists()) {
+                            try {
+                                desktop.open(file);
+                            } catch (IOException ex) {
+                                log.error(ex.getMessage());
+                            }
+                        }
+                    }
+                }
             }
         };
     }

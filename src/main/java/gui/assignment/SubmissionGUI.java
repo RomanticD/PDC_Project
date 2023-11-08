@@ -66,7 +66,7 @@ public class SubmissionGUI extends JFrame {
             new SelectAssignmentGUI(user);
         });
 
-        uploadButton.addActionListener(FrameUtil.uploadAction());
+        uploadButton.addActionListener(FrameUtil.uploadAction(user));
 
         clearButton.addActionListener(e -> submissionContent.setText(""));
 

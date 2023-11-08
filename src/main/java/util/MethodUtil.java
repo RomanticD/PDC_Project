@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -203,5 +204,27 @@ public class MethodUtil {
             FrameUtil.showErrorDialog("Upload Failed: " + e.getMessage());
             log.error("Upload Failed");
         }
+    }
+
+    public static String[] getUserUploadedFilePath(User user) {
+        log.info("getting user uploaded file path....");
+        String fileLocatedAt = "src/main/resources/UploadedFile/";
+        String fileNamePrefix = "user_" + user.getUserId() + "_" + "uploadedFile_";
+
+        File directory = new File(fileLocatedAt);
+        if (!directory.exists() || !directory.isDirectory()) {
+            return new String[0];
+        }
+
+        List<String> filePaths = new ArrayList<>();
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.getName().startsWith(fileNamePrefix)) {
+                    filePaths.add(file.getAbsolutePath());
+                }
+            }
+        }
+        return filePaths.toArray(new String[0]);
     }
 }

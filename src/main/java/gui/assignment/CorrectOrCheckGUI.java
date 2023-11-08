@@ -11,6 +11,7 @@ import domain.Assignment;
 import domain.Submission;
 import domain.User;
 import util.FrameUtil;
+import util.MethodUtil;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -142,6 +143,9 @@ public class CorrectOrCheckGUI extends JFrame {
             new SelectAssignmentGUI(user);
         });
 
+        String[] filepath = MethodUtil.getUserUploadedFilePath(user);
+        downloadButton.addActionListener(FrameUtil.downloadAction(filepath));
+
         checkButton.addActionListener(e -> {
             int selectedRow = submissionTable.getSelectedRow();
 
@@ -224,6 +228,9 @@ public class CorrectOrCheckGUI extends JFrame {
             evaluationContent.setText(submission.getEvaluation());
             evaluationContent.setEditable(false);
         }
+
+        String[] filepath = MethodUtil.getUserUploadedFilePath(user);
+        downloadButton.addActionListener(FrameUtil.downloadAction(filepath));
 
         backButton.addActionListener(e -> {
             if (user.isAdmin()) {
@@ -421,7 +428,7 @@ public class CorrectOrCheckGUI extends JFrame {
         if (downloadLabelFont != null) downloadLabel.setFont(downloadLabelFont);
         downloadLabel.setHorizontalAlignment(4);
         downloadLabel.setHorizontalTextPosition(4);
-        downloadLabel.setText("Download the uploaded file: ");
+        downloadLabel.setText("Check the uploaded file: ");
         mainPanel.add(downloadLabel, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 

@@ -1,5 +1,6 @@
 package test;
 
+import domain.User;
 import util.FrameUtil;
 
 import javax.swing.*;
@@ -9,7 +10,7 @@ import static util.FrameUtil.addUploadedButton;
 public class UploadButtonTest {
     public static void main(String[] args) {
         JPanel panel = new JPanel();
-        panel.add(FrameUtil.addUploadedButton());
+        panel.add(FrameUtil.addUploadedButton(new User()));
         JFrame frame = new JFrame();
         frame.add(panel);
         frame.setTitle("test");

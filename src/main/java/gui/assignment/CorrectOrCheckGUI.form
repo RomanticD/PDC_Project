@@ -297,7 +297,7 @@
           <font name="Droid Sans Mono" size="12" style="0"/>
           <horizontalAlignment value="4"/>
           <horizontalTextPosition value="4"/>
-          <text value="Download the uploaded file: "/>
+          <text value="Check the uploaded file: "/>
         </properties>
       </component>
     </children>

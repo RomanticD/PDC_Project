@@ -1,4 +1,5 @@
 package gui.sub;
+import domain.User;
 import lombok.extern.slf4j.Slf4j;
 import util.FrameUtil;
 import util.MethodUtil;
@@ -19,7 +20,7 @@ public class UploadGUI extends JFrame {
     private JTextField sourceField, targetField;
     private JFileChooser fileChooser;
 
-    public UploadGUI() {
+    public UploadGUI(User user) {
         setTitle("Upload your file");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setSize(400, 180);
@@ -79,7 +80,7 @@ public class UploadGUI extends JFrame {
                     FrameUtil.showErrorDialog("File size exceeds the limit (100MB). Please choose a smaller file.");
                 } else {
                     Path target = Paths.get(targetPath);
-                    String fileName = sourceFile.getFileName().toString();
+                    String fileName = "user_" + user.getUserId() + "_" + "uploadedFile_" + sourceFile.getFileName().toString();
                     target = target.resolve(fileName);
                     if (Files.isDirectory(sourceFile)) {
                         MethodUtil.copyDirectory(sourcePath, target.toString());
@@ -100,7 +101,6 @@ public class UploadGUI extends JFrame {
                 FrameUtil.showErrorDialog("Upload Failed: " + ex.getMessage());
             }
         });
-
         add(sourceField);
         add(chooseSourceButton);
         add(targetField);

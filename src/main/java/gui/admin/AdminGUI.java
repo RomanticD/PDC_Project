@@ -36,7 +36,7 @@ public class AdminGUI extends JFrame {
 
     private JPanel getBackgroundPanel() {
         try {
-            BufferedImage backgroundImage = ImageIO.read(new File("src/main/resources/admin_gui_background.jpeg"));
+            BufferedImage backgroundImage = ImageIO.read(new File(UIConstants.ADMIN_GUI_IMAGE));
             return new BackgroundPanel(backgroundImage);
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,7 +52,7 @@ public class AdminGUI extends JFrame {
         FrameUtil.addBackButtonWithCustomAction(panel, springLayout, backToMainGUI);
 
         //Assignment Manage Button
-        JButton manageAssignmentButton = addButton("Manage Assignment", panel, panel, 120, springLayout);
+        JButton manageAssignmentButton = addButton("Manage Assignment", panel, panel, 160, springLayout);
         manageAssignmentButton.setFont(new Font("Dialog", Font.BOLD, 18));
         manageAssignmentButton.setPreferredSize(new Dimension(300, 50));
         manageAssignmentButton.addActionListener(e -> {
@@ -72,16 +72,6 @@ public class AdminGUI extends JFrame {
             new CourseManageGUI(user);
         });
 
-
-        //Course Select Button
-        JButton courseSelectionButton = addButton("Manage Course Selection", panel, manageCourseButton, 90, springLayout);
-        courseSelectionButton.setPreferredSize(new Dimension(300, 50));
-        courseSelectionButton.setFont(new Font("Dialog", Font.BOLD, 18));
-        courseSelectionButton.addActionListener(e -> {
-            log.info("Going to Manage Course Selection");
-            AdminGUI.this.dispose();
-            new CourseGUI(user);
-        });
 
         //Clock to display current time
         Clock clock = new Clock();
