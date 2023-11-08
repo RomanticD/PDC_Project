@@ -34,6 +34,11 @@ public class AdminGUI extends JFrame {
         addComponents(Objects.requireNonNull(panel));
     }
 
+    /**
+     * Retrieves the background panel for the AdminGUI.
+     *
+     * @return The background panel with an image, or null if an error occurs.
+     */
     private JPanel getBackgroundPanel() {
         try {
             BufferedImage backgroundImage = ImageIO.read(new File(UIConstants.ADMIN_GUI_IMAGE));
@@ -44,6 +49,11 @@ public class AdminGUI extends JFrame {
         return null;
     }
 
+    /**
+     * Adds components to the provided panel, including buttons and a clock display.
+     *
+     * @param panel The panel to which components will be added.
+     */
     private void addComponents(JPanel panel) {
         SpringLayout springLayout = new SpringLayout();
         panel.setLayout(springLayout);
@@ -82,12 +92,24 @@ public class AdminGUI extends JFrame {
         this.getContentPane().add(panel);
     }
 
+    /**
+     * Closes the current AdminGUI and opens the MainGUI.
+     */
     private void backToMainGUI() {
         AdminGUI.this.dispose();
         new MainGUI(user);
     }
 
-
+    /**
+     * Creates and adds a JButton to the specified container with custom constraints.
+     *
+     * @param name                   The name or text for the button.
+     * @param container              The parent component to which the button will be added.
+     * @param verticalRelatedComponent The component to which the button's position is related vertically.
+     * @param topPaddingToVerticalComponent The padding value from the verticalRelatedComponent.
+     * @param springLayout            The SpringLayout used to set button constraints.
+     * @return The created JButton.
+     */
     private JButton addButton(String name, JComponent container, JComponent verticalRelatedComponent, int topPaddingToVerticalComponent, SpringLayout springLayout){
         JButton button = new JButton(name);
         button.setFont(new Font("Dialog", Font.BOLD, 12));

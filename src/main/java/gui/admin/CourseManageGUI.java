@@ -143,6 +143,13 @@ public class CourseManageGUI extends JFrame {
         dialog.setVisible(true);
     }
 
+    /**
+     * Creates a JPanel containing a label and a JTextArea for user input.
+     *
+     * @param label     The label to display next to the JTextArea.
+     * @param textArea  The JTextArea for user input.
+     * @return A JPanel with the label and JTextArea components.
+     */
     private JPanel createLabelAndTextArea(String label, JTextArea textArea) {
         JPanel panel = new JPanel(new GridBagLayout());
         JLabel nameLabel = new JLabel(label);
@@ -164,7 +171,15 @@ public class CourseManageGUI extends JFrame {
         return panel;
     }
 
-
+    /**
+     * Creates a new course with the provided information and adds it to the course service.
+     *
+     * @param courseName        The name of the course.
+     * @param courseDescription The description of the course.
+     * @param instructor        The name of the instructor.
+     * @param deadline          The deadline for the course in "yyyy-MM-dd" format.
+     * @return True if the course is successfully created and added; false if the course already exists.
+     */
     private boolean createNewCourse(String courseName, String courseDescription, String instructor, String deadline) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
@@ -190,6 +205,11 @@ public class CourseManageGUI extends JFrame {
         }
     }
 
+    /**
+     * Adds components to the provided panel, including a "Back" button.
+     *
+     * @param panel The panel to which components are added.
+     */
     private void addComponents(JPanel panel) {
         SpringLayout springLayout = new SpringLayout();
         panel.setLayout(springLayout);
@@ -197,6 +217,12 @@ public class CourseManageGUI extends JFrame {
         FrameUtil.addBackButtonWithCustomAction(panel, springLayout, backToAdminGUI);
     }
 
+    /**
+     * Creates a panel containing a list of course items and returns it.
+     *
+     * @param courseList A list of courses to display in the panel.
+     * @return A JPanel containing course items for the provided course list.
+     */
     public JPanel addCourseList(List<domain.Course> courseList) {
         JPanel listPanel = new JPanel();
         listPanel.setLayout(new GridLayout(0, 1));
@@ -213,6 +239,12 @@ public class CourseManageGUI extends JFrame {
         return listPanel;
     }
 
+    /**
+     * Creates and returns a JPanel representing a course item.
+     *
+     * @param course The course to display in the item.
+     * @return A JPanel representing the course item.
+     */
     private JPanel addCourseItem(domain.Course course) {
         JPanel coursePanel = new JPanel();
         coursePanel.setLayout(new BorderLayout());
@@ -252,11 +284,22 @@ public class CourseManageGUI extends JFrame {
         return coursePanel;
     }
 
+    /**
+     * Displays a confirmation dialog with the given message and returns true if the user confirms the operation.
+     *
+     * @param message The message to display in the confirmation dialog.
+     * @return True if the user confirms the operation; false otherwise.
+     */
     private boolean confirmOperation(String message) {
         int choice = JOptionPane.showConfirmDialog(this, message, "Confirmation", JOptionPane.YES_NO_OPTION);
         return choice == JOptionPane.YES_OPTION;
     }
 
+    /**
+     * Creates a dialog for modifying course information.
+     *
+     * @param course The course to be modified.
+     */
     private void createModifyDialog(domain.Course course) {
         JDialog modifyDialog = new JDialog();
         modifyDialog.setSize(600, 200);
@@ -318,7 +361,17 @@ public class CourseManageGUI extends JFrame {
         modifyDialog.setVisible(true);
     }
 
-        private JButton createModifyButton(String label, domain.Course course, JTextArea contentArea, JComboBox<String> modifyOptions, JDialog dialog) {
+    /**
+     * Creates a JButton for modifying course information.
+     *
+     * @param label         The label to be displayed on the button.
+     * @param course        The course to be modified.
+     * @param contentArea   The JTextArea where the user can input content for modification.
+     * @param modifyOptions The JComboBox for selecting the type of modification.
+     * @param dialog        The dialog associated with the button.
+     * @return The created JButton for modifying course information.
+     */
+    private JButton createModifyButton(String label, domain.Course course, JTextArea contentArea, JComboBox<String> modifyOptions, JDialog dialog) {
         JButton modifyButton = new JButton(label);
         modifyButton.addActionListener(e -> {
             String selectedOption = modifyOptions.getSelectedItem().toString();
@@ -334,6 +387,14 @@ public class CourseManageGUI extends JFrame {
     }
 
 
+    /**
+     * Executes the modification of course information based on the selected function.
+     *
+     * @param funcName The selected function for modification (e.g., "CourseName", "Description", "Instructor", "Begin Date").
+     * @param course   The course to be modified.
+     * @param content  The content to be set for the modification.
+     * @param dialog   The dialog associated with the modification.
+     */
     private void executeModify(String funcName, Course course, String content, JDialog dialog) {
         if (confirmOperation("Are you sure you want to modify this item?")) {
             switch (funcName) {
@@ -356,6 +417,11 @@ public class CourseManageGUI extends JFrame {
         }
     }
 
+    /**
+     * Closes the current CourseManageGUI and the provided dialog, then opens a new CourseManageGUI instance.
+     *
+     * @param dialog The dialog to be closed.
+     */
     private void closeAndOpenNewGUI(JDialog dialog) {
         CourseManageGUI.this.dispose();
         dialog.dispose();
@@ -363,6 +429,12 @@ public class CourseManageGUI extends JFrame {
     }
 
 
+    /**
+     * Modifies the deadline of a course and updates it in the database.
+     *
+     * @param course    The course to be modified.
+     * @param deadline  The new deadline in the "yyyy-MM-dd" format.
+     */
     private void modifyDeadline(domain.Course course, String deadline) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date;
@@ -374,12 +446,19 @@ public class CourseManageGUI extends JFrame {
         courseService.updateDeadline(course,date);
     }
 
-
+    /**
+     * Closes the current AdminGUI and opens the MainGUI.
+     */
     private void backToAdminGUI() {
         CourseManageGUI.this.dispose();
         new AdminGUI(user);
     }
 
+    /**
+     * Retrieves the background panel for the AdminGUI.
+     *
+     * @return The background panel with an image, or null if an error occurs.
+     */
     private JPanel getBackgroundPanel() {
         try {
             BufferedImage backgroundImage = ImageIO.read(new File(UIConstants.MAIN_BACKGROUND_IMAGE));
