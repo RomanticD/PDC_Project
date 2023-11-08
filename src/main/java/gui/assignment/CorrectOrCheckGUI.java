@@ -56,10 +56,10 @@ public class CorrectOrCheckGUI extends JFrame {
     SubmissionService submissionService = new SubmissionDao();
 
     // Click the Correct button in ManageAssignmentGUI
+    // This GUI shows when admin corrects students' submissions
     public CorrectOrCheckGUI(User user, Assignment assignment) {
+        // Submission content part
         CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
-        CardLayout scoresLayout = (CardLayout) scoresPanel.getLayout();
-
         setTitle("Correct an assignment");
         cardLabel.setText("Submissions:");
         cardLayout.show(cardPanel, "submissionCard");
@@ -70,6 +70,9 @@ public class CorrectOrCheckGUI extends JFrame {
         submissionPanel.setBorder(getRoundedBorder());
         evaluationPanel.setBorder(getRoundedBorder());
 
+
+        // Course list part
+        // Build the course table
         DefaultTableModel tableModel = new DefaultTableModel();
         submissionTable.setModel(tableModel);
         tableModel.addColumn("StudentID");
@@ -105,6 +108,7 @@ public class CorrectOrCheckGUI extends JFrame {
         column = submissionTable.getColumnModel().getColumn(3);
         column.setPreferredWidth(25);
 
+        // Add listener
         submissionTable.getSelectionModel().addListSelectionListener(e -> {
             int selectedRow = submissionTable.getSelectedRow();
 
@@ -116,6 +120,8 @@ public class CorrectOrCheckGUI extends JFrame {
             }
         });
 
+
+        // Button part
         operationButton.setText("Correct");
         operationButton.addActionListener(e -> {
             int selectedRow = submissionTable.getSelectedRow();
@@ -164,6 +170,9 @@ public class CorrectOrCheckGUI extends JFrame {
 
         clearButton.addActionListener(e -> evaluationContent.setText(""));
 
+
+        // Scores part
+        CardLayout scoresLayout = (CardLayout) scoresPanel.getLayout();
         scoresLayout.show(scoresPanel, "selectScoresCard");
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel(0, 0, 100, 1);
         scoresSpinner.setModel(spinnerModel);
@@ -171,8 +180,9 @@ public class CorrectOrCheckGUI extends JFrame {
         FrameUtil.numericInputListener(scoresField);
 
         Dimension preferredSize = scoresSpinner.getPreferredSize();
-        preferredSize.height += 50; // Increase the height as needed
+        preferredSize.height += 50;
         scoresSpinner.setPreferredSize(preferredSize);
+
 
         setContentPane(mainPanel);
         setSize(775, 600);
@@ -182,11 +192,8 @@ public class CorrectOrCheckGUI extends JFrame {
     }
 
     // Click the Check button in SubmissionGUI
+    // This GUI shows when users check their submissions
     public CorrectOrCheckGUI(User user, Assignment assignment, Submission submission) {
-        if (user.isAdmin()) {
-            operationButton.setVisible(false);
-        }
-
         CardLayout cardLayout = (CardLayout) cardPanel.getLayout();
         cardPanel.setBorder(getRoundedBorder());
         CardLayout evaluationLayout = (CardLayout) evaluationPanel.getLayout();
@@ -208,10 +215,14 @@ public class CorrectOrCheckGUI extends JFrame {
         submissionContent.setText(submission.getSubmissionContent());
         submissionContent.setEditable(false);
 
+
+        // Button part
+        // Delete button
         operationButton.setText("Delete");
-        if (submission.getSubmissionStatus().matches("Already corrected")) {
+        if (user.isAdmin() || submission.getSubmissionStatus().matches("Already corrected")) {
             operationButton.setVisible(false);
         }
+
         operationButton.addActionListener(e -> {
             if (submissionService.deleteSubmission(submission)) {
                 FrameUtil.showConfirmation(CorrectOrCheckGUI.this, "Delete successfully!");
@@ -242,6 +253,8 @@ public class CorrectOrCheckGUI extends JFrame {
             }
         });
 
+
+        // Scores part
         scoresLayout.show(scoresPanel, "concreteScoresCard");
         if (submission.getScores() == -1) {
             concreteScores.setText("No scores yet");

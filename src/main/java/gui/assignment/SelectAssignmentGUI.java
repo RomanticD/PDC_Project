@@ -62,6 +62,8 @@ public class SelectAssignmentGUI extends JFrame {
         AssignmentService assignmentService = new AssignmentDao();
         CourseService courseService = new CourseDao();
 
+
+        // Course and assignment list part
         DefaultListModel<String> courseListModel = new DefaultListModel<>();
         DefaultListModel<String> assignmentListModel = new DefaultListModel<>();
 
@@ -72,7 +74,6 @@ public class SelectAssignmentGUI extends JFrame {
             courseListModel.addElement(assignmentName);
         }
 
-        // Set the model for the lists
         courseList.setModel(courseListModel);
         coursePane.setBorder(getRoundedBorder());
         assignmentList.setModel(assignmentListModel);
@@ -91,6 +92,7 @@ public class SelectAssignmentGUI extends JFrame {
                 concreteTime.setText("No deadline");
                 correctButton.setEnabled(false);
 
+                // Add the new list
                 for (String assignmentName : assignmentNames) {
                     assignmentListModel.addElement(assignmentName);
                 }
@@ -99,6 +101,8 @@ public class SelectAssignmentGUI extends JFrame {
             }
         });
 
+
+        // Button part
         correctButton.setEnabled(false);
         assignmentList.addListSelectionListener(e -> {
             String selectedCourse = courseList.getSelectedValue();

@@ -45,8 +45,12 @@ public class SubmissionGUI extends JFrame {
     private JPanel contentPanel;
 
     public SubmissionGUI(User user, Assignment assignment) {
+        // Basic setting
         SubmissionService submissionService = new SubmissionDao();
+        contentPanel.setBorder(getRoundedBorder());
 
+
+        // Assignment Part
         // The setting of assignmentLabel and assignmentCard, which is shown for assignment content or No content.
         assignmentLabel.setText(assignment.getAssignmentName());
         assignmentCard.setBorder(getRoundedBorder());
@@ -130,9 +134,6 @@ public class SubmissionGUI extends JFrame {
                 new SubmissionGUI(user, assignment);
             }
         });
-
-
-        contentPanel.setBorder(getRoundedBorder());
 
 
         setContentPane(submissionPanel);
@@ -292,13 +293,23 @@ public class SubmissionGUI extends JFrame {
         return submissionPanel;
     }
 
+    /**
+     * Custom table cell renderer for formatting Date values as timestamps.
+     * <p>
+     * Extends DefaultTableCellRenderer to override the setValue method.
+     * Checks if the cell value is a Date, and if so, formats it using the
+     * SimpleDateFormat pattern "yy-MM-dd HH:mm:ss".
+     * <p>
+     * This allows Date values to be rendered in a formatted timestamp
+     * string in the table.
+     */
     public static class TimestampRenderer extends DefaultTableCellRenderer {
         private final SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
 
         @Override
         protected void setValue(Object value) {
             if (value instanceof Date) {
-                value = sdf.format(value); // Format the timestamp as desired
+                value = sdf.format(value);
             }
             super.setValue(value);
         }
