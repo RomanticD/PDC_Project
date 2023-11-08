@@ -26,7 +26,7 @@ import java.util.Locale;
 import static util.FrameUtil.getRoundedBorder;
 import static util.FrameUtil.numericInputListener;
 
-public class ManageAssignmentGUI extends JFrame {
+public class  ManageAssignmentGUI extends JFrame {
     private JTextArea nameText;
     private JTextArea contentText;
     private JButton backButton;
