@@ -28,7 +28,7 @@ java -jar PDC_Project_Group18-1.0.0-jar-with-dependencies.jar
 
 Our group has developed a ***Software Project Registration System***. The system includes the following features:
 
-Scrennshoot : [click here](https://github.com/RomanticD/PDC_Project/tree/main/src/main/resources/screenshot)
+**Scrennshot : [click here](https://github.com/RomanticD/PDC_Project/tree/main/src/main/resources/screenshot)**
 
 ##### 1. Login Functionality
 
