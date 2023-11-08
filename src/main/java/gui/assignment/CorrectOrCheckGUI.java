@@ -144,7 +144,7 @@ public class CorrectOrCheckGUI extends JFrame {
         });
 
         String[] filepath = MethodUtil.getUserUploadedFilePath(user);
-        downloadButton.addActionListener(FrameUtil.downloadAction(filepath));
+        downloadButton.addActionListener(FrameUtil.handleDownloadAction(filepath));
 
         checkButton.addActionListener(e -> {
             int selectedRow = submissionTable.getSelectedRow();
@@ -230,7 +230,7 @@ public class CorrectOrCheckGUI extends JFrame {
         }
 
         String[] filepath = MethodUtil.getUserUploadedFilePath(user);
-        downloadButton.addActionListener(FrameUtil.downloadAction(filepath));
+        downloadButton.addActionListener(FrameUtil.handleDownloadAction(filepath));
 
         backButton.addActionListener(e -> {
             if (user.isAdmin()) {

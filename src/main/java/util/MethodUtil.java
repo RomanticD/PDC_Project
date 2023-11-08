@@ -206,6 +206,14 @@ public class MethodUtil {
         }
     }
 
+    /**
+     * Retrieves the file paths of the uploaded files for the specified user.
+     * The file paths are generated based on the user's ID and prefixed with "user_{userId}_uploadedFile_".
+     * The method searches for files in the "src/main/resources/UploadedFile/" directory.
+     * If the directory does not exist or is not a directory, an empty array is returned.
+     * @param user the User object for whom the uploaded file paths are retrieved
+     * @return an array of file paths for the uploaded files belonging to the specified user
+     */
     public static String[] getUserUploadedFilePath(User user) {
         log.info("getting user uploaded file path....");
         String fileLocatedAt = "src/main/resources/UploadedFile/";

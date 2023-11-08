@@ -1,11 +1,10 @@
 package test;
 
-import constants.UIConstants;
 import domain.User;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
-import static util.FrameUtil.downloadAction;
+import static util.FrameUtil.handleDownloadAction;
 import static util.MethodUtil.getUserUploadedFilePath;
 
 @Slf4j
@@ -19,7 +18,7 @@ public class DownloadButtonTest {
         JPanel panel = new JPanel();
         JButton downloadButton = new JButton();
         downloadButton.setText("download");
-        downloadButton.addActionListener(downloadAction(filePaths));
+        downloadButton.addActionListener(handleDownloadAction(filePaths));
         panel.add(downloadButton);
         JFrame frame = new JFrame();
         frame.add(panel);

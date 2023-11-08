@@ -222,7 +222,15 @@ public class FrameUtil {
         };
     }
 
-    public static ActionListener downloadAction(String[] userUploadedFilePath){
+    /**
+     * Creates an ActionListener for downloading files specified by the array of file paths.
+     * If the array is empty, an error dialog is displayed indicating that no files have been uploaded.
+     * Otherwise, the method attempts to open each file using the Desktop class.
+     * If the file exists and the Desktop is supported, the file is opened; otherwise, an error is logged.
+     * @param userUploadedFilePath an array of file paths representing the files uploaded by the user
+     * @return an ActionListener for handling the download action
+     */
+    public static ActionListener handleDownloadAction(String[] userUploadedFilePath){
         log.info("try to open the file your uploaded...");
         return e -> {
             if (userUploadedFilePath.length == 0){
