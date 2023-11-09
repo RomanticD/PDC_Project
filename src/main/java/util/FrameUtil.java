@@ -234,10 +234,10 @@ public class FrameUtil {
         log.info("try to open the file your uploaded...");
         return e -> {
             if (userUploadedFilePath.length == 0){
-                showErrorDialog("You haven't upload any file!");
+                showErrorDialog("Student haven't uploaded any file!");
             } else {
                 for (String filepath : userUploadedFilePath) {
-                    log.info("opening file" + filepath);
+                    log.info("opening file " + filepath);
                     File file = new File(filepath);
                     if (Desktop.isDesktopSupported()) {
                         Desktop desktop = Desktop.getDesktop();

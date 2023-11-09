@@ -3,6 +3,7 @@ package gui.assignment;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import lombok.extern.slf4j.Slf4j;
 import service.SubmissionService;
 import service.UserService;
 import service.dao.SubmissionDao;
@@ -21,11 +22,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.text.StyleContext;
 import java.awt.*;
+
 import java.util.List;
 import java.util.Locale;
 
 import static util.FrameUtil.getRoundedBorder;
 
+@Slf4j
 public class CorrectOrCheckGUI extends JFrame {
     private JButton backButton;
     private JButton operationButton;
@@ -52,6 +55,7 @@ public class CorrectOrCheckGUI extends JFrame {
     private JPanel submissionPanel;
     private JLabel noContentLabel;
     private JLabel downloadLabel;
+    private String[] filepath;
 
     SubmissionService submissionService = new SubmissionDao();
 
@@ -108,12 +112,24 @@ public class CorrectOrCheckGUI extends JFrame {
         column = submissionTable.getColumnModel().getColumn(3);
         column.setPreferredWidth(25);
 
+        downloadButton.setEnabled(false);
+
         // Add listener
         submissionTable.getSelectionModel().addListSelectionListener(e -> {
             int selectedRow = submissionTable.getSelectedRow();
 
             if (selectedRow != -1) {
+                downloadButton.setEnabled(true);
                 int studentID = (int) tableModel.getValueAt(selectedRow, 0);
+                this.filepath = MethodUtil.getUserUploadedFilePath(
+                        User.builder()
+                                .userId(studentID)
+                                .build()
+                );
+
+                downloadButton.addActionListener(FrameUtil.handleDownloadAction(this.filepath));
+
+                log.info("Your selected submission with studentID: " + studentID);
                 int submissionOrder = (int) tableModel.getValueAt(selectedRow, 3);
                 Submission submission = submissionService.getSubmissionFromTwoIDsAndOrder(assignment.getAssignmentID(), studentID, submissionOrder);
                 submissionContent.setText(submission.getSubmissionContent());
@@ -148,9 +164,6 @@ public class CorrectOrCheckGUI extends JFrame {
             CorrectOrCheckGUI.this.dispose();
             new SelectAssignmentGUI(user);
         });
-
-        String[] filepath = MethodUtil.getUserUploadedFilePath(user);
-        downloadButton.addActionListener(FrameUtil.handleDownloadAction(filepath));
 
         checkButton.addActionListener(e -> {
             int selectedRow = submissionTable.getSelectedRow();
