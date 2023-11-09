@@ -5,9 +5,10 @@
 
 ## :rocket: Running the Project
 
-This project is developed using ***IntelliJ IDEA*** and managed with ***Maven***. The packaged JAR file includes all the dependencies and is configured with the main entry point. 
+This project is developed using ***IntelliJ IDEA*** and managed with ***Maven***. **You can also select the PDC_App as the main class in NetBeans to run.**
+The packaged JAR file includes all the dependencies and is configured with the main entry point. 
 
-⚙️ To run the project, navigate to the project directory and execute the following command, or directly select the PDC_App as the main class in NetBeans to run: 
+⚙️ To run the project, navigate to the project directory and execute the following command:
 
 ```shell
 java -jar PDC_Project_Group18-1.0.0-jar-with-dependencies.jar
