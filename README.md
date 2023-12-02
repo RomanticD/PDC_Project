@@ -27,15 +27,6 @@ mvn test
 |  Admin  |    0     |    0     |
 | Student |    1     |    1     |
 
-
-## 🥳 Contribution
-
-| Student ID |     Name     |          Module Responsibilities           |
-| :--------: | :----------: | :----------------------------------------: |
-|  23202591  |  Junhua Di   | Login, Course Selection, Profile, Database |
-|  23203409  | Yuliang Sun  |           Assignment, Submission           |
-|  23203698  | Yicheng Wang |               Admin, Upload                |
-
 * Please check the [Commit Page](https://github.com/RomanticD/PDC_Project/commits/main) and [Contributor Page](https://github.com/RomanticD/PDC_Project/graphs/contributors) on GitHub for more information.
 
 ## 🌟 Project features
